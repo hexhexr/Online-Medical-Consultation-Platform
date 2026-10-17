@@ -1,0 +1,20 @@
+# Online Medical Consultation Platform - Apache Configuration (XAMPP / LAMP)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Root redirect to landing page
+    RewriteRule ^$ public/index.html [L]
+
+    # 2. Route /api/* requests to backend/api.php
+    RewriteRule ^api/(.*)$ backend/api.php?route=$1 [QSA,L]
+    RewriteRule ^api$ backend/api.php [QSA,L]
+
+    # 3. Rewrite static assets to public/ folder
+    RewriteRule ^(css|js|images|vendor|assets)/(.*)$ public/$1/$2 [L]
+
+    # 4. Rewrite HTML pages to public/ folder
+    RewriteRule ^([a-zA-Z0-9_-]+\.html)$ public/$1 [L]
+</IfModule>
+
+# Security Headers & Directory Listing Prevention
+Options -Indexes

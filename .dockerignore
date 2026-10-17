@@ -1,0 +1,14 @@
+.git
+.gemini
+__pycache__
+*.pyc
+*.docx
+*.pdf
+*.zip
+*.log
+screenshots/
+report_assets/
+extracted_template_pages/
+extracted_srs_diagrams/
+poster/
+.~lock.*

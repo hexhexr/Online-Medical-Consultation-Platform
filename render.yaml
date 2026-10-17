@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: medconsult-platform
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_NAME
+        value: medconsult_db
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1769e8"><title>Patient Portal | MedConsult</title><link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/bootstrap.min.css"><link rel="stylesheet" href="vendor/bootstrap-icons.min.css"><link rel="stylesheet" href="css/style.css"></head>
+<body class="dashboard-body">
+<a class="skip-link" href="#dashboardContent">Skip to dashboard content</a>
+<aside class="dashboard-sidebar" id="dashboardSidebar" aria-label="Patient navigation">
+  <a class="brand" href="index.html"><span class="brand-mark"><i class="bi bi-activity"></i></span><span class="brand-name">MedConsult</span></a>
+  <nav class="dashboard-nav">
+    <a class="nav-link" href="#overview" data-section-link="overview"><i class="bi bi-grid"></i> Overview</a>
+    <a class="nav-link" href="#triage" data-section-link="triage"><i class="bi bi-robot"></i> AI Triage</a>
+    <a class="nav-link" href="#directory" data-section-link="directory"><i class="bi bi-person-badge"></i> Doctor Directory</a>
+    <a class="nav-link" href="#appointments" data-section-link="appointments"><i class="bi bi-calendar2-check"></i> Appointments</a>
+    <a class="nav-link" href="#records" data-section-link="records"><i class="bi bi-folder2-open"></i> Medical Records</a>
+    <a class="nav-link" href="#profile" data-section-link="profile"><i class="bi bi-person-circle"></i> Profile</a>
+  </nav>
+  <div class="dashboard-sidebar-footer"><a class="nav-link d-flex align-items-center gap-2 px-2 py-2 text-decoration-none text-muted" href="index.html"><i class="bi bi-globe"></i> Public site</a><button class="btn btn-soft-danger w-100 mt-2" type="button" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Sign out</button></div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="dashboard-main">
+  <header class="dashboard-topbar">
+    <button class="btn btn-light mobile-menu-btn me-3" id="sidebarToggle" type="button" aria-label="Open dashboard menu"><i class="bi bi-list fs-5"></i></button>
+    <div><h1 class="dashboard-title" data-page-title>Overview</h1><p class="dashboard-subtitle" data-page-subtitle>Your consultation activity at a glance.</p></div>
+    <div class="ms-auto user-chip"><div class="user-avatar" data-user-initials>MC</div><div class="user-meta"><div class="fw-bold small" data-user-name>Patient</div><div class="text-muted small" data-user-role>Patient</div></div></div>
+  </header>
+  <main class="dashboard-content" id="dashboardContent">
+    <div id="alert-container"></div>
+
+    <section class="content-section" data-section="overview" data-title="Overview" data-subtitle="Your consultation activity at a glance.">
+      <div class="mb-4"><h2 class="h3 mb-1">Hello, <span data-user-name>Patient</span></h2><p class="text-muted mb-0">Here is what is happening with your consultations.</p></div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between gap-3"><div><div class="stat-value" id="statUpcoming">—</div><div class="stat-label">Upcoming</div></div><div class="stat-icon bg-soft-primary text-primary"><i class="bi bi-calendar-event"></i></div></div></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between gap-3"><div><div class="stat-value" id="statPending">—</div><div class="stat-label">Pending requests</div></div><div class="stat-icon" style="background:var(--mc-warning-soft);color:var(--mc-warning)"><i class="bi bi-hourglass-split"></i></div></div></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between gap-3"><div><div class="stat-value" id="statPrescriptions">—</div><div class="stat-label">Prescriptions</div></div><div class="stat-icon bg-soft-teal" style="color:var(--mc-teal)"><i class="bi bi-file-medical"></i></div></div></div></div>
+        <div class="col-6 col-xl-3"><div class="stat-card"><div class="d-flex justify-content-between gap-3"><div><div class="stat-value" id="statInvoices">—</div><div class="stat-label">Invoices</div></div><div class="stat-icon" style="background:var(--mc-info-soft);color:var(--mc-info)"><i class="bi bi-receipt"></i></div></div></div></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-xl-7"><div class="panel h-100"><div class="panel-header"><div><h3 class="panel-title">Next appointments</h3><small class="text-muted">Pending and confirmed consultation requests</small></div><button class="btn btn-sm btn-outline-primary" data-open-section="appointments">View all</button></div><div class="panel-body" id="overviewAppointments"><div class="loading-block"><span class="spinner-border spinner-border-sm me-2"></span>Loading...</div></div></div></div>
+        <div class="col-xl-5"><div class="panel h-100"><div class="panel-header"><h3 class="panel-title">Quick actions</h3></div><div class="panel-body d-grid gap-3"><a class="quick-action" href="#triage" data-open-section="triage"><span class="quick-action-icon"><i class="bi bi-robot"></i></span><span><strong class="d-block">Describe symptoms</strong><small class="text-muted">Get specialty guidance</small></span></a><a class="quick-action" href="#directory" data-open-section="directory"><span class="quick-action-icon"><i class="bi bi-search"></i></span><span><strong class="d-block">Find a doctor</strong><small class="text-muted">Browse verified profiles</small></span></a><a class="quick-action" href="#records" data-open-section="records"><span class="quick-action-icon"><i class="bi bi-folder2-open"></i></span><span><strong class="d-block">Medical records</strong><small class="text-muted">Prescriptions and invoices</small></span></a></div></div></div>
+      </div>
+    </section>
+
+    <section class="content-section d-none" data-section="triage" data-title="AI Triage" data-subtitle="Describe symptoms and receive specialty guidance.">
+      <div class="triage-layout">
+        <div class="panel"><div class="panel-header"><div><h2 class="panel-title">Symptom assistant</h2><small class="text-muted">Use normal words and include the symptoms that concern you.</small></div></div><div class="panel-body"><div class="triage-chat" id="triageChat" aria-live="polite"><div class="message-row assistant"><div class="message-bubble">Hello. Describe the symptoms you are experiencing, for example: “I have had a headache and fever for two days.”</div></div></div><form class="mt-3" id="triageForm"><label class="form-label visually-hidden" for="symptomInput">Describe your symptoms</label><div class="d-flex gap-2"><textarea class="form-control" id="symptomInput" rows="2" maxlength="1000" placeholder="Describe your symptoms..." required></textarea><button class="btn btn-primary align-self-end" id="triageButton" type="submit"><i class="bi bi-send"></i><span class="d-none d-sm-inline">Analyze</span></button></div></form></div></div>
+        <aside><div class="medical-note mb-3"><i class="bi bi-shield-exclamation"></i><div><strong>Medical limitation</strong><br>This tool recommends a specialty. It does not diagnose illness or replace professional or emergency care.</div></div><div class="result-card d-none" id="triageResult"><div class="small text-muted text-uppercase fw-bold">Recommended specialty</div><h3 class="h4 mt-1 mb-3" id="triageSpecialty">—</h3><div class="d-flex justify-content-between small mb-1"><span>Model confidence</span><strong id="triageConfidence">—</strong></div><div class="confidence-bar"><div class="confidence-fill" id="triageConfidenceBar" style="width:0%"></div></div><div class="small text-muted mt-2" id="triageConfidenceNote"></div><hr><h4 class="h6">Matching doctors</h4><div class="d-grid gap-2" id="triageDoctors"></div></div></aside>
+      </div>
+    </section>
+
+    <section class="content-section d-none" data-section="directory" data-title="Doctor Directory" data-subtitle="Browse verified doctors and request an appointment.">
+      <div class="panel mb-4"><div class="panel-body"><div class="row g-3 align-items-end"><div class="col-lg-6"><label class="form-label" for="patientDoctorSearch">Search</label><input class="form-control" id="patientDoctorSearch" placeholder="Name, specialty, or profile keyword"></div><div class="col-md-6 col-lg-4"><label class="form-label" for="patientSpecialtyFilter">Specialty</label><select class="form-select" id="patientSpecialtyFilter"><option value="">All specialties</option></select></div><div class="col-md-6 col-lg-2"><button class="btn btn-outline-primary w-100" id="patientClearFilters" type="button">Clear</button></div></div><div class="small text-muted mt-3" id="patientDoctorCount"></div></div></div>
+      <div class="row g-4" id="patientDoctorList"><div class="col-12"><div class="loading-block"><span class="spinner-border spinner-border-sm me-2"></span>Loading doctors...</div></div></div>
+    </section>
+
+    <section class="content-section d-none" data-section="appointments" data-title="Appointments" data-subtitle="Track requests, confirmed consultations and completed visits.">
+      <div class="panel"><div class="panel-header"><div><h2 class="panel-title">My appointments</h2><small class="text-muted">Most recent activity appears first.</small></div><button class="btn btn-sm btn-primary" data-open-section="directory"><i class="bi bi-plus-lg"></i> New appointment</button></div><div class="panel-body" id="patientAppointments"><div class="loading-block"><span class="spinner-border spinner-border-sm me-2"></span>Loading appointments...</div></div></div>
+    </section>
+
+    <section class="content-section d-none" data-section="records" data-title="Medical Records" data-subtitle="Review records created from completed consultations.">
+      <div class="row g-4"><div class="col-xl-7"><div class="panel h-100"><div class="panel-header"><h2 class="panel-title">Prescriptions</h2></div><div class="panel-body"><div class="row g-3" id="prescriptionList"><div class="loading-block">Loading...</div></div></div></div></div><div class="col-xl-5"><div class="panel h-100"><div class="panel-header"><h2 class="panel-title">Invoices</h2></div><div class="panel-body"><div class="row g-3" id="invoiceList"><div class="loading-block">Loading...</div></div></div></div></div></div>
+    </section>
+
+    <section class="content-section d-none" data-section="profile" data-title="Profile" data-subtitle="Keep your account details up to date.">
+      <div class="panel" style="max-width:760px"><div class="panel-header"><div><h2 class="panel-title">Account profile</h2><small class="text-muted">Your email is used to sign in.</small></div></div><div class="panel-body"><form id="patientProfileForm"><div class="row g-3"><div class="col-md-6"><label class="form-label required" for="patientProfileName">Full name</label><input class="form-control" id="patientProfileName" required></div><div class="col-md-6"><label class="form-label required" for="patientProfileEmail">Email address</label><input class="form-control" type="email" id="patientProfileEmail" required></div><div class="col-12"><label class="form-label" for="patientCurrentPassword">Current password</label><div class="password-field"><input class="form-control" type="password" id="patientCurrentPassword" autocomplete="current-password" placeholder="Required only when changing password"><button class="password-toggle" type="button" data-password-toggle="patientCurrentPassword" aria-label="Show password"><i class="bi bi-eye"></i></button></div></div><div class="col-12"><label class="form-label" for="patientProfilePassword">New password</label><div class="password-field"><input class="form-control" type="password" id="patientProfilePassword" minlength="8" autocomplete="new-password" placeholder="Leave blank to keep current password"><button class="password-toggle" type="button" data-password-toggle="patientProfilePassword" aria-label="Show password"><i class="bi bi-eye"></i></button></div><div class="form-hint">Only enter a value if you want to change your password.</div></div></div><button class="btn btn-primary mt-4" id="patientProfileButton" type="submit">Save changes</button></form></div></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><div><h2 class="modal-title h5 mb-0" id="bookingModalTitle">Request appointment</h2><small class="text-muted" id="bookingDoctorName">Selected doctor</small></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><form id="bookingForm"><div class="modal-body"><input type="hidden" id="bookingDoctorId"><div class="mb-3"><label class="form-label required" for="bookingDate">Preferred date</label><input class="form-control" type="date" id="bookingDate" required></div><div><label class="form-label required" for="bookingTime">Preferred time</label><input class="form-control" type="time" id="bookingTime" required><div class="form-hint">The doctor will confirm or cancel the request.</div></div></div><div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="bookingButton" type="submit">Send request</button></div></form></div></div></div>
+<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><div><h2 class="modal-title h5 mb-0" id="chatModalTitle">Consultation messages</h2><small class="text-muted" id="chatAppointmentLabel">Appointment</small></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="chat-window" id="chatWindow" aria-live="polite"></div><form class="d-flex gap-2 mt-3" id="chatForm"><label class="visually-hidden" for="chatInput">Message</label><input class="form-control" id="chatInput" maxlength="1000" autocomplete="off" placeholder="Write a message..." required><button class="btn btn-primary" type="submit"><i class="bi bi-send"></i> Send</button></form></div></div></div></div>
+
+<script src="vendor/bootstrap.bundle.min.js"></script><script src="js/app.js"></script><script src="js/patient.js"></script>
+</body></html>
