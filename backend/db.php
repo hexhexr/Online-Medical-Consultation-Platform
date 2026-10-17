@@ -51,6 +51,8 @@ function get_db() {
     if (getenv('DB_SSL') === 'true' || DB_PORT == '4000' || (!in_array(DB_HOST, ['127.0.0.1', 'localhost', '::1', '']) && getenv('DB_SSL') !== 'false')) {
         if (defined('PDO::MYSQL_ATTR_SSL_CA')) {
             $ca_paths = [
+                __DIR__ . '/isrgrootx1.pem',
+                '/etc/ssl/certs/ISRG_Root_X1.pem',
                 '/etc/ssl/certs/ca-certificates.crt',
                 '/etc/pki/tls/certs/ca-bundle.crt',
                 '/etc/ssl/ca-bundle.pem',
