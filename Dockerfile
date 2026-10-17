@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-venv \
     default-mysql-client \
     curl \
+    ca-certificates \
     && docker-php-ext-install pdo pdo_mysql \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

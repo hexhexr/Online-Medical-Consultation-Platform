@@ -46,6 +46,28 @@ function get_db() {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
+
+    // Enable TLS/SSL for cloud database connections (TiDB Cloud port 4000 or remote hosts)
+    if (getenv('DB_SSL') === 'true' || DB_PORT == '4000' || (!in_array(DB_HOST, ['127.0.0.1', 'localhost', '::1', '']) && getenv('DB_SSL') !== 'false')) {
+        if (defined('PDO::MYSQL_ATTR_SSL_CA')) {
+            $ca_paths = [
+                '/etc/ssl/certs/ca-certificates.crt',
+                '/etc/pki/tls/certs/ca-bundle.crt',
+                '/etc/ssl/ca-bundle.pem',
+                '/etc/ssl/cert.pem',
+            ];
+            foreach ($ca_paths as $ca) {
+                if (file_exists($ca)) {
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $ca;
+                    break;
+                }
+            }
+        }
+        if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+        }
+    }
+
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
     return $pdo;
 }

@@ -96,7 +96,12 @@ function handle_auth($method, $action) {
             $email = strtolower(trim($data['email'] ?? ''));
             $password = (string)($data['password'] ?? '');
 
-            $account = db_query_one("SELECT * FROM users WHERE email = ?", [$email]);
+            try {
+                $account = db_query_one("SELECT * FROM users WHERE email = ?", [$email]);
+            } catch (Exception $e) {
+                json_response(['error' => 'Database connection error: ' . $e->getMessage()], 500);
+            }
+
             if (!$account || !verify_password($password, $account['password_hash'])) {
                 json_response(['error' => 'Invalid email or password.'], 401);
             }
