@@ -60,53 +60,43 @@ Author’s Declaration	i
 Abstract	ii
 Acknowledgements	iii
 Table of Contents	iv
-List of Figures	vi
-List of Tables	vii
+List of Figures	v
+List of Tables	vi
 1. Introduction	1
   1.1 Background	1
   1.2 Problem Statement	1
   1.3 Objectives	2
   1.4 Scope	2
-  1.5 Significance	2
+  1.5 Significance	3
   1.6 Organization of the Report	3
 2. Literature Review	4
   2.1 Review of Related Work	4
-    2.1.1 Commercial Telehealth Platforms	4
-    2.1.2 Machine Learning in Medical Triage	4
-  2.2 Gap Analysis	6
+  2.2 Gap Analysis	5
   2.3 Summary of Theoretical Foundations	6
 3. Methodology	7
   3.1 Project Design	7
-  3.2 Technology Stack	8
+  3.2 Technology Stack	7
   3.3 Implementation	8
-    3.3.1 AI NLP Symptom Triage Microservice	8
-    3.3.2 Backend Business Logic & Controllers	9
-  3.4 Testing	10
+  3.4 Testing	9
 4. System Design	11
   4.1 Design Overview	11
   4.2 Architecture	11
-    4.2.1 Dynamic Behavioral Modeling	13
   4.3 Data Design	15
-    4.3.1 Relational Data Dictionaries	15
+    4.3.1 Relational Data Dictionaries	16
 5. Results and Discussion	20
   5.1 Results	20
-    5.1.1 Machine Learning Triage Evaluation	20
-    5.1.2 Performance & Latency Benchmarks	21
-    5.1.3 Operational User Interface Walkthrough	22
-  5.2 Discussion	27
-    5.2.1 Achievement of Project Objectives	27
-    5.2.2 Architectural Trade-Offs: AJAX Polling vs WebSockets	27
-    5.2.3 Comparison with Commercial Systems	27
-6. Conclusion	28
-  6.1 Summary	28
-  6.2 Contributions	28
+    5.1.3 Operational User Interface Walkthrough	21
+  5.2 Discussion	26
+6. Conclusion	27
+  6.1 Summary	27
+  6.2 Contributions	27
   6.3 Future Work	28
 References	29
 Appendices	30
   Appendix A: Production Cloud Deployment & Infrastructure Guide	30
   Appendix B: System User Guide & Operating Manual	30
   Appendix C: Core System Source Code Listings	31
-14. Glossary	32
+Glossary	32
 ```
 
 
@@ -121,26 +111,26 @@ Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle	13
 Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging	14
 Figure 4.7: System Activity Workflow Diagram	14
 Figure 4.8: Entity Relationship Diagram (ERD)	15
-Figure 5.1: Public Landing Page and Service Overview	22
-Figure 5.2: Searchable Doctor Directory with Specialty Filters	22
-Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)	23
-Figure 5.4: Patient Dashboard with Recent Activity	23
-Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation	24
-Figure 5.6: Patient Appointment Management and Real-Time Chat Modal	24
-Figure 5.7: Patient Medical History and Consultation Records Archive	25
-Figure 5.8: Doctor Clinical Dashboard and Statistics Overview	25
-Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance	26
-Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	26
+Figure 5.1: Public Landing Page and Service Overview	21
+Figure 5.2: Searchable Doctor Directory with Specialty Filters	21
+Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)	22
+Figure 5.4: Patient Dashboard with Recent Activity	22
+Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation	23
+Figure 5.6: Patient Appointment Management and Real-Time Chat Modal	23
+Figure 5.7: Patient Medical History and Consultation Records Archive	24
+Figure 5.8: Doctor Clinical Dashboard and Statistics Overview	24
+Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance	25
+Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	25
 ```
 
 
 ## List of Tables
 
 ```text
-Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)	5
+Table 2.1: Comparative Feature Matrix of Telemedicine Platforms	5
 Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables	7
-Table 3.2: Technology Stack Specifications and Architectural Rationale	8
-Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)	10
+Table 3.2: Technology Stack Specifications and Architectural Roles	7
+Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)	9
 Table 4.1: Data Dictionary — Users Entity (users)	16
 Table 4.2: Data Dictionary — Appointments Entity (appointments)	17
 Table 4.3: Data Dictionary — Messages Entity (messages)	17
@@ -150,7 +140,7 @@ Table 4.6: Data Dictionary — Audit Log Entity (audit_log)	19
 Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms)	19
 Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)	19
 Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty	20
-Table 5.2: System Performance and Latency Benchmarks	21
+Table 5.2: System Performance and Latency Benchmarks	20
 ```
 
 
@@ -763,7 +753,7 @@ Key architectural excerpts from the production codebase:
 - AI Triage Microservice (ai_engine/service.py): Implements the Flask `/predict` endpoint, text vectorization, and Random Forest probability prediction.
 - Database Connection Helper (backend/db.php): Implements centralized PDO connection pooling, prepared statements, and TLS/SSL CA certificate negotiation.
 - Centralized Application Router (router.php): Directs incoming HTTP requests to public HTML files or backend API controller endpoints, serving assets with correct MIME types.
-14. Glossary
+# Glossary
 
 API (Application Programming Interface): A set of protocols and data standards enabling distinct software modules to communicate.
 
