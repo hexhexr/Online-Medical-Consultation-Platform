@@ -37,72 +37,74 @@ Table of Contents	iii
 List of Figures	v
 List of Tables	vi
 1. Introduction	1
-1.1 Background	1
-1.2 Problem Statement	1
-1.3 Objectives	2
-1.4 Scope	2
-1.5 Significance	3
+  1.1 Background	1
+  1.2 Problem Statement	1
+  1.3 Objectives	2
+  1.4 Scope	2
+  1.5 Significance	3
+  1.6 Organization of the Report	3
 2. Literature Review	4
-2.1 Review of Related Work	4
-2.1.1 Commercial Telehealth Platforms	4
-2.1.2 Machine Learning in Medical Triage	4
-2.2 Gap Analysis	5
+  2.1 Review of Related Work	4
+    2.1.1 Commercial Telehealth Platforms	4
+    2.1.2 Machine Learning in Medical Triage	4
+  2.2 Gap Analysis	6
+  2.3 Summary of Theoretical Foundations	6
 3. Methodology	7
-3.1 Project Design	7
-3.2 Technology Stack	8
-3.3 Implementation	9
-3.3.1 AI NLP Symptom Triage Microservice	9
-3.3.2 Backend Business Logic & Controllers	9
-3.4 Testing	10
-4. System Design	13
-4.1 Design Overview	13
-4.2 Architecture	13
-4.2.1 Dynamic Behavioral Modeling	15
-4.3 Data Design	17
-4.3.1 Relational Data Dictionaries	18
-5. Results and Discussion	24
-5.1 Results	24
-5.1.1 Machine Learning Triage Evaluation	24
-5.1.2 Performance & Latency Benchmarks	24
-5.1.3 Operational User Interface Walkthrough	25
-5.2 Discussion	30
-5.2.1 Achievement of Project Objectives	30
-5.2.2 Architectural Trade-Offs: AJAX Polling vs WebSockets	30
-5.2.3 Comparison with Commercial Systems	31
-6. Conclusion	32
-6.1 Summary	32
-6.2 Contributions	32
-6.3 Future Work	32
-References	34
-Appendices	35
-Appendix A: Production Cloud Deployment & Infrastructure Guide	36
-Appendix B: System User Guide & Operating Manual	36
-Appendix C: Core System Source Code Listings	37
-Glossary	38
+  3.1 Project Design	7
+  3.2 Technology Stack	7
+  3.3 Implementation	8
+    3.3.1 AI NLP Symptom Triage Microservice	8
+    3.3.2 Backend Business Logic & Controllers	9
+  3.4 Testing	10
+4. System Design	11
+  4.1 Design Overview	11
+  4.2 Architecture	11
+    4.2.1 Dynamic Behavioral Modeling	13
+  4.3 Data Design	15
+    4.3.1 Relational Data Dictionaries	15
+5. Results and Discussion	20
+  5.1 Results	20
+    5.1.1 Machine Learning Triage Evaluation	20
+    5.1.2 Performance & Latency Benchmarks	21
+    5.1.3 Operational User Interface Walkthrough	22
+  5.2 Discussion	27
+    5.2.1 Achievement of Project Objectives	27
+    5.2.2 Architectural Trade-Offs: AJAX Polling vs WebSockets	27
+    5.2.3 Comparison with Commercial Systems	27
+6. Conclusion	28
+  6.1 Summary	28
+  6.2 Contributions	28
+  6.3 Future Work	28
+References	29
+Appendices	30
+  Appendix A: Production Cloud Deployment & Infrastructure Guide	30
+  Appendix B: System User Guide & Operating Manual	30
+  Appendix C: Core System Source Code Listings	31
+Glossary	32
 ```
 
 
 ## List of Figures
 
 ```text
-Figure 4.1: Three-Tier System Architecture Diagram	13
-Figure 4.2: Context Diagram (DFD Level 0)	14
-Figure 4.3: Complete System Use Case Diagram	14
-Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow	15
-Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle	16
-Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging	16
-Figure 4.7: System Activity Workflow Diagram	17
-Figure 4.8: Entity Relationship Diagram (ERD)	17
-Figure 5.1: Public Landing Page and Service Overview	25
-Figure 5.2: Searchable Doctor Directory with Specialty Filters	26
-Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)	26
-Figure 5.4: Patient Dashboard with Recent Activity	27
-Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation	27
-Figure 5.6: Patient Appointment Management and Real-Time Chat Modal	28
-Figure 5.7: Patient Medical History and Consultation Records Archive	28
-Figure 5.8: Doctor Clinical Dashboard and Statistics Overview	29
-Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance	29
-Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	30
+Figure 4.1: Three-Tier System Architecture Diagram	11
+Figure 4.2: Context Diagram (DFD Level 0)	12
+Figure 4.3: Complete System Use Case Diagram	12
+Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow	13
+Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle	13
+Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging	14
+Figure 4.7: System Activity Workflow Diagram	14
+Figure 4.8: Entity Relationship Diagram (ERD)	15
+Figure 5.1: Public Landing Page and Service Overview	22
+Figure 5.2: Searchable Doctor Directory with Specialty Filters	22
+Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)	23
+Figure 5.4: Patient Dashboard with Recent Activity	23
+Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation	24
+Figure 5.6: Patient Appointment Management and Real-Time Chat Modal	24
+Figure 5.7: Patient Medical History and Consultation Records Archive	25
+Figure 5.8: Doctor Clinical Dashboard and Statistics Overview	25
+Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance	26
+Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	26
 ```
 
 
@@ -111,18 +113,18 @@ Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	30
 ```text
 Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)	5
 Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables	7
-Table 3.2: Technology Stack Specifications and Architectural Rationale	8
+Table 3.2: Technology Stack Specifications and Architectural Rationale	7
 Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)	10
-Table 4.1: Data Dictionary — Users Entity (users)	18
-Table 4.2: Data Dictionary — Appointments Entity (appointments)	19
-Table 4.3: Data Dictionary — Messages Entity (messages)	20
-Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions)	20
-Table 4.5: Data Dictionary — Invoices Entity (invoices)	21
-Table 4.6: Data Dictionary — Audit Log Entity (audit_log)	22
-Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms)	22
-Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)	23
-Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty	24
-Table 5.2: System Performance and Latency Benchmarks	25
+Table 4.1: Data Dictionary — Users Entity (users)	16
+Table 4.2: Data Dictionary — Appointments Entity (appointments)	17
+Table 4.3: Data Dictionary — Messages Entity (messages)	17
+Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions)	18
+Table 4.5: Data Dictionary — Invoices Entity (invoices)	18
+Table 4.6: Data Dictionary — Audit Log Entity (audit_log)	19
+Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms)	19
+Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)	19
+Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty	20
+Table 5.2: System Performance and Latency Benchmarks	21
 ```
 
 
@@ -183,6 +185,17 @@ From a socio-economic perspective, the platform democratizes specialist healthca
 From a clinical perspective, introducing automated AI symptom triage fundamentally improves patient routing accuracy. By directing patients to the appropriate medical specialist on their initial booking, hospital clinics experience reduced referral churn and shorter diagnostic timelines. Furthermore, digital prescriptions and electronic records eliminate paper loss and enhance continuity of care.
 
 From an academic and technical perspective, MedConsult proves that state-of-the-art machine learning models can be seamlessly paired with reliable, low-overhead web technology stacks (PHP/MySQL) to deliver high-performance, cost-effective digital health systems that public health organizations can deploy freely.
+
+
+## 1.6 Organization of the Report
+
+The remainder of this Final Year Design Project report is organized as follows:
+- **Chapter 2 (Literature Review)**: Surveys contemporary digital health solutions, analyzes commercial telehealth platforms (Practo, Zocdoc, Marham), examines modern machine learning algorithms in clinical triage, and presents a comprehensive gap analysis.
+- **Chapter 3 (Methodology)**: Details the Agile Scrum development lifecycle, system sprint milestones, technology stack specifications, implementation of the Python NLP triage microservice and PHP backend controllers, and the 20-test-case quality assurance matrix.
+- **Chapter 4 (System Design)**: Explains the Three-Tier architectural pattern, Context DFD (Level 0), Complete System Use Case diagram, UML sequence diagrams for core clinical workflows, the 3NF Entity Relationship Diagram (ERD), and complete data dictionaries for all eight persistence tables.
+- **Chapter 5 (Results and Discussion)**: Delivers empirical evaluation metrics for the Random Forest triage classifier (precision, recall, F1-score across 4,920 records), cloud performance and latency SLA benchmarks, a complete visual walkthrough of ten operational user interfaces, and an in-depth architectural discussion.
+- **Chapter 6 (Conclusion)**: Synthesizes project achievements, highlights core academic and clinical contributions, and outlines strategic future enhancements including Urdu NLP processing, browser-native WebRTC streaming, and mobile app integration.
+- **References & Appendices**: Provides formal academic citations, cloud infrastructure guides, user operating manuals, core source code listings, and an architectural glossary.
 
 
 # 2. Literature Review
