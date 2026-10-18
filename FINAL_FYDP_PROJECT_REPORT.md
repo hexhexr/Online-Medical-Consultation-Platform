@@ -12,6 +12,31 @@
 
 ---
 
+## Author’s Declaration
+
+I hereby declare that I am the sole author of this thesis. This is a true copy of the thesis, including any required final revisions, as accepted by my examiners. It is further declared that this thesis or any part thereof has not been previously submitted for any degree or diploma in any university or other educational institution.
+
+I understand that my thesis may be made electronically available to the public.
+
+| Field | Details |
+| :--- | :--- |
+| **Student Name** | Muhammad Danial , Muhammad Bilal , Mudassar Javed |
+| **Registration No.** | BSCSW-2.5Y-021R24-4 , BSCSW-2.5Y-021R24-1 , BSCSW-2.5Y-021R24-5 |
+| **Contact No.** | 03097705525, 03036556495, 03014521025 |
+| **Email Address** | digdaguu@gmail.com, bilalsadiq612@gmail.com, mudassar21025@gmail.com |
+| **Discipline** | Computer Science |
+| **Year of Study** | (2024-2026) |
+| **Area of Study** | BSCS |
+| **Proposed Project Title** | Online Medical Consultation Platform |
+
+<br>
+
+| Student Signature: __________________ | Supervisor Signature: __________________ |
+| :--- | :--- |
+| Muhammad Danial<br>Muhammad Bilal<br>Mudassar Javed | **Majid Khawar** |
+
+---
+
 ## Abstract
 
 Access to specialized healthcare in developing countries such as Pakistan remains severely constrained by geographic barriers, acute physician shortages (approximately 1 doctor per 1,000 citizens according to World Health Organization metrics), and prohibitive consultation expenses. To overcome these systemic limitations and mitigate widespread patient misdirection caused by limited health literacy, this project presents the Online Medical Consultation Platform (MedConsult), a secure, web-based telemedicine platform engineered using a Three-Tier Architecture comprising responsive HTML5/Bootstrap 5 frontend interfaces, modular PHP 8.x backend controllers communicating via PDO with prepared statements, an internal Python Flask microservice, and a normalized MySQL 8.0 relational database. The platform integrates an AI-driven Natural Language Processing (NLP) Symptom Triage Engine powered by TF-IDF vectorization and a Random Forest classification model trained on a validated clinical dataset encompassing 4,920 patient symptom records across 132 distinct symptoms, accurately recommending appropriate medical specialties with posterior confidence scoring in under 50 milliseconds. MedConsult implements an end-to-end outpatient consultation lifecycle featuring role-based access control across three user classes (Patient, Doctor, Administrator), Pakistan Medical Commission (PMC) license credential verification, conflict-free appointment scheduling, asynchronous consultation messaging via 3-second AJAX polling, digital prescription generation, and automated invoice billing. Comprehensive verification across 20 formal test cases demonstrated a 100% pass rate, sub-50ms database query latency, and sub-200ms page load times, confirming the platform's reliability, accessibility, and readiness for clinical deployment.
@@ -31,17 +56,18 @@ Finally, we are eternally indebted to our beloved parents and families for their
 ## Table of Contents
 
 ```text
-Abstract	i
-Acknowledgements	ii
-Table of Contents	iii
-List of Figures	v
-List of Tables	vi
+Author’s Declaration	i
+Abstract	ii
+Acknowledgements	iii
+Table of Contents	iv
+List of Figures	vi
+List of Tables	vii
 1. Introduction	1
   1.1 Background	1
   1.2 Problem Statement	1
   1.3 Objectives	2
   1.4 Scope	2
-  1.5 Significance	3
+  1.5 Significance	2
   1.6 Organization of the Report	3
 2. Literature Review	4
   2.1 Review of Related Work	4
@@ -51,7 +77,7 @@ List of Tables	vi
   2.3 Summary of Theoretical Foundations	6
 3. Methodology	7
   3.1 Project Design	7
-  3.2 Technology Stack	7
+  3.2 Technology Stack	8
   3.3 Implementation	8
     3.3.1 AI NLP Symptom Triage Microservice	8
     3.3.2 Backend Business Logic & Controllers	9
@@ -80,7 +106,7 @@ Appendices	30
   Appendix A: Production Cloud Deployment & Infrastructure Guide	30
   Appendix B: System User Guide & Operating Manual	30
   Appendix C: Core System Source Code Listings	31
-Glossary	32
+14. Glossary	32
 ```
 
 
@@ -113,7 +139,7 @@ Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	26
 ```text
 Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)	5
 Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables	7
-Table 3.2: Technology Stack Specifications and Architectural Rationale	7
+Table 3.2: Technology Stack Specifications and Architectural Rationale	8
 Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)	10
 Table 4.1: Data Dictionary — Users Entity (users)	16
 Table 4.2: Data Dictionary — Appointments Entity (appointments)	17
