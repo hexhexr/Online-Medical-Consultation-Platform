@@ -1,194 +1,130 @@
 # ONLINE MEDICAL CONSULTATION PLATFORM
-## Final Year Design Project (FYDP-II) Report
+## A Handbook (FYP Report)
+**Supervisor:** Majid Khawar  
 **Department of Computer Science & Information Technology**  
 **University of Southern Punjab, Multan, Pakistan**  
 *October 2026*
 
----
-
-### Project Team Members:
-| Member Name | Registration Number | Degree Program |
-| :--- | :--- | :--- |
-| **Muhammad Danial** | BSCSW-2.5Y-021R24-4 | BS Computer Science (2.5 Years) |
-| **Muhammad Bilal** | BSCSW-2.5Y-021R24-1 | BS Computer Science (2.5 Years) |
-| **Mudassar Javed** | BSCSW-2.5Y-021R24-5 | BS Computer Science (2.5 Years) |
-
-**Project Supervisor:**  
-**Majid Khawar**  
-Department of Computer Science & Information Technology  
-University of Southern Punjab, Multan  
+### Submitted by:
+- **Muhammad Danial** (BSCSW-2.5Y-021R24-4)
+- **Muhammad Bilal** (BSCSW-2.5Y-021R24-1)
+- **Mudassar Javed** (BSCSW-2.5Y-021R24-5)
 
 ---
 
-## Declaration of Authorship
+## Abstract
 
-We, Muhammad Danial (Reg. No. BSCSW-2.5Y-021R24-4), Muhammad Bilal (Reg. No. BSCSW-2.5Y-021R24-1), and Mudassar Javed (Reg. No. BSCSW-2.5Y-021R24-5), hereby declare that this Final Year Design Project report titled 'Online Medical Consultation Platform' is our own original work. It has not been submitted previously, in whole or in part, to any other institution or university for the award of any degree or diploma.
+Access to specialized healthcare in developing countries such as Pakistan remains severely constrained by geographic barriers, acute physician shortages (approximately 1 doctor per 1,000 citizens according to World Health Organization metrics), and prohibitive consultation expenses. To overcome these systemic limitations and mitigate widespread patient misdirection caused by limited health literacy, this project presents the Online Medical Consultation Platform (MedConsult), a secure, web-based telemedicine platform engineered using a Three-Tier Architecture comprising responsive HTML5/Bootstrap 5 frontend interfaces, modular PHP 8.x backend controllers communicating via PDO with prepared statements, an internal Python Flask microservice, and a normalized MySQL 8.0 relational database. The platform integrates an AI-driven Natural Language Processing (NLP) Symptom Triage Engine powered by TF-IDF vectorization and a Random Forest classification model trained on a validated clinical dataset encompassing 4,920 patient symptom records across 132 distinct symptoms, accurately recommending appropriate medical specialties with posterior confidence scoring in under 50 milliseconds. MedConsult implements an end-to-end outpatient consultation lifecycle featuring role-based access control across three user classes (Patient, Doctor, Administrator), Pakistan Medical Commission (PMC) license credential verification, conflict-free appointment scheduling, asynchronous consultation messaging via 3-second AJAX polling, digital prescription generation, and automated invoice billing. Comprehensive verification across 20 formal test cases demonstrated a 100% pass rate, sub-50ms database query latency, and sub-200ms page load times, confirming the platform's reliability, accessibility, and readiness for clinical deployment.
 
-All scholarly materials, algorithms, datasets, and third-party references utilized throughout this study have been explicitly cited and acknowledged in compliance with the academic integrity guidelines of the University of Southern Punjab and the IEEE citation standard.
 
-We understand that any false statement or breach of academic integrity will result in disciplinary action in accordance with the regulations of the University of Southern Punjab.
+## Acknowledgements
 
-__________________________                    __________________________
+First and foremost, we express our profound gratitude to Almighty Allah for bestowing upon us the intellect, perseverance, and strength required to successfully design, develop, and complete this Final Year Design Project.
 
-Muhammad Danial                                         Muhammad Bilal
+We wish to express our deepest and most sincere appreciation to our project supervisor, Majid Khawar, whose guidance, technical mentorship, and constructive feedback were instrumental in shaping this platform from requirement formulation to production deployment. His profound insights into software architecture and practical engineering significantly elevated the maturity and rigor of our work.
 
-Reg. No: BSCSW-2.5Y-021R24-4                 Reg. No: BSCSW-2.5Y-021R24-1
+We also extend our heartfelt thanks to the faculty members and laboratory staff of the Department of Computer Science & Information Technology at the University of Southern Punjab, Multan, for providing an academically stimulating environment, computational resources, and constructive reviews during our project evaluations.
 
-__________________________
+Finally, we are eternally indebted to our beloved parents and families for their endless sacrifices, prayers, and unconditional encouragement throughout our academic journey. We also thank our classmates for their collaborative spirit and valuable suggestions.
 
-Mudassar Javed
 
-Reg. No: BSCSW-2.5Y-021R24-5
-
-## Certificate of Approval
-
-This is to certify that the project titled 'Online Medical Consultation Platform', developed by Muhammad Danial, Muhammad Bilal, and Mudassar Javed under registration numbers BSCSW-2.5Y-021R24-4, BSCSW-2.5Y-021R24-1, and BSCSW-2.5Y-021R24-5, has been completed under my supervision and guidance. The project fulfills all functional, architectural, and quality requirements stipulated by the Department of Computer Science & Information Technology, University of Southern Punjab, Multan, for the award of the degree of Bachelor of Science in Computer Science.
-
-_____________________________________
-
-Majid Khawar
-
-Project Supervisor
-
-Department of Computer Science & Information Technology
-
-University of Southern Punjab, Multan
-
-Viva Voce Examination Committee:
-
-Internal Examiner:   ________________________       Date: ___________________
-
-External Examiner:   ________________________       Date: ___________________
-
-Head of Department:  ________________________       Date: ___________________
-
-Department of Computer Science & IT, University of Southern Punjab, Multan
-
-## Dedication
-
-This project is humbly dedicated to our beloved parents, whose unconditional love, sacrifices, prayers, and constant moral encouragement have been the guiding light throughout our educational journey. It is also dedicated to our respected teachers and mentors at the University of Southern Punjab, who instilled in us the pursuit of academic excellence, ethical responsibility, and technical innovation.
-
-## 2. Abstract
-
-Access to specialized healthcare in developing countries such as Pakistan remains severely constrained by geographic barriers, severe specialist shortages (approximately 1 doctor per 1,000 citizens according to WHO data), and high consultation costs. This report presents the Online Medical Consultation Platform (MedConsult), an intelligent, web-based telemedicine platform engineered using a robust Three-Tier Architecture combining PHP 8.2, Python 3.12, and a normalized MySQL 8.0 relational database.
-
-To address the widespread issue of patients booking inappropriate medical specialists due to a lack of health literacy, the platform incorporates an AI-driven Natural Language Processing (NLP) Symptom Triage Engine. Powered by TF-IDF vectorization and a Random Forest classification model trained on a validated clinical dataset encompassing 4,920 patient symptom records and 132 distinct symptoms, the engine predicts the most appropriate medical department in under 50 milliseconds. The system provides an end-to-end outpatient consultation lifecycle including Role-Based Access Control (Patient, Doctor, Administrator), Pakistan Medical Commission (PMC) license verification, conflict-free appointment scheduling, secure asynchronous messaging via 3-second AJAX polling, digital prescriptions, and automated billing invoices. Formal verification across 20 test cases demonstrated a 100% pass rate, sub-50ms database latency, and sub-200ms page response times, confirming the platform's suitability for community clinics, hospitals, and academic telemedicine deployment.
-
-## 3. Acknowledgements
-
-First and foremost, we express our profound gratitude to Almighty Allah for bestowing upon us the intellect, perseverance, and health required to complete this Final Year Design Project.
-
-We express our deepest appreciation to our project supervisor, Majid Khawar, whose guidance, technical critique, and encouragement shaped the trajectory of this system from requirement formulation to production deployment. His mentorship in system architecture and practical software engineering proved invaluable.
-
-We also thank the faculty members and laboratory staff of the Department of Computer Science & Information Technology at the University of Southern Punjab, Multan, for providing the computing infrastructure, resources, and constructive reviews during departmental presentations.
-
-Lastly, we extend our heartfelt gratitude to our families and fellow classmates for their moral support, collaboration, and insightful feedback throughout our degree program.
-
-## 4. Table of Contents
+## Table of Contents
 
 ```text
-1. Introduction..................................................  1
-1.1 Background................................................  1
-1.2 Problem Statement.........................................  2
-1.3 Objectives................................................  3
-1.4 Scope.....................................................  4
-1.5 Significance..............................................  5
-2. Literature Review.............................................  6
-2.1 Review of Related Work....................................  6
-2.2 Gap Analysis..............................................  9
-3. Methodology...................................................  11
-3.1 Project Design............................................  11
-3.2 Technology Stack..........................................  13
-3.3 Implementation............................................  15
-3.4 Testing...................................................  18
-4. System Design.................................................  22
-4.1 Design Overview...........................................  22
-4.2 Architecture..............................................  23
-4.3 Data Design...............................................  27
-5. Results and Discussion........................................  32
-5.1 Results...................................................  32
-5.2 Discussion................................................  38
-6. Conclusion....................................................  41
-6.1 Summary...................................................  41
-6.2 Contributions.............................................  41
-6.3 Future Work...............................................  42
-References.......................................................  43
-Appendices.......................................................  44
-Appendix A: Production Deployment Guide.......................  44
-Appendix B: System User Guide & Operating Manual..............  46
-Appendix C: Core System Source Code Listings..................  48
-Glossary.........................................................  50
+Abstract	i
+Acknowledgements	ii
+Table of Contents	iii
+List of Figures	v
+List of Tables	vi
+1. Introduction	1
+1.1 Background	1
+1.2 Problem Statement	1
+1.3 Objectives	2
+1.4 Scope	2
+1.5 Significance	3
+2. Literature Review	4
+2.1 Review of Related Work	4
+2.1.1 Commercial Telehealth Platforms	4
+2.1.2 Machine Learning in Medical Triage	4
+2.2 Gap Analysis	5
+3. Methodology	7
+3.1 Project Design	7
+3.2 Technology Stack	8
+3.3 Implementation	9
+3.3.1 AI NLP Symptom Triage Microservice	9
+3.3.2 Backend Business Logic & Controllers	9
+3.4 Testing	10
+4. System Design	13
+4.1 Design Overview	13
+4.2 Architecture	13
+4.2.1 Dynamic Behavioral Modeling	15
+4.3 Data Design	17
+4.3.1 Relational Data Dictionaries	18
+5. Results and Discussion	24
+5.1 Results	24
+5.1.1 Machine Learning Triage Evaluation	24
+5.1.2 Performance & Latency Benchmarks	24
+5.1.3 Operational User Interface Walkthrough	25
+5.2 Discussion	30
+5.2.1 Achievement of Project Objectives	30
+5.2.2 Architectural Trade-Offs: AJAX Polling vs WebSockets	30
+5.2.3 Comparison with Commercial Systems	31
+6. Conclusion	32
+6.1 Summary	32
+6.2 Contributions	32
+6.3 Future Work	32
+References	34
+Appendices	35
+Appendix A: Production Cloud Deployment & Infrastructure Guide	36
+Appendix B: System User Guide & Operating Manual	36
+Appendix C: Core System Source Code Listings	37
+Glossary	38
 ```
 
-## 5. List of Figures and Tables
 
-### List of Figures
+## List of Figures
 
-Figure 4.1: System Architecture Diagram...............................  23
+```text
+Figure 4.1: Three-Tier System Architecture Diagram	13
+Figure 4.2: Context Diagram (DFD Level 0)	14
+Figure 4.3: Complete System Use Case Diagram	14
+Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow	15
+Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle	16
+Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging	16
+Figure 4.7: System Activity Workflow Diagram	17
+Figure 4.8: Entity Relationship Diagram (ERD)	17
+Figure 5.1: Public Landing Page and Service Overview	25
+Figure 5.2: Searchable Doctor Directory with Specialty Filters	26
+Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)	26
+Figure 5.4: Patient Dashboard with Recent Activity	27
+Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation	27
+Figure 5.6: Patient Appointment Management and Real-Time Chat Modal	28
+Figure 5.7: Patient Medical History and Consultation Records Archive	28
+Figure 5.8: Doctor Clinical Dashboard and Statistics Overview	29
+Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance	29
+Figure 5.10: Administrator Control Panel and Doctor PMC License Audit	30
+```
 
-Figure 4.2: Context Diagram (DFD Level 0).............................  24
 
-Figure 4.3: Use Case Diagram..........................................  24
+## List of Tables
 
-Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow.............  25
+```text
+Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)	5
+Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables	7
+Table 3.2: Technology Stack Specifications and Architectural Rationale	8
+Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)	10
+Table 4.1: Data Dictionary — Users Entity (users)	18
+Table 4.2: Data Dictionary — Appointments Entity (appointments)	19
+Table 4.3: Data Dictionary — Messages Entity (messages)	20
+Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions)	20
+Table 4.5: Data Dictionary — Invoices Entity (invoices)	21
+Table 4.6: Data Dictionary — Audit Log Entity (audit_log)	22
+Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms)	22
+Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)	23
+Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty	24
+Table 5.2: System Performance and Latency Benchmarks	25
+```
 
-Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle..........  25
-
-Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging.......  26
-
-Figure 4.7: System Activity Workflow Diagram..........................  26
-
-Figure 4.8: Entity Relationship Diagram (ERD).........................  27
-
-Figure 5.1: Public Landing Page and Service Overview..................  33
-
-Figure 5.2: Searchable Doctor Directory with Specialty Filters........  33
-
-Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)..  34
-
-Figure 5.4: Patient Dashboard with Recent Activity....................  34
-
-Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation  35
-
-Figure 5.6: Patient Appointment Management and Real-Time Chat Modal...  35
-
-Figure 5.7: Patient Medical History and Consultation Records Archive..  36
-
-Figure 5.8: Doctor Clinical Dashboard and Statistics Overview.........  36
-
-Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance  37
-
-Figure 5.10: Administrator Control Panel and Doctor PMC License Audit.  37
-
-### List of Tables
-
-Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)  8
-
-Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables...  12
-
-Table 3.2: Technology Stack Specifications and Architectural Rationale  14
-
-Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20).....  19
-
-Table 4.1: Data Dictionary — Users Entity (users).....................  28
-
-Table 4.2: Data Dictionary — Appointments Entity (appointments).......  28
-
-Table 4.3: Data Dictionary — Messages Entity (messages)...............  29
-
-Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions).....  29
-
-Table 4.5: Data Dictionary — Invoices Entity (invoices)...............  30
-
-Table 4.6: Data Dictionary — Audit Log Entity (audit_log).............  30
-
-Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms).....  31
-
-Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)  31
-
-Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty  38
-
-Table 5.2: System Performance and Latency Benchmarks..................  38
 
 # 1. Introduction
 
@@ -748,10 +684,11 @@ While the platform fulfills all specified requirements, future enhancements coul
 
 [15] A. B. Smith and C. R. Johnson, "Telemedicine and outpatient healthcare delivery in South Asia: A comprehensive survey," Journal of Medical Systems, vol. 46, no. 4, pp. 55-68, Apr. 2022.
 
-Appendices
+
+# Appendices
 
 
-# 13.1 Additional Material
+# Appendices
 
 
 ## Appendix A: Production Cloud Deployment & Infrastructure Guide
