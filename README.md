@@ -202,12 +202,17 @@ If using custom MySQL credentials, update `backend/db.php` or set the correspond
 
 ## 7. Step-by-Step Instructions for Running the Project
 
-### Method A: One-Click Launcher (Windows)
-1. Double-click the **`run_windows.bat`** file in the project root directory.
-2. The launcher will start the server and automatically open your default browser at:
-   ```text
-   http://127.0.0.1:8000
-   ```
+### Method A: One-Click Launcher
+* **Linux**: Run the launcher script in terminal:
+  ```bash
+  ./run_linux.sh
+  ```
+* **Windows**: Double-click **`run_windows.bat`**.
+
+The launcher starts both the Python AI microservice (port 5000) and the PHP web server (port 8000), accessible at:
+```text
+http://127.0.0.1:8000
+```
 
 ### Method B: Manual CLI Execution (Linux / macOS / Windows)
 To run both the PHP web server and the Python AI triage microservice concurrently:
