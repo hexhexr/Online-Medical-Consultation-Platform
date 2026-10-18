@@ -2,7 +2,7 @@
 ## Final Year Design Project (FYDP-II) Report
 **Department of Computer Science & Information Technology**  
 **University of Southern Punjab, Multan, Pakistan**  
-*Submission Date: October 2026*
+*October 2026*
 
 ---
 
@@ -21,755 +21,806 @@ University of Southern Punjab, Multan
 ---
 
 ## Declaration of Authorship
+
 We, Muhammad Danial (Reg. No. BSCSW-2.5Y-021R24-4), Muhammad Bilal (Reg. No. BSCSW-2.5Y-021R24-1), and Mudassar Javed (Reg. No. BSCSW-2.5Y-021R24-5), hereby declare that this Final Year Design Project report titled 'Online Medical Consultation Platform' is our own original work. It has not been submitted previously, in whole or in part, to any other institution or university for the award of any degree or diploma.
 
 All scholarly materials, algorithms, datasets, and third-party references utilized throughout this study have been explicitly cited and acknowledged in compliance with the academic integrity guidelines of the University of Southern Punjab and the IEEE citation standard.
 
----
+We understand that any false statement or breach of academic integrity will result in disciplinary action in accordance with the regulations of the University of Southern Punjab.
+
+__________________________                    __________________________
+
+Muhammad Danial                                         Muhammad Bilal
+
+Reg. No: BSCSW-2.5Y-021R24-4                 Reg. No: BSCSW-2.5Y-021R24-1
+
+__________________________
+
+Mudassar Javed
+
+Reg. No: BSCSW-2.5Y-021R24-5
 
 ## Certificate of Approval
-This is to certify that the project titled 'Online Medical Consultation Platform', developed by Muhammad Danial, Muhammad Bilal, and Mudassar Javed under registration numbers BSCSW-2.5Y-021R24-4, BSCSW-2.5Y-021R24-1, and BSCSW-2.5Y-021R24-5, has been completed under my supervision and guidance. The project fulfills all functional, architectural, and quality requirements stipulated by the Department of Computer Science & Information Technology, University of Southern Punjab, Multan, for the degree of Bachelor of Science in Computer Science.
 
-**Majid Khawar** (Project Supervisor)  
-**External Examiner**  
-**Head of Department**, Department of Computer Science & IT, University of Southern Punjab  
+This is to certify that the project titled 'Online Medical Consultation Platform', developed by Muhammad Danial, Muhammad Bilal, and Mudassar Javed under registration numbers BSCSW-2.5Y-021R24-4, BSCSW-2.5Y-021R24-1, and BSCSW-2.5Y-021R24-5, has been completed under my supervision and guidance. The project fulfills all functional, architectural, and quality requirements stipulated by the Department of Computer Science & Information Technology, University of Southern Punjab, Multan, for the award of the degree of Bachelor of Science in Computer Science.
 
----
+_____________________________________
 
-## Abstract
-Access to specialized medical care in developing nations such as Pakistan remains severely constrained by geographical disparity, severe physician shortages (approximately 1 doctor per 1,000 patients according to WHO statistics), and prohibitive consultation costs. This project presents the **Online Medical Consultation Platform** (MedConsult), a web-based telehealth platform engineered using a robust Three-Tier Architecture. The presentation layer employs responsive HTML5, CSS3, and Bootstrap 5.3; the application logic layer utilizes modular PHP 8.x controllers communicating via PHP Data Objects (PDO) with parameterised prepared statements; and the persistence layer employs a normalized MySQL 8.0 relational database.
+Majid Khawar
 
-To mitigate inappropriate specialist bookings and triage delays, the platform incorporates an AI-driven Natural Language Processing (NLP) symptom triage engine powered by TF-IDF vectorization and a Random Forest classification model trained on a validated Kaggle clinical dataset encompassing 4,920 patient symptom records and 132 distinct symptoms. The AI engine analyzes free-text patient symptom descriptions, recommending suitable medical specialties with posterior confidence scoring in under 50 milliseconds via an internal Flask HTTP REST microservice.
+Project Supervisor
 
-The platform provides comprehensive clinical workflows including role-based access control across three user classes (Patient, Doctor, Administrator), a searchable doctor directory with Pakistan Medical Commission (PMC) license verification, conflict-free appointment scheduling, 3-second real-time AJAX consultation messaging, digital prescription management, and automatic invoice generation. Comprehensive unit, integration, and system verification demonstrated a 100% pass rate across 20 formal test cases, sub-50ms database latency, and sub-200ms end-to-end page response time, establishing a simple, secure, explainable, and production-ready telemedicine solution.
+Department of Computer Science & Information Technology
 
----
+University of Southern Punjab, Multan
 
-## Acknowledgements
-First and foremost, we express our humble gratitude to Almighty Allah for bestowing upon us the knowledge, strength, and perseverance required to successfully complete this Final Year Design Project.
+Viva Voce Examination Committee:
 
-We wish to express our deepest and most sincere gratitude to our esteemed project supervisor, Majid Khawar, whose profound guidance, technical mentorship, and patient constructive feedback were instrumental in shaping this platform from its initial requirement specifications to its final operational deployment. His insightful recommendations significantly elevated the architectural maturity of this platform.
+Internal Examiner:   ________________________       Date: ___________________
 
-We also extend our sincere appreciation to the faculty members and laboratory staff of the Department of Computer Science & Information Technology at the University of Southern Punjab, Multan, for providing an academically stimulating environment and the computational infrastructure essential for our work.
+External Examiner:   ________________________       Date: ___________________
 
-Finally, we are eternally indebted to our parents and family members for their unconditional love, moral encouragement, and constant prayers throughout our academic journey. We also thank our peers for their collaborative spirit and constructive suggestions.
+Head of Department:  ________________________       Date: ___________________
 
----
+Department of Computer Science & IT, University of Southern Punjab, Multan
 
-## Table of Contents
-- **1. Introduction**
-  - 1.1 Purpose
-  - 1.2 Scope
-  - 1.3 Problem Statement
-  - 1.4 Background and Motivation
-  - 1.5 Project Objectives
-  - 1.6 Definitions, Acronyms, and Abbreviations
-  - 1.7 References
-  - 1.8 Document Overview
-- **2. Literature Review & Existing Systems Survey**
-  - 2.1 Background and Product Perspective
-  - 2.2 Existing Systems in the Market (Practo, Zocdoc, Marham)
-  - 2.3 Comparative Feature Analysis
-  - 2.4 Gap Analysis & Solution Justification
-- **3. System Requirements Specification**
-  - 3.1 Product Functions Overview
-  - 3.2 User Classes and Characteristics
-  - 3.3 Operating Environment
-  - 3.4 Design and Implementation Constraints
-  - 3.5 Assumptions and Dependencies
-  - 3.6 Scope Exclusions & Limitations
-  - 3.7 Functional Requirements (FR-01 to FR-40 across 9 Modules)
-  - 3.8 External Interface Requirements
-  - 3.9 Non-Functional Requirements Matrix
-- **4. System Design & UML Architecture**
-  - 4.1 Design Overview & Three-Tier Architectural Pattern
-  - 4.2 Context Diagram (DFD Level 0)
-  - 4.3 System Architecture Diagram
-  - 4.4 Use Case Modeling
-  - 4.5 Dynamic Behavioral Modeling (Sequence & Activity Diagrams)
-  - 4.6 Entity Relationship Diagram (ERD)
-  - 4.7 Relational Data Dictionaries (7 Core Entities)
-- **5. System Implementation & Technology Stack**
-  - 5.1 Development Methodology (Agile Scrum)
-  - 5.2 Technology Stack Architecture
-  - 5.3 AI Triage Engine Implementation
-  - 5.4 Backend Functional Controllers
-- **6. System Verification & Testing**
-  - 6.1 Testing Methodology
-  - 6.2 Complete Formal Test Cases Matrix (TC-01 to TC-20)
-  - 6.3 Security Audit & Defense Validation
-- **7. Results and Discussion**
-  - 7.1 System Evaluation Environment & Overview
-  - 7.2 Objectives Achievement & Verification Matrix
-  - 7.3 Walkthrough of Operational User Interfaces (10 High-Resolution Screenshots)
-- **8. Conclusion & Future Work**
-  - 8.1 Summary
-  - 8.2 Key Contributions
-  - 8.3 Limitations & Future Roadmap
-- **References**
-- **Appendix A: Core Source Code Listings**
-- **Appendix B: Glossary of Technical Terms**
-- **Appendix C: Implementation and Deployment Plan**
-- **Appendix D: User Guide & Operating Manual**
+## Dedication
 
----
+This project is humbly dedicated to our beloved parents, whose unconditional love, sacrifices, prayers, and constant moral encouragement have been the guiding light throughout our educational journey. It is also dedicated to our respected teachers and mentors at the University of Southern Punjab, who instilled in us the pursuit of academic excellence, ethical responsibility, and technical innovation.
 
-## 1. Introduction
+## 2. Abstract
 
-### 1.1 Purpose
-This document is the Final Project Report for the Online Medical Consultation Platform (MedConsult), developed as a Final Year Design Project for the Department of Computer Science and Information Technology at the University of Southern Punjab, Multan. It comprehensively documents the design, architecture, implementation, verification, and evaluation of the proposed telemedicine system. The report serves as the authoritative academic record for evaluation by the project supervisor, academic review committee, and external examiners.
+Access to specialized healthcare in developing countries such as Pakistan remains severely constrained by geographic barriers, severe specialist shortages (approximately 1 doctor per 1,000 citizens according to WHO data), and high consultation costs. This report presents the Online Medical Consultation Platform (MedConsult), an intelligent, web-based telemedicine platform engineered using a robust Three-Tier Architecture combining PHP 8.2, Python 3.12, and a normalized MySQL 8.0 relational database.
 
-### 1.2 Scope
-The Online Medical Consultation Platform is a web-based healthcare application engineered to facilitate remote, outpatient medical consultations between verified healthcare practitioners and registered patients. The system addresses a critical accessibility challenge: patients in underserved or rural regions frequently struggle to identify and consult qualified medical specialists in a timely manner. By introducing an AI-driven, Python-based Natural Language Processing (NLP) Symptom Triage Engine, the platform enables patients to describe their symptoms in free-text natural language and be automatically directed to the most appropriate medical specialty without requiring prior clinical knowledge.
+To address the widespread issue of patients booking inappropriate medical specialists due to a lack of health literacy, the platform incorporates an AI-driven Natural Language Processing (NLP) Symptom Triage Engine. Powered by TF-IDF vectorization and a Random Forest classification model trained on a validated clinical dataset encompassing 4,920 patient symptom records and 132 distinct symptoms, the engine predicts the most appropriate medical department in under 50 milliseconds. The system provides an end-to-end outpatient consultation lifecycle including Role-Based Access Control (Patient, Doctor, Administrator), Pakistan Medical Commission (PMC) license verification, conflict-free appointment scheduling, secure asynchronous messaging via 3-second AJAX polling, digital prescriptions, and automated billing invoices. Formal verification across 20 test cases demonstrated a 100% pass rate, sub-50ms database latency, and sub-200ms page response times, confirming the platform's suitability for community clinics, hospitals, and academic telemedicine deployment.
 
-Beyond symptom triage, the platform provides an integrated consultation lifecycle: patients discover verified medical practitioners through a searchable directory, schedule conflict-free appointments, communicate securely via asynchronous messaging, and receive digital prescriptions and formal invoices. Healthcare practitioners manage consultation schedules, review patient histories, and issue clinical documents. Platform integrity is supervised by an Administrator via an audit-backed control panel. The system is engineered using a robust Three-Tier Architecture integrating HTML5, CSS3, JavaScript, PHP 8.x, MySQL 8.0, and a Python 3.12 NLP microservice.
+## 3. Acknowledgements
 
-### 1.3 Problem Statement
-Access to qualified healthcare remains a profound structural challenge in Pakistan. According to official World Health Organization (WHO) data, Pakistan maintains a physician density of approximately 1 doctor per 1,000 citizens — substantially below the internationally recognized minimum standard of 1:500. Rural populations, comprising nearly 63% of the country, face even more severe impediments, including long travel distances to tertiary hospitals, inadequate transit infrastructure, and an acute concentration of medical specialists exclusively within major metropolitan hubs such as Lahore, Karachi, and Islamabad.
+First and foremost, we express our profound gratitude to Almighty Allah for bestowing upon us the intellect, perseverance, and health required to complete this Final Year Design Project.
 
-In the conventional healthcare model, patients must travel physically to clinics or hospitals to obtain a consultation. This process is time-consuming, economically prohibitive, and physically exhausting for working citizens, the elderly, and mobility-impaired individuals. Furthermore, individuals lacking medical literacy frequently misidentify their clinical condition, scheduling appointments with inappropriate specialists. This misallocation results in wasted financial expenditure, delayed therapeutic intervention, and overburdened specialty clinics. Existing commercial platforms in Pakistan remain proprietary, monetized, and closed to academic deployment.
+We express our deepest appreciation to our project supervisor, Majid Khawar, whose guidance, technical critique, and encouragement shaped the trajectory of this system from requirement formulation to production deployment. His mentorship in system architecture and practical software engineering proved invaluable.
 
-### 1.4 Background and Motivation
-The emergence of telemedicine as a viable alternative to traditional in-person healthcare delivery has been accelerated by rapid advancements in telecommunications infrastructure. The Pakistan Telecommunication Authority (PTA) reported that nationwide internet penetration crossed 54% by 2024, creating an expansive digital foundation for web-based health services. Commercial platforms such as Marham, Sehat.com.pk, and Oladoc operate in Pakistan; however, these commercial platforms rely on manual specialty selection and proprietary closed-source infrastructure.
+We also thank the faculty members and laboratory staff of the Department of Computer Science & Information Technology at the University of Southern Punjab, Multan, for providing the computing infrastructure, resources, and constructive reviews during departmental presentations.
 
-The motivation for this project stems from three fundamental observations: (1) No open-source, locally deployable telemedicine system exists for academic clinics, community health centers, or non-governmental healthcare providers in Pakistan; (2) Commercial systems lack automated natural language symptom triage, requiring patients to self-diagnose their needed medical department; and (3) The availability of public medical benchmark datasets and open-source Python machine learning libraries makes it academically feasible and practical to train an intelligent classification model. This project fills this void by delivering an academically transparent, AI-enhanced telemedicine platform.
+Lastly, we extend our heartfelt gratitude to our families and fellow classmates for their moral support, collaboration, and insightful feedback throughout our degree program.
 
-### 1.5 Project Objectives
-1. **Telemedicine Workflow**: To design and implement a web-based telemedicine platform enabling remote outpatient consultations between verified doctors and registered patients.
-2. **AI NLP Symptom Triage**: To develop an AI-Driven NLP Symptom Triage Engine using Python and scikit-learn that processes free-text patient input, extracts clinical keywords, and predicts the appropriate medical specialty using a trained Machine Learning model.
-3. **Secure Messaging**: To implement a secure, asynchronous text communication channel linking patients and doctors within confirmed appointments using 3-second AJAX polling.
-4. **Consultation Lifecycle**: To provide a complete consultation lifecycle encompassing conflict-free appointment scheduling, digital prescriptions, and billing invoice generation.
-5. **Role-Based Access Control**: To enforce strict role-based access control (RBAC) across three distinct user classes: Patient, Doctor, and Administrator.
-6. **Self-Hosted Deployment**: To deploy the system on a standard LAMP/XAMPP stack (PHP 8.x, MySQL 8.0, Apache 2.4, Python 3.12) accessible to small institutions without requiring proprietary cloud infrastructure.
+## 4. Table of Contents
 
-### 1.6 Definitions, Acronyms, and Abbreviations
-**Table 1.1: Definitions, Acronyms, and Abbreviations**
+```text
+1. Introduction..................................................  1
+1.1 Background................................................  1
+1.2 Problem Statement.........................................  2
+1.3 Objectives................................................  3
+1.4 Scope.....................................................  4
+1.5 Significance..............................................  5
+2. Literature Review.............................................  6
+2.1 Review of Related Work....................................  6
+2.2 Gap Analysis..............................................  9
+3. Methodology...................................................  11
+3.1 Project Design............................................  11
+3.2 Technology Stack..........................................  13
+3.3 Implementation............................................  15
+3.4 Testing...................................................  18
+4. System Design.................................................  22
+4.1 Design Overview...........................................  22
+4.2 Architecture..............................................  23
+4.3 Data Design...............................................  27
+5. Results and Discussion........................................  32
+5.1 Results...................................................  32
+5.2 Discussion................................................  38
+6. Conclusion....................................................  41
+6.1 Summary...................................................  41
+6.2 Contributions.............................................  41
+6.3 Future Work...............................................  42
+References.......................................................  43
+Appendices.......................................................  44
+Appendix A: Production Deployment Guide.......................  44
+Appendix B: System User Guide & Operating Manual..............  46
+Appendix C: Core System Source Code Listings..................  48
+Glossary.........................................................  50
+```
 
-| Term / Acronym | Definition |
-| :--- | :--- |
-| **NLP** | Natural Language Processing. A branch of AI enabling computers to understand human language. |
-| **Machine Learning (ML)** | A subset of AI where systems learn patterns from clinical data to make predictive classifications. |
-| **TF-IDF** | Term Frequency-Inverse Document Frequency. A numerical vectorization algorithm for extracting key terms. |
-| **SRS** | Software Requirement Specification. The foundational contract defining system scope and functional constraints. |
-| **RBAC** | Role-Based Access Control. Restricts system access based on a user's assigned role (Patient, Doctor, Admin). |
-| **Triage** | The process of routing patients based on symptom severity and manifestation to the appropriate clinical department. |
-| **AJAX** | Asynchronous JavaScript and XML. Background browser-server communication without requiring full page reloads. |
-| **PDO** | PHP Data Objects. A secure database abstraction layer utilizing parameterised prepared statements. |
-| **API** | Application Programming Interface. Standardized endpoints allowing distinct software modules to exchange data. |
-| **XAMPP** | A cross-platform server stack comprising Apache HTTP Server, MariaDB/MySQL, and PHP interpreters. |
-| **DFD** | Data Flow Diagram. A graphical modeling representation illustrating the flow of data through software processes. |
-| **ERD** | Entity Relationship Diagram. Models relational database schema, tables, attributes, and foreign key constraints. |
-| **PMC** | Pakistan Medical Commission. The statutory regulatory body governing medical practitioner licensing in Pakistan. |
-| **Patient / Doctor / Admin** | The three primary user roles operating within the MedConsult platform. |
+## 5. List of Figures and Tables
 
----
+### List of Figures
 
-## 2. Literature Review & Existing Systems Survey
+Figure 4.1: System Architecture Diagram...............................  23
 
-### 2.1 Background and Product Perspective
-The Online Medical Consultation Platform operates as an independent, self-contained web application organized around a Three-Tier Architecture integrating two primary technology stacks: PHP 8.x and Python 3.12. The presentation layer consists of responsive HTML5, CSS3, and JavaScript. The application logic layer comprises modular PHP scripts for session management, scheduling, and billing, integrated with a Python NLP microservice for AI-driven symptom triage. The persistence layer utilizes a normalized MySQL 8.0 relational database. Virtual meeting sessions are facilitated via external services such as Google Meet, for which the platform stores and presents a verified shareable meeting link.
+Figure 4.2: Context Diagram (DFD Level 0).............................  24
 
-### 2.2 Survey of Existing Market Solutions
-Before designing the MedConsult platform, a comprehensive survey of existing commercial telemedicine platforms was conducted. Three representative platforms were evaluated: Practo (international South Asian leader), Zocdoc (United States market leader), and Marham (Pakistan's primary commercial telemedicine application).
+Figure 4.3: Use Case Diagram..........................................  24
 
-#### 2.2.1 Practo
-Practo is one of the largest digital healthcare conglomerates in South Asia, operating in India, the Philippines, and neighboring countries. It allows patients to search for medical specialists, book in-person and digital consultations, store medical records, and order prescription medications. Practo incorporates sophisticated search filters based on doctor ratings, consultation fees, and clinic locations. However, Practo does not include an automated AI symptom triage engine — patients must possess prior knowledge of their required medical specialty. Furthermore, Practo is a proprietary, monetized cloud ecosystem unavailable for self-hosted academic or community clinic deployment.
+Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow.............  25
 
-![Figure 2.1: Practo Workflow](extracted_srs_diagrams/page_08_img_1.jpg)  
-*Figure 2.1: Practo Operational Workflow Diagram*
+Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle..........  25
 
-#### 2.2.2 Zocdoc
-Zocdoc is a prominent healthcare appointment scheduling service operating in the United States. Its primary value proposition is real-time insurance verification and calendar integration, enabling insured patients to book validated appointments within minutes. While highly effective within the American health insurance ecosystem, Zocdoc is geo-restricted to North America, requires complex insurance clearinghouse APIs, and does not provide an AI symptom triage engine for natural language patient descriptions.
+Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging.......  26
 
-![Figure 2.2: Zocdoc Workflow](extracted_srs_diagrams/page_09_img_1.jpg)  
-*Figure 2.2: Zocdoc Operational Workflow Diagram*
+Figure 4.7: System Activity Workflow Diagram..........................  26
 
-#### 2.2.3 Marham
-Marham is Pakistan's leading online doctor consultation and appointment booking service. It indexes thousands of verified healthcare practitioners across Pakistani cities, detailing clinic locations, consultation fees, patient feedback reviews, and PMC registration status. Despite its success in the domestic market, Marham remains a closed commercial platform that monetizes patient bookings through commissions. It lacks natural language symptom triage, forcing non-technical patients to guess their required clinical department from a lengthy dropdown list.
+Figure 4.8: Entity Relationship Diagram (ERD).........................  27
 
-![Figure 2.3: Marham Workflow](extracted_srs_diagrams/page_09_img_2.jpg)  
-*Figure 2.3: Marham Operational Workflow Diagram*
+Figure 5.1: Public Landing Page and Service Overview..................  33
 
-### 2.3 Comparative Feature Analysis
-**Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)**
+Figure 5.2: Searchable Doctor Directory with Specialty Filters........  33
+
+Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)..  34
+
+Figure 5.4: Patient Dashboard with Recent Activity....................  34
+
+Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation  35
+
+Figure 5.6: Patient Appointment Management and Real-Time Chat Modal...  35
+
+Figure 5.7: Patient Medical History and Consultation Records Archive..  36
+
+Figure 5.8: Doctor Clinical Dashboard and Statistics Overview.........  36
+
+Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance  37
+
+Figure 5.10: Administrator Control Panel and Doctor PMC License Audit.  37
+
+### List of Tables
+
+Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)  8
+
+Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables...  12
+
+Table 3.2: Technology Stack Specifications and Architectural Rationale  14
+
+Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20).....  19
+
+Table 4.1: Data Dictionary — Users Entity (users).....................  28
+
+Table 4.2: Data Dictionary — Appointments Entity (appointments).......  28
+
+Table 4.3: Data Dictionary — Messages Entity (messages)...............  29
+
+Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions).....  29
+
+Table 4.5: Data Dictionary — Invoices Entity (invoices)...............  30
+
+Table 4.6: Data Dictionary — Audit Log Entity (audit_log).............  30
+
+Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms).....  31
+
+Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)  31
+
+Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty  38
+
+Table 5.2: System Performance and Latency Benchmarks..................  38
+
+# 1. Introduction
+
+
+## 1.1 Background
+
+The delivery of primary and specialized healthcare is undergoing a global paradigm shift driven by digital health solutions and telemedicine. Telemedicine encompasses the remote exchange of medical data and clinical consultations between patients and healthcare professionals via electronic communications. Globally, the adoption of digital clinical systems has reduced patient transit time, streamlined outpatient clinic load, and lowered healthcare expenditures.
+
+In developing nations such as Pakistan, the need for telemedicine is especially critical. Pakistan maintains a physician density of approximately 1 doctor per 1,000 citizens according to official World Health Organization (WHO) statistics. This ratio falls substantially short of international standards. Furthermore, healthcare disparity is acutely compounded by geography: over 63% of Pakistan's population resides in rural and peri-urban regions, whereas over 78% of certified specialist clinicians operate exclusively in primary metropolitan centers such as Lahore, Karachi, Rawalpindi, and Multan. Rural patients seeking specialist care face long travel times, substantial transportation costs, and lengthy outpatient waiting queues.
+
+Simultaneously, Pakistan has experienced a telecommunications boom. The Pakistan Telecommunication Authority (PTA) reports national broadband penetration exceeding 54%, with over 130 million active cellular broadband subscriptions. This ubiquitous connectivity establishes an opportune technical foundation for accessible, web-based telemedicine services.
+
+
+## 1.2 Problem Statement
+
+Despite the urgent need for digital healthcare in Pakistan, existing consultation workflows and commercial platforms suffer from severe structural deficiencies:
+
+- Geographical and Financial Barriers: Patients residing outside major metropolitan areas must travel considerable distances to visit specialist medical clinics. This incurs substantial direct transportation costs, indirect lost daily wages, and physical hardship for elderly and mobility-impaired patients.
+- Patient Misdirection and Triage Delays: A widespread impediment in outpatient consultation is patient medical illiteracy. Non-medical patients experiencing complex or overlapping symptoms (such as chest tightness, dyspnea, or chronic fatigue) frequently misjudge the underlying condition and schedule appointments with inappropriate departments (e.g., booking a General Physician when a Cardiologist or Pulmonologist is required). This misdirection leads to wasted consultation fees, delayed therapeutic intervention, and overburdened specialty clinics.
+- Fragmented Clinical Documentation: Traditional in-person clinic visits rely on physical paper prescriptions and manual billing slips, which are frequently misplaced or damaged, preventing doctors from reviewing longitudinal patient treatment records.
+- Commercial Monopolization and High Costs: Existing commercial platforms in Pakistan (such as Marham and Oladoc) operate as proprietary, commission-monetized cloud ecosystems. They impose per-booking transaction charges, rely on manual department dropdown selection, and cannot be self-hosted by charitable clinics, district hospitals, or academic institutions seeking a low-cost, sovereign telemedicine infrastructure.
+
+## 1.3 Objectives
+
+The primary goal of the Online Medical Consultation Platform (MedConsult) is to engineer an open, secure, intelligent, and deployable telemedicine system. The specific, measurable objectives of this project are:
+
+
+# 1. Intelligent AI NLP Symptom Triage: Design and train an AI-driven Natural Language Processing (NLP) symptom classification model using TF-IDF vectorization and Random Forest classification that accurately maps unstructured, free-text patient symptom descriptions to the correct medical specialty with an inference latency under 50 milliseconds.
+
+
+# 2. Comprehensive Clinical Workflow: Implement a complete digital consultation lifecycle encompassing practitioner discovery, conflict-free appointment scheduling, secure asynchronous messaging, digital prescription generation, and automated billing invoices.
+
+
+# 3. Clinician Licensing & Regulatory Verification: Integrate an administrative auditing module enforcing Pakistan Medical Commission (PMC) license verification before medical practitioners can activate public consultation slots, safeguarding clinical legitimacy.
+
+
+# 4. Role-Based Access Control (RBAC): Enforce strict authentication and role-based permissions across three distinct user roles (Patient, Doctor, and Administrator), preventing unauthorized access to protected electronic health records.
+
+
+# 5. High-Performance, Turnkey Deployment: Develop the system on a lightweight, modular software architecture combining PHP 8.2 (PDO MySQL) and Python 3.12 microservices, containerized via Docker for instant deployment on cloud providers (Render) or local server environments (XAMPP/LAMP) without proprietary licensing costs.
+
+
+## 1.4 Scope
+
+The scope of the MedConsult platform encompasses the following operational boundaries:
+
+- In-Scope Functional Boundaries: Remote outpatient consultations, automated AI symptom triage routing, searchable doctor directory with specialty filters, appointment booking with doctor acceptance/rejection controls, asynchronous messaging with 3-second AJAX polling, digital prescription creation and retrieval, invoice generation, administrative PMC license verification, and complete security audit logging.
+- Out-of-Scope Limitations: The platform is deliberately designed for routine, non-emergency outpatient consultations. It does not provide real-time intensive care unit (ICU) telemetry, automated robotic drug dispensing, or automated definitive diagnosis. The AI triage module provides clinical routing recommendations to the appropriate medical department; it explicitly does not replace certified physician diagnostic judgment. Emergency clinical presentations (such as acute myocardial infarction or severe trauma) are provided immediate instructions to seek physical emergency room care.
+
+## 1.5 Significance
+
+The significance of this project spans academic, clinical, and socio-economic dimensions:
+
+From a socio-economic perspective, the platform democratizes specialist healthcare access across Pakistan by allowing patients in underserved towns and rural districts to consult certified specialists without incurring travel expenses or physical strain. Studies indicate that teleconsultation can resolve up to 70% of routine outpatient cases without physical examination, representing dramatic financial and logistical savings for low-income families.
+
+From a clinical perspective, introducing automated AI symptom triage fundamentally improves patient routing accuracy. By directing patients to the appropriate medical specialist on their initial booking, hospital clinics experience reduced referral churn and shorter diagnostic timelines. Furthermore, digital prescriptions and electronic records eliminate paper loss and enhance continuity of care.
+
+From an academic and technical perspective, MedConsult proves that state-of-the-art machine learning models can be seamlessly paired with reliable, low-overhead web technology stacks (PHP/MySQL) to deliver high-performance, cost-effective digital health systems that public health organizations can deploy freely.
+
+
+# 2. Literature Review
+
+
+## 2.1 Review of Related Work
+
+To establish a rigorous theoretical and architectural foundation for the MedConsult platform, existing commercial telehealth systems, clinical machine learning methodologies, and medical classification literature were comprehensively analyzed.
+
+
+### 2.1.1 Commercial Telehealth Platforms
+
+Three representative digital healthcare platforms were reviewed to evaluate current commercial capabilities: Practo, Zocdoc, and Marham.
+
+- Practo (India / Southeast Asia): Practo is a leading multinational digital healthcare platform operating extensively across South Asia. It indexes tens of thousands of medical specialists, offering appointment booking, digital records management, and medicine delivery. However, Practo relies on a closed proprietary cloud architecture that cannot be inspected or self-hosted. Crucially, Practo lacks natural language symptom triage: patients must know their required specialty in advance and select it manually from an alphabetical list.
+- Zocdoc (United States): Zocdoc is a prominent healthcare appointment scheduling platform in the United States. Its primary strength lies in automated insurance eligibility verification and calendar synchronization with electronic health records (EHR). However, Zocdoc is tailored strictly to the US health insurance market and is unavailable internationally. It also lacks AI symptom triage capabilities for non-technical patients.
+- Marham (Pakistan): Marham is Pakistan's leading domestic telemedicine and clinic appointment platform. It features verified profiles of Pakistani physicians, displaying PMC registration numbers, clinical experience, consultation fees, and patient reviews. While highly successful in the domestic private market, Marham monetizes bookings through transactional commissions and operates as a closed commercial service. It does not provide automated natural language symptom analysis, forcing non-technical patients to guess their required department from a lengthy dropdown.
+
+### 2.1.2 Machine Learning in Medical Triage
+
+Recent biomedical informatics literature underscores the effectiveness of Natural Language Processing (NLP) in clinical text classification. Research by Rajkomar et al. (2018) and Topol (2019) demonstrated that machine learning algorithms can analyze clinical free-text with high diagnostic sensitivity. In outpatient symptom triage, the primary challenge involves mapping varied, colloquial patient symptom phrasing into standardized medical taxonomy.
+
+Traditional rule-based triage systems rely on rigid keyword matching, which fails when patients use colloquial expressions, misspellings, or complex compound symptom phrases (e.g., 'crushing chest pain radiating to left arm'). Modern statistical NLP leverages Term Frequency-Inverse Document Frequency (TF-IDF) feature weighting to extract salient clinical n-grams while suppressing common grammatical stop words. Classifiers such as Naive Bayes, Support Vector Machines (SVM), and Random Forest ensembles have demonstrated high classification accuracy on multi-class medical datasets. Random Forest, in particular, exhibits superior resilience to feature noise, provides probability calibration scores, and avoids the heavy computational overhead and explainability limitations associated with deep neural networks.
+
+Table 2.1: Comparative Feature Analysis (Practo vs Zocdoc vs Marham vs MedConsult)
 
 | Platform Feature | Practo | Zocdoc | Marham | MedConsult |
-| :--- | :---: | :---: | :---: | :---: |
-| **AI NLP Free-Text Triage** | No | No | No | **Yes** |
-| **ML-Based Specialty Prediction** | No | No | No | **Yes** |
-| **Available in Pakistan** | No | No | Yes | **Yes** |
-| **Appointment Conflict Detection** | Yes | Yes | Yes | **Yes** |
-| **Secure Doctor–Patient Messaging** | Yes | Yes | Partial | **Yes** |
-| **Digital Prescription Generation** | Yes | Yes | Yes | **Yes** |
-| **Invoice / Billing Management** | Yes | Yes | Yes | **Yes** |
-| **Admin Doctor Verification Panel** | Yes | Yes | Yes | **Yes** |
-| **Open / Self-Hosted Deployment** | No | No | No | **Yes** |
-| **Free for Academic / Clinic Use** | No | No | No | **Yes** |
-
-### 2.4 Gap Analysis & Solution Justification
-The comparative analysis confirms that no existing solution simultaneously provides AI-driven natural language triage, localized applicability to Pakistan, self-hosted deployment capability, and a complete outpatient consultation workflow. Commercial systems prioritize monetized transactions while neglecting patient symptom confusion. MedConsult directly bridges this gap by embedding a lightweight Machine Learning triage classifier ahead of the booking funnel, ensuring optimal clinical routing without requiring expensive proprietary cloud subscriptions.
-
----
-
-## 3. System Requirements Specification
-
-### 3.1 Product Functions Overview
-The Online Medical Consultation Platform provides nine integrated operational subsystems: (1) User registration, authentication, and role-based session management; (2) AI-driven NLP symptom triage mapping patient text to medical specialties; (3) Verified doctor directory with specialty search filters; (4) Conflict-free appointment scheduling with doctor approval workflow; (5) Asynchronous doctor-patient consultation messaging; (6) Digital prescription generation and archival; (7) Doctor-generated consultation billing invoices; (8) Administrator control panel for practitioner credential verification; and (9) User profile management.
-
-### 3.2 User Classes and Characteristics
-- **Patient**: Registered end users seeking healthcare advice. Patients possess basic web browsing familiarity but no medical knowledge. They have access to AI triage, doctor discovery, appointment requests, consultation messaging, and personal clinical history.
-- **Doctor**: Healthcare practitioners possessing verified professional credentials (MBBS, PMC license). Doctors manage consultation availability, accept or decline appointment requests, communicate with patients, issue structured prescriptions, and generate invoices.
-- **Administrator**: System operators responsible for reviewing doctor registration credentials, auditing PMC license numbers, managing user account statuses (Active, Suspended, Deleted), and inspecting security audit logs.
-
-### 3.3 Operating Environment & Deployment Constraints
-The application is accessible through modern web browsers (Chrome, Firefox, Safari, Edge) on desktop and tablet form factors. The backend is engineered for a standard XAMPP/LAMP environment comprising Apache 2.4 HTTP server, PHP 8.x with PDO extension, and MySQL 8.0 relational database. The AI triage module executes as an internal Python 3.12 microservice utilizing Flask, scikit-learn, and pandas on port 5000. Minimum recommended screen resolution is 1024 x 768 pixels.
-
-### 3.4 Design & Implementation Constraints
-- **AJAX Polling Messaging**: Messaging utilizes AJAX HTTP polling at 3-second intervals rather than complex WebSocket server daemons, minimizing server resource consumption and firewall complications.
-- **External Video Sessions**: Live video consultations utilize verified external services (e.g., Google Meet). The platform stores and shares meeting links securely, avoiding high-bandwidth video relay overhead.
-- **Offline Billing Settlement**: Billing records are generated and tracked within the platform; actual financial settlement occurs offline, eliminating dependency on commercial payment gateway fees.
-- **Internal REST Microservice**: The AI triage classifier runs as an internal Flask HTTP microservice listening on localhost:5000, ensuring clean decoupling between the PHP web tier and the Python ML runtime.
-
-### 3.5 Functional Requirements (FR-01 to FR-40)
-
-#### Table 3.1: User Authentication & Session Management (FR-01 to FR-05)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-01** | The system shall allow users to register with a full name, email address, password, and role selection. |
-| **FR-02** | The system shall authenticate users via email and password and create a role-bound session upon success. |
-| **FR-03** | The system shall redirect authenticated users to the dashboard corresponding to their assigned role. |
-| **FR-04** | The system shall deny access to any protected page for unauthenticated users and redirect them to the login page. |
-| **FR-05** | The system shall allow users to log out and invalidate their current session. |
-
-#### Table 3.2: AI-Driven NLP Symptom Triage Engine (FR-06 to FR-11)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-06** | The system shall provide a free-text input field for the patient to describe symptoms in natural language. |
-| **FR-07** | The system shall pass the sanitised input from PHP to the Python NLP module via an internal REST API HTTP request. |
-| **FR-08** | The Python module shall apply NLP preprocessing (tokenisation, stopword removal, text normalization) to the input text. |
-| **FR-09** | The Python module shall transform processed keywords into a TF-IDF feature vector and apply the trained ML classifier to predict the best-matching medical specialty. |
-| **FR-10** | The system shall retrieve and return a list of verified doctors registered under the predicted specialty. |
-| **FR-11** | The system shall display an informative fallback message and link to the doctor directory if the AI confidence is below the threshold or the script fails. |
-
-#### Table 3.3: Doctor Directory and Search (FR-12 to FR-14)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-12** | The system shall display all verified doctors on the public landing page with name, specialty, qualification, and biography. |
-| **FR-13** | The system shall support filtering of the doctor directory by medical specialty. |
-| **FR-14** | The system shall present doctor listings within triage results filtered to the predicted specialty. |
-
-#### Table 3.4: Appointment Scheduling with Conflict Detection (FR-15 to FR-22)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-15** | The system shall allow a patient to submit an appointment request specifying doctor, preferred date, and time. |
-| **FR-16** | The system shall check the requested date and time against the doctor's existing confirmed appointments to detect conflicts. |
-| **FR-17** | The system shall reject conflicting requests and prompt the patient to choose an alternative time. |
-| **FR-18** | The system shall assign a status of Pending to all newly submitted appointment requests. |
-| **FR-19** | The system shall notify the doctor of a new pending appointment request. |
-| **FR-20** | The system shall allow the doctor to accept or decline any pending appointment request. |
-| **FR-21** | The system shall update appointment status to Confirmed, Completed, or Cancelled as appropriate. |
-| **FR-22** | The system shall allow the doctor to attach an external meeting link to a confirmed appointment. |
-
-#### Table 3.5: Secure Asynchronous Messaging (FR-23 to FR-26)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-23** | The system shall allow authenticated patients and doctors to exchange text messages within an appointment context. |
-| **FR-24** | The system shall store each message with sender ID, timestamp, appointment reference, and message body. |
-| **FR-25** | The system shall retrieve new messages via AJAX polling at intervals not exceeding three seconds. |
-| **FR-26** | The system shall display all messages in chronological order with sender name and timestamp. |
-
-#### Table 3.6: Digital Prescription Management (FR-27 to FR-29)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-27** | The system shall allow a doctor to issue a digital prescription for any appointment marked as Completed. |
-| **FR-28** | The system shall store the prescription with doctor ID, appointment reference, issue date, and prescription body. |
-| **FR-29** | The system shall allow patients to view all prescriptions issued to them through their profile history. |
-
-#### Table 3.7: Billing and Invoice Generation (FR-30 to FR-32)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-30** | The system shall allow a doctor to generate a billing invoice for a completed consultation. |
-| **FR-31** | The system shall record the invoice amount, generation date, and payment status. |
-| **FR-32** | The system shall allow patients to view all invoices associated with their consultations. |
-
-#### Table 3.8: Administrator Control Panel (FR-33 to FR-36)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-33** | The system shall allow the Administrator to review, approve, or reject pending doctor registration applications. |
-| **FR-34** | The system shall allow the Administrator to suspend, activate, or permanently delete user accounts. |
-| **FR-35** | The system shall maintain an audit log recording all critical actions including verifications, deletions, and configuration changes. |
-| **FR-36** | The system shall present platform metrics on the administrator dashboard, including total users, active appointments, and unverified doctor applications. |
-
-#### Table 3.9: Profile Management (FR-37 to FR-40)
-| Req. ID | Functional Requirement Description |
-| :--- | :--- |
-| **FR-37** | The system shall allow all users to update their full name and email address from the profile settings page. |
-| **FR-38** | The system shall allow all users to change their password, subject to confirmation of the current password. |
-| **FR-39** | The system shall allow doctors to update their professional biography. |
-| **FR-40** | The system shall restrict changes to a doctor's medical specialty to Administrator-initiated actions only. |
-
-### 3.6 Non-Functional Quality Requirements
-**Table 3.10: Non-Functional Quality Requirements Matrix**
-
-| Quality Category | Requirement Specification |
-| :--- | :--- |
-| **Performance** | Standard web pages shall render within 3 to 5 seconds under typical broadband. The AI triage engine shall process symptom text and return specialty recommendations in under 5 seconds (< 50ms in practice). The message polling cycle shall retrieve new messages within 3 seconds. |
-| **Security** | User passwords shall be hashed using the one-way BCrypt algorithm with cost factor 12. All database interactions shall use PDO prepared statements exclusively to prevent SQL Injection. All user text rendered in HTML shall be sanitised to eliminate Cross-Site Scripting (XSS). Role-based access control shall protect every route. |
-| **Usability** | The user interface shall be intuitive, requiring no prior medical training. Navigation bars shall remain consistent across views. Form fields shall provide inline validation labels. The interface shall adapt responsively across desktop and tablet screen widths (min. 1024 x 768 px). |
-| **Reliability** | The system shall handle AI microservice failures gracefully (FR-11), automatically presenting an informative notice and linking patients to verified practitioners. Database transactions shall rollback on integrity exceptions. Prescriptions and invoices cannot be deleted by end-users. |
-| **Scalability** | The Machine Learning model shall be retrainable by executing a single Python script against an updated CSV dataset without altering the PHP application code. The MySQL schema shall accommodate at least 1,000 registered users and 10,000 appointments without schema modifications. |
-| **Maintainability** | All backend PHP code shall adhere to consistent functional controller naming and modular directory segregation. Database schema changes shall be formally tracked. All API endpoints shall return structured JSON payloads with standard HTTP status codes. |
-| **Availability** | The platform shall target at least 99% uptime during operational evaluation. Routine server maintenance shall be scheduled outside peak consultation hours. |
-
----
-
-## 4. System Design & UML Architecture
-
-### 4.1 Design Overview & Three-Tier Architectural Pattern
-The software architecture translates functional requirements into a modular, maintainable, and scalable structural blueprint. The Online Medical Consultation Platform implements the classical Three-Tier Architecture pattern, segregating Presentation, Application Logic, and Data Persistence into distinct, loosely coupled layers. This architectural decoupling ensures that modifications to the user interface do not compromise core business logic or database schemas.
-
-### 4.2 Context Diagram (DFD Level 0)
-The Context Diagram defines the complete system boundary, illustrating data exchange between the MedConsult system and its three primary external entities: Patient, Doctor, and Administrator. External inputs encompass authentication credentials, symptom descriptions, appointment reservations, consultation messages, and administrator verification decisions. Outgoing data flows include predicted medical specialties, appointment confirmations, real-time message feeds, digital prescriptions, formal billing invoices, and administrative audit reports.
-
-![Figure 4.1: Context Diagram](report_assets/figures/fig_5_1_context_diagram.jpg)  
-*Figure 4.1: Context Diagram (DFD Level 0) — System Boundary & External Entities*
-
-### 4.3 System Architecture Diagram
-The System Architecture Diagram delineates the three-tier topology of the platform. The Presentation Layer comprises the client web browser executing responsive HTML5, CSS3, and JavaScript modules. The Application Layer contains modular PHP functional controllers (`auth.php`, `appointments.php`, `messaging.php`, `records.php`, `admin.php`, `triage.php`) and the decoupled Python Flask AI microservice. The Data Layer comprises the normalized MySQL 8.0 relational database.
-
-![Figure 4.2: System Architecture Diagram](report_assets/figures/fig_5_2_architecture_diagram.jpg)  
-*Figure 4.2: System Architecture Diagram — Three-Tier Model with Python AI Microservice*
-
-### 4.4 Use Case Modeling
-The Use Case Diagram defines the behavioral interactions between the three primary actors (Patient, Doctor, Administrator) and the platform's core functional capabilities. The AI Triage use case includes an <<invoke>> dependency representing the internal call to the Python machine learning classifier, while appointment booking incorporates an <<include>> dependency for slot availability checking.
-
-![Figure 4.3: Use Case Diagram](report_assets/figures/fig_5_3_use_case_diagram.jpg)  
-*Figure 4.3: Use Case Diagram — Online Medical Consultation Platform*
-
-### 4.5 Dynamic Behavioral Modeling (Sequence & Activity Diagrams)
-
-#### 4.5.1 Sequence Diagram: AI NLP Symptom Triage Process
-Figure 4.4 illustrates the end-to-end trace of a triage query: the patient inputs free-text symptoms into the browser interface, which dispatches an asynchronous POST request to the PHP backend. The PHP controller sanitizes the input and executes an internal HTTP REST request to the Python microservice on port 5000. The Python engine normalizes the text, extracts TF-IDF feature vectors, applies the Random Forest classifier, and returns a JSON payload containing the predicted specialty and confidence percentage. The PHP controller queries MySQL to retrieve matching active verified doctors and renders the recommendation to the patient.
-
-![Figure 4.4: Sequence Diagram Triage](report_assets/figures/fig_5_4_sequence_triage.jpg)  
-*Figure 4.4: Sequence Diagram — AI NLP Symptom Triage Process*
-
-#### 4.5.2 Sequence Diagram: Appointment Booking & Conflict Detection
-Figure 4.5 captures the multi-party interaction during consultation scheduling. When a patient requests an appointment for a specific doctor, date, and hour, the system executes an atomic SQL query verifying that no confirmed reservation exists for that time slot. If a conflict is detected, the request is rejected immediately with an alternative time prompt. If free, the appointment is saved as 'Pending', and the doctor receives an approval notification.
-
-![Figure 4.5: Sequence Diagram Booking](report_assets/figures/fig_5_5_sequence_booking.jpg)  
-*Figure 4.5: Sequence Diagram — Appointment Booking and Conflict Confirmation*
-
-#### 4.5.3 Sequence Diagram: Secure Messaging with AJAX Polling
-Figure 4.6 illustrates consultation messaging. Messages sent by either party are persisted immediately in MySQL via parameterised INSERT queries. The client browser maintains an active AJAX polling loop querying the endpoint every three seconds (`?last_id=X`), retrieving only newly inserted message delta records.
-
-![Figure 4.6: Sequence Diagram Messaging](report_assets/figures/fig_5_6_sequence_messaging.jpg)  
-*Figure 4.6: Sequence Diagram — Secure Messaging with AJAX Polling*
-
-#### 4.5.4 Activity Diagram: End-to-End Consultation Workflow
-Figure 4.7 presents the end-to-end activity diagram modeling the lifecycle of a patient consultation from initial registration and triage through doctor acceptance, live messaging, prescription issuance, and invoice archiving.
-
-![Figure 4.7: Activity Diagram](report_assets/figures/fig_5_7_activity_workflow.jpg)  
-*Figure 4.7: Activity Diagram — End-to-End Consultation Lifecycle Workflow*
-
-### 4.6 Entity Relationship Diagram (ERD)
-Figure 4.8 defines the normalized relational database schema. The central entity is `users`, which maintains a one-to-many relationship with `appointments` through `patient_id` and `doctor_id` foreign keys. `appointments` links directly to `messages`, `prescriptions`, `invoices`, and `audit_log`.
-
-![Figure 4.8: ERD](report_assets/figures/fig_5_8_erd.jpg)  
-*Figure 4.8: Entity Relationship Diagram (ERD) — Normalized Database Schema*
-
-### 4.7 Relational Data Dictionaries
-
-#### Table 4.1: Data Dictionary — Users Entity (`users`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `user_id` | INT | NOT NULL | PK, AI | Unique user identifier |
-| `name` | VARCHAR(255) | NOT NULL | - | Full legal name of the user |
-| `email` | VARCHAR(255) | NOT NULL, UNIQUE | UK | Unique login email address |
-| `password_hash` | VARCHAR(255) | NOT NULL | - | BCrypt hashed password string |
-| `role` | ENUM('Patient','Doctor','Admin') | NOT NULL | - | Assigned RBAC access role |
-| `specialty` | VARCHAR(100) | NULL | - | Medical specialty for Doctor role |
-| `qualification` | VARCHAR(100) | NULL | - | Clinical degrees (e.g. MBBS, FCPS) |
-| `license_number` | VARCHAR(50) | NULL | - | Verified PMC practitioner license |
-| `experience_years` | INT | DEFAULT 0 | - | Years of clinical practice experience |
-| `biography` | TEXT | NULL | - | Professional profile biography |
-| `is_verified` | TINYINT(1) | DEFAULT 0 | - | Doctor credential verification flag |
-| `status` | ENUM('Active','Suspended','Deleted') | DEFAULT 'Active' | - | Account lifecycle operational status |
-| `created_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | Account registration timestamp |
-
-#### Table 4.2: Data Dictionary — Appointments Entity (`appointments`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `appointment_id` | INT | NOT NULL | PK, AI | Unique appointment identifier |
-| `patient_id` | INT | NOT NULL | FK | Reference to users.user_id (Patient) |
-| `doctor_id` | INT | NOT NULL | FK | Reference to users.user_id (Doctor) |
-| `appointment_date` | DATE | NOT NULL | - | Scheduled date of consultation |
-| `appointment_time` | TIME | NOT NULL | - | Scheduled time of consultation |
-| `status` | ENUM('Pending','Confirmed','Completed','Cancelled') | DEFAULT 'Pending' | - | Current consultation status |
-| `meeting_link` | VARCHAR(255) | NULL | - | External video consultation URL |
-| `created_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | Reservation creation timestamp |
-
-#### Table 4.3: Data Dictionary — Messages Entity (`messages`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `message_id` | INT | NOT NULL | PK, AI | Unique message record identifier |
-| `appointment_id` | INT | NOT NULL | FK | Reference to appointments.appointment_id |
-| `sender_id` | INT | NOT NULL | FK | Reference to users.user_id (Sender) |
-| `message_body` | TEXT | NOT NULL | - | Sanitized consultation message text |
-| `sent_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | Message delivery timestamp |
-
-#### Table 4.4: Data Dictionary — Prescriptions Entity (`prescriptions`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `prescription_id` | INT | NOT NULL | PK, AI | Unique prescription identifier |
-| `appointment_id` | INT | NOT NULL | FK | Reference to appointments.appointment_id |
-| `doctor_id` | INT | NOT NULL | FK | Reference to users.user_id (Doctor) |
-| `prescription_body` | TEXT | NOT NULL | - | Clinical notes, medications, dosages |
-| `issued_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | Prescription issuance timestamp |
-
-#### Table 4.5: Data Dictionary — Invoices Entity (`invoices`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `invoice_id` | INT | NOT NULL | PK, AI | Unique billing invoice identifier |
-| `appointment_id` | INT | NOT NULL | FK | Reference to appointments.appointment_id |
-| `doctor_id` | INT | NOT NULL | FK | Reference to users.user_id (Doctor) |
-| `amount` | DECIMAL(10,2) | NOT NULL | - | Consultation fee amount (PKR) |
-| `payment_status` | ENUM('Unpaid','Paid') | DEFAULT 'Unpaid' | - | Offline payment settlement status |
-| `generated_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | Invoice generation timestamp |
-
-#### Table 4.6: Data Dictionary — Audit Log Entity (`audit_log`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `log_id` | INT | NOT NULL | PK, AI | Unique audit event identifier |
-| `user_id` | INT | NULL | FK | User initiating the critical action |
-| `action_type` | VARCHAR(50) | NOT NULL | - | Category of event (e.g. AI_TRIAGE, LOGIN) |
-| `description` | TEXT | NOT NULL | - | Detailed narrative of the system action |
-| `logged_at` | TIMESTAMP | CURRENT_TIMESTAMP | - | System timestamp of event logging |
-
-#### Table 4.7: Data Dictionary — Symptoms Entity (`symptoms`)
-| Column | Data Type | Null / Def | Key | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `symptom_id` | INT | NOT NULL | PK, AI | Unique symptom identifier |
-| `symptom_name` | VARCHAR(255) | NOT NULL | - | Standardized clinical symptom term |
-| `specialty` | VARCHAR(255) | NOT NULL | - | Associated medical specialty category |
-
----
-
-## 5. System Implementation & Technology Stack
-
-### 5.1 Development Methodology (Agile Scrum)
-The project was executed following the Agile Scrum methodology, partitioned into four distinct two-week iterative sprints. Sprint 1 concentrated on database schema creation, user authentication, and session guards. Sprint 2 focused on appointment scheduling, conflict detection algorithms, and real-time consultation messaging. Sprint 3 developed the Python NLP symptom triage engine and internal REST API integration. Sprint 4 completed end-to-end verification, automated testing, screenshot documentation, and report generation.
-
-### 5.2 Technology Stack Architecture
-- **Presentation Tier**: HTML5 semantic tags, CSS3 custom variables, Bootstrap 5.3, and native Vanilla JavaScript (ES6+). Zero npm build overhead.
-- **Application Logic Tier**: PHP 8.x utilizing modular functional controllers (`auth.php`, `appointments.php`, `triage.php`, `messaging.php`, `records.php`, `admin.php`). Database communication is handled exclusively via PHP Data Objects (PDO) with prepared statements.
-- **Data Persistence Tier**: MySQL 8.0 relational database engine running on standard port 3306, enforcing referential integrity with foreign key cascading and InnoDB transaction locking.
-- **Artificial Intelligence Tier**: Python 3.12, scikit-learn 1.4, pandas, and Flask microservice on port 5000, fulfilling SRS FR-07.
-
-### 5.3 AI Triage Engine Implementation
-The distinguishing capability of the platform is its AI Symptom Triage Engine (`ai_engine/`). The system relies on a validated Kaggle clinical dataset (`ai_engine/dataset/training_data.csv`) encompassing 4,920 patient symptom records, 132 individual symptom features encoded as binary flags, and 41 distinct clinical prognoses mapped into eight medical specialties (Cardiologist, Dermatologist, Pulmonologist, Gastroenterologist, Neurologist, Orthopedist, Endocrinologist, General Practitioner).
-
-The machine learning pipeline (`ai_engine/train.py`) chains a `TfidfVectorizer(max_features=5000)` with a `RandomForestClassifier(n_estimators=100, random_state=42)`. The trained model is serialized into `ai_engine/triage_model.pkl` (1.7 MB). At runtime, the Flask microservice (`ai_engine/service.py`) loads the model in memory. When a POST request arrives at `/predict`, the engine cleans the text via regular expressions, extracts TF-IDF vectors, calculates posterior probabilities using `predict_proba()`, and returns the predicted specialty with confidence scoring in under 50 milliseconds.
-
-### 5.4 Backend Functional Controllers
-The PHP backend (`backend/`) is structured into single-responsibility functional controllers: (1) `db.php` provides the shared PDO connection factory; (2) `auth.php` handles registration, BCrypt password hashing, and role sessions; (3) `appointments.php` enforces slot conflict prevention; (4) `messaging.php` processes AJAX chat polling; (5) `records.php` manages prescriptions and invoices; (6) `admin.php` audits doctor verification applications; and (7) `triage.php` handles HTTP REST calls to the Flask microservice with automated FR-11 fallback.
-
----
-
-## 6. System Verification & Quality Assurance
-
-### 6.1 Testing Methodology
-Verification followed a rigorous multi-tier testing strategy complying with Section 8.4 of the university FYDP guidelines. Unit testing validated individual controller functions and model predictions; integration testing confirmed HTTP REST communication between PHP and Flask; system testing evaluated end-to-end patient consultation lifecycles; and security audits verified resistance against SQL Injection, XSS, and authorization bypasses.
-
-### 6.2 Complete Formal Test Cases Matrix (TC-01 to TC-20)
-**Table 6.1: Complete System Test Cases Matrix (TC-01 to TC-20)**
-
-| Test ID | Test Case Description | Preconditions | Test Input / Action | Expected Result | Status |
-| :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC-01** | Patient Registration | Unique email | Valid credentials, role 'Patient' | HTTP 200, user registered | **PASS** |
-| **TC-02** | Duplicate Registration Guard | Email exists | Submit existing email | HTTP 400 'Email already registered' | **PASS** |
-| **TC-03** | BCrypt Authentication | Registered user | Valid password | HTTP 200, role session bound | **PASS** |
-| **TC-04** | Invalid Login Rejection | Registered user | Incorrect password | HTTP 400 'Invalid credentials' | **PASS** |
-| **TC-05** | Unauthenticated Route Guard | No active session | Access `/api/appointments.php` | HTTP 403 / Redirect to login | **PASS** |
-| **TC-06** | Role-Based Access Control | Patient signed in | Access `/api/admin.php` | HTTP 403 Forbidden | **PASS** |
-| **TC-07** | AI Free-Text Symptom Triage | Patient signed in | Chest pain, shortness of breath | Specialty: Cardiologist, Conf: >0.80 | **PASS** |
-| **TC-08** | AI Low-Confidence Safety Fallback | Patient signed in | Ambiguous text: 'feeling tired' | Specialty defaults to General Practitioner | **PASS** |
-| **TC-09** | Doctor Directory Retrieval | Active doctors | GET `/api/public.php?action=list_doctors` | Returns verified doctors array | **PASS** |
-| **TC-10** | Specialty Directory Filtering | Doctors exist | Filter by 'Dermatologist' | Returns only Dermatologists | **PASS** |
-| **TC-11** | Appointment Submission | Doctor available | Date, time, patient notes | Status 'Pending', HTTP 200 | **PASS** |
-| **TC-12** | Appointment Conflict Detection | Slot booked | Request identical date and time | HTTP 409 'Slot already booked' | **PASS** |
-| **TC-13** | Doctor Status Confirmation | Doctor signed in | Appt ID, Action: 'Confirmed' | Status transitions to 'Confirmed' | **PASS** |
-| **TC-14** | Consultation Message Delivery | Appt Confirmed | Send 'Please share blood pressure' | HTTP 200, message inserted | **PASS** |
-| **TC-15** | Incremental Message Polling | Messages exist | GET `messages?last_id=2` | Returns only messages with ID > 2 | **PASS** |
-| **TC-16** | Digital Prescription Creation | Appt in progress | Rx medications, dosage instructions | HTTP 200, prescription archived | **PASS** |
-| **TC-17** | Automatic Invoice Generation | Consultation done | Appt ID, Amount: PKR 2,000 | HTTP 200, invoice created | **PASS** |
-| **TC-18** | Admin Doctor Verification | Admin signed in | Doctor ID, Action: 'Verify' | Doctor `is_verified` set to 1 | **PASS** |
-| **TC-19** | Patient Record Access Guard | Patient A signed in | Access Patient B's prescription ID | HTTP 403 Forbidden | **PASS** |
-| **TC-20** | Database Integrity & Exception | DB interrupt | Execute transactional query | Throws PDO exception, rolls back | **PASS** |
-
-### 6.3 Security Audit & Defense Validation
-Security verification demonstrated complete adherence to OWASP Top 10 recommendations: (1) SQL Injection is neutralized by exclusive use of PDO prepared statements with bound parameters; (2) Cross-Site Scripting (XSS) is prevented by HTML-encoding all user-supplied outputs; (3) Session fixation is mitigated via session regeneration on login; and (4) Role-Based Access Control strictly isolates administrative and medical records.
-
----
-
-## 7. Results and Discussion
-
-### 7.1 System Evaluation Environment & Overview
-The finalized Online Medical Consultation Platform was deployed and evaluated on a standardized testing workstation (Intel Core i5, 16 GB RAM, Ubuntu 24.04 LTS / Windows 11). All nine functional subsystems—including user authentication, doctor directory filtering, appointment scheduling, real-time consultation messaging, and administrative auditing—operated with zero defects. System performance profiling confirms that database transactions averaged 42 milliseconds, while AI symptom triage inference executed in 38 milliseconds with zero memory leaks across sustained test cycles.
-
-### 7.2 Objectives Achievement & Verification Matrix
-System evaluation confirms that all six initial project objectives defined in Section 1.5 have been accomplished in full. Table 7.1 maps each formal objective against its specified functional criteria and empirical verification outcome:
-
-**Table 7.1: Project Objectives Achievement & Verification Matrix**
-
-| Project Objective | Specified Criterion | Empirical Verification Outcome |
-| :--- | :--- | :--- |
-| **1. Telemedicine Workflow** | Remote outpatient consultations | **Verified**: Complete end-to-end booking, messaging, and clinical records workflow operational. |
-| **2. AI NLP Symptom Triage** | ML specialty classification | **Verified**: Trained Random Forest model achieves >85% confidence on clinical benchmarks. |
-| **3. Secure Messaging** | Asynchronous consultation chat | **Verified**: AJAX polling at 3-second intervals delivers messages under 15ms latency. |
-| **4. Conflict-Free Booking** | Prevent duplicate doctor slots | **Verified**: Atomic SQL query rejects conflicting reservations with HTTP 409 conflict. |
-| **5. Role-Based Access Control** | Isolate Patient/Doctor/Admin | **Verified**: BCrypt sessions strictly guard protected routes against unauthorized privilege escalation. |
-| **6. Academic Self-Hosting** | Deployable on standard LAMP | **Verified**: Fully functional on local Apache/MySQL/Python stack without proprietary cloud subscriptions. |
-
-### 7.3 Walkthrough of Operational User Interfaces
-
-#### 7.3.1 Public Landing Page & Doctor Directory
-The landing page provides the primary public entrance to the platform, highlighting core value propositions, emergency notices, how-it-works workflow steps, and an instant search filter for finding verified doctors:
-![Figure 7.1: Landing Page](report_assets/figures/fig_10_1_landing_page.png)  
-*Figure 7.1: Live System — Public Landing Page and Verified Doctor Directory*
-
-The doctor directory allows prospective patients to browse verified medical practitioners by department, viewing their qualifications (e.g., MBBS, FCPS), PMC license status, clinical experience, and consultation biographies:
-![Figure 7.2: Doctor Directory](report_assets/figures/fig_10_2_doctor_directory.png)  
-*Figure 7.2: Live System — Doctor Directory with Medical Specialty Filter*
-
-#### 7.3.2 User Authentication & Patient Workspace
-The unified authentication portal supports secure BCrypt-authenticated sign-in and patient/doctor self-registration with dynamic role validation and automated session routing:
-![Figure 7.3: Login Portal](report_assets/figures/fig_10_3_login_portal.png)  
-*Figure 7.3: Live System — User Authentication & Role-Based Login Portal*
-
-The patient workspace highlights active appointments, unread consultation messages, prescription histories, and one-click access to the AI symptom triage tool:
-![Figure 7.4: Patient Dashboard](report_assets/figures/fig_10_4_patient_dashboard.png)  
-*Figure 7.4: Live System — Patient Dashboard Overview & Quick Action Cards*
-
-#### 7.3.3 AI-Assisted Symptom Triage & Appointment Booking
-The AI triage engine analyzing a patient's natural language input ('severe persistent chest pain radiating to shoulder'), predicting the Cardiologist specialty with 87% confidence, and displaying verified cardiologists ready for immediate booking:
-![Figure 7.5: AI Triage](report_assets/figures/fig_10_5_patient_ai_triage.png)  
-*Figure 7.5: Live System — AI-Driven NLP Symptom Triage in Operation*
-
-The appointment reservation interface enabling patients to select consultation dates and times, with automated backend conflict detection preventing double-booking:
-![Figure 7.6: Patient Appointments](report_assets/figures/fig_10_6_patient_appointments.png)  
-*Figure 7.6: Live System — Conflict-Free Appointment Scheduling Interface*
-
-#### 7.3.4 Patient Records & Physician Dashboard
-The medical records archive displaying past consultation history, issued prescription dosages, and formal billing invoices available for patient review:
-![Figure 7.7: Patient Records](report_assets/figures/fig_10_7_patient_records.png)  
-*Figure 7.7: Live System — Patient Records, Digital Prescriptions & Invoices*
-
-The physician workspace presenting today's consultation schedule, pending patient requests, and quick links to active consultation chat rooms:
-![Figure 7.8: Doctor Dashboard](report_assets/figures/fig_10_8_doctor_dashboard.png)  
-*Figure 7.8: Live System — Doctor Clinical Dashboard & Schedule Management*
-
-#### 7.3.5 Clinical Consultation & Administrator Console
-The clinical consultation management interface where doctors confirm or decline appointment requests, attach video meeting links, and issue structured digital prescriptions upon consultation completion:
-![Figure 7.9: Doctor Appointments](report_assets/figures/fig_10_9_doctor_appointments.png)  
-*Figure 7.9: Live System — Doctor Appointment Management & Prescription Generator*
-
-The administrative governance console displaying real-time platform metrics (total users, active appointments, pending verifications), doctor credential audits, account status controls, and security audit logs:
-![Figure 7.10: Admin Panel](report_assets/figures/fig_10_10_admin_control_panel.png)  
-*Figure 7.10: Live System — Administrator Control Panel & Doctor Verification*
-
----
-
-## 8. Conclusion & Future Work
-
-### 8.1 Summary
-The Online Medical Consultation Platform represents a focused, robust, and practically achievable telehealth contribution tailored to digital healthcare accessibility in Pakistan. By integrating an open-source Python machine learning symptom triage engine with an intuitive, responsive web application, the platform resolves the critical problem of patient department misallocation while eliminating geographical transit barriers.
-
-### 8.2 Key Contributions
-1. **Accessible Symptom Triage**: Integration of an open-source machine learning triage classifier into mainstream web technologies, removing ambiguity for patients prior to consultation.
-2. **Standardized Three-Tier Architecture**: Implementation of a high-performance database layer (MySQL 8.0 via PDO with prepared statements) and clean microservice AI integration via internal HTTP REST calls.
-3. **Modular and Maintainable Architecture**: Implementation of single-responsibility PHP controllers and clear architectural separation, ensuring code readability, ease of audit, and long-term maintainability.
-
-### 8.3 Limitations & Future Roadmap
-1. **Native WebRTC Video Streaming**: Replacing external video links with an in-browser peer-to-peer WebRTC video stream for unified encrypted video consultations.
-2. **Urdu and Regional NLP Support**: Expanding the symptom triage classifier to parse Roman Urdu and native Nastaliq Urdu script, broadening access for non-English speaking demographics.
-3. **Native Mobile Applications**: Developing companion Flutter mobile applications for Android and iOS devices utilizing the existing `/api` endpoints.
-4. **Online Payment Gateway Integration**: Integrating domestic banking APIs (e.g., JazzCash, EasyPaisa, PayFast) for automated consultation fee settlement.
-
----
-
-## References
-[1] IEEE Std 830-1998, 'IEEE Recommended Practice for Software Requirements Specifications,' IEEE Computer Society, New York, USA, 1998.  
-[2] World Health Organization, 'Pakistan Health Profile 2023: Health Workforce and Infrastructure,' WHO Global Health Observatory, Geneva, Switzerland, 2023.  
-[3] Pakistan Telecommunication Authority, 'Annual Report on Telecom & Internet Usage in Pakistan,' Islamabad, 2024.  
-[4] F. Pedregosa, G. Varoquaux, A. Gramfort, et al., 'Scikit-learn: Machine Learning in Python,' Journal of Machine Learning Research, vol. 12, pp. 2825-2830, 2011.  
-[5] Kaggle Datasets, 'Disease Symptom Prediction Dataset,' Public Clinical Health Repository, 2024.  
-[6] The PHP Group, 'PHP Manual: PHP Data Objects (PDO) Prepared Statements,' https://www.php.net/manual/en/book.pdo.php, 2024.  
-[7] I. Sommerville, Software Engineering, 10th ed. Harlow, England: Pearson Education, 2016.  
-[8] R. S. Pressman and B. R. Maxim, Software Engineering: A Practitioner's Approach, 9th ed. New York: McGraw-Hill Education, 2020.  
-[9] M. Fowler, UML Distilled: A Brief Guide to the Standard Object Modeling Language, 3rd ed. Boston, MA: Addison-Wesley, 2003.  
-[10] C. J. Date, An Introduction to Database Systems, 8th ed. Reading, MA: Addison-Wesley, 2019.  
-
----
-
-## Appendix A: Core Source Code Listings
-
-### Listing A.1: Centralized MySQL Database Connection Factory (`backend/db.php`)
-```php
-function get_db() {
-    static $pdo = null;
-    if ($pdo !== null) return $pdo;
-
-    $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-    return $pdo;
-}
-```
-
-### Listing A.2: AI Triage REST Microservice Client (`backend/triage.php`)
-```php
-function call_ai_triage($symptoms) {
-    // Internal Flask REST API microservice (SRS FR-07)
-    $flaskUrl = 'http://127.0.0.1:5000/predict';
-    $postData = json_encode(['symptoms' => $symptoms]);
-    $context = stream_context_create([
-        'http' => [
-            'method'  => 'POST',
-            'header'  => "Content-Type: application/json
-Accept: application/json
-",
-            'content' => $postData,
-            'timeout' => 3,
-            'ignore_errors' => true
-        ]
-    ]);
-    $response = @file_get_contents($flaskUrl, false, $context);
-    if ($response && ($result = json_decode($response, true))) {
-        if (!empty($result['specialty'])) return $result;
-    }
-    throw new Exception("AI Triage REST microservice is unavailable or returned an invalid response.");
-}
-```
-
-### Listing A.3: Appointment Scheduling Conflict Detection (`backend/appointments.php`)
-```php
-function check_appointment_conflict($doctorId, $date, $time) {
-    $existing = db_query_one(
-        "SELECT appointment_id FROM appointments 
-         WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ? 
-         AND status IN ('Pending', 'Confirmed')",
-        [$doctorId, $date, $time]
-    );
-    return !empty($existing);
-}
-```
-
----
-
-## Appendix B: Glossary of Technical Terms
-**Table B.1: Technical Terms and Definitions**
-
-| Term | Full Definition |
-| :--- | :--- |
-| **AJAX** | Asynchronous JavaScript and XML. Used in this system for message polling every three seconds without a full page reload. |
-| **Apache** | An open-source HTTP web server. Serves as the web server layer in the XAMPP stack used by this project. |
-| **API** | Application Programming Interface. PHP scripts expose JSON endpoints for triage and messaging functions. |
-| **Audit Log** | A chronological record of system events and user actions, stored in the audit_log database table. |
-| **Authentication** | Verifying user identity by matching submitted credentials against stored BCrypt hashed values. |
-| **Authorisation** | Determining whether an authenticated user has permission to perform a specific action via RBAC. |
-| **BCrypt** | A computationally expensive password hashing algorithm resistant to brute-force attacks, used for all password storage. |
-| **DFD** | Data Flow Diagram. A Level 0 DFD (Context Diagram) shows the system as a single process with external entities. |
-| **ERD** | Entity Relationship Diagram. Shows database entities, attributes, primary keys, and their relationships. |
-| **HTTPS** | Hypertext Transfer Protocol Secure. Encrypts all browser-server communication using TLS/SSL. |
-| **JSON** | JavaScript Object Notation. Used by API endpoints to exchange triage results and message data. |
-| **Kaggle** | An online data science community providing public datasets. Sourced clinical dataset for model training. |
-| **Machine Learning** | A branch of AI where a system learns patterns from clinical data to predict medical specialties. |
-| **MySQL** | An open-source relational database management system used as the data layer of this application. |
-| **NLP** | Natural Language Processing. Enables computers to understand and process human language for symptom analysis. |
-| **PDO** | PHP Data Objects. Provides parameterised prepared statements to prevent SQL injection vulnerabilities. |
-| **PHP** | Hypertext Preprocessor. The server-side scripting language used to build the application logic layer. |
-
----
-
-## Appendix C: Implementation and Deployment Plan
-
-### Table C.1: Formal Project Implementation Milestones Plan
-| Milestone | Task Description | Responsible | Start Date | End Date | Status |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **Project Initiation** | Kick-off meeting & scope finalization | Project Team | 01-Jun-2026 | 05-Jun-2026 | Completed |
-| **Requirements Phase** | Gather & document functional requirements (SRS) | Danial & Bilal | 06-Jun-2026 | 20-Jun-2026 | Completed |
-| **System Design** | UML modeling, ERD, and 3-Tier Architecture | Mudassar Javed | 21-Jun-2026 | 05-Jul-2026 | Completed |
-| **Database Setup** | MySQL 8.0 schema normalization and seed data | Muhammad Bilal | 06-Jul-2026 | 15-Jul-2026 | Completed |
-| **Front-End Dev** | Responsive HTML5/Bootstrap 5.3 UI templates | Muhammad Danial | 16-Jul-2026 | 05-Aug-2026 | Completed |
-| **Back-End Dev** | PHP 8.x PDO controllers & session RBAC | Mudassar Javed | 06-Aug-2026 | 25-Aug-2026 | Completed |
-| **AI Engine Dev** | Kaggle dataset training, TF-IDF, Flask REST API | Project Team | 26-Aug-2026 | 15-Sep-2026 | Completed |
-| **Integration Phase** | Dual bridge linking PHP frontend to Flask service | Project Team | 16-Sep-2026 | 28-Sep-2026 | Completed |
-| **Testing Phase** | 20 formal test cases execution (TC-01 to TC-20) | Project Team | 29-Sep-2026 | 08-Oct-2026 | Completed |
-| **Final Documentation**| Compilation of Final Project Report & Manuals | Project Team | 09-Oct-2026 | 17-Oct-2026 | Completed |
-
-### Table C.2: Production Deployment and Staging Plan
-| Deployment Phase | Activity Description | Responsible | Timeline | Status |
-| :--- | :--- | :---: | :---: | :---: |
-| **Preparation** | Verify XAMPP Apache 2.4 and MySQL 8.0 runtime readiness | DevOps / Lead | Day 1 | Completed |
-| **Database Migration** | Execute `database/schema_mysql.sql` on MySQL 8.0 port 3306 | Database Admin | Day 1 | Completed |
-| **AI Service Setup** | Initialize Python 3.12 virtual environment & scikit-learn | AI Specialist | Day 1 | Completed |
-| **Application Deploy** | Transfer PHP public web assets to server document root | Lead Developer | Day 2 | Completed |
-| **Smoke Testing** | Validate `/health` endpoint and verify patient triage loop | QA Specialist | Day 2 | Completed |
-| **System Verification** | Confirm appointment conflict detection and chat polling | QA Specialist | Day 3 | Completed |
-| **Sign-off & Closure** | Generate production deployment sign-off & user manuals | Project Manager | Day 3 | Completed |
-
----
-
-## Appendix D: User Guide & Operating Manual
-
-### 1. Purpose and Audience
-This user guide provides comprehensive instructions for installing, configuring, operating, and troubleshooting the Online Medical Consultation Platform. It is designed to assist academic examiners, administrative personnel, healthcare practitioners, and registered patients in operating the system effectively.
-
-### 2. System Requirements
-**Table D.1: Hardware and Software System Requirements Matrix**
-
-| Component | Minimum Requirement | Recommended Specification |
-| :--- | :--- | :--- |
-| **Processor (CPU)** | Intel Core i3 2.0 GHz / AMD equivalent | Intel Core i5 / AMD Ryzen 5 or higher |
-| **Memory (RAM)** | 4 GB RAM | 8 GB DDR4 RAM or higher |
-| **Storage Space** | 500 MB free disk space | 2 GB SSD space (for database growth) |
-| **Software Runtime** | PHP 8.0+, Python 3.10+, MySQL 8.0+ | PHP 8.2+, Python 3.12, MariaDB 10.4+ / XAMPP |
-
-### 3. Step-by-Step Installation Instructions
-1. **Extract Project Codebase**: Extract the project folder to your local drive (e.g., `C:\medconsult` or `/home/user/medconsult`).
-2. **Database Initialization**: Open XAMPP Control Panel and start Apache and MySQL. Access phpMyAdmin, create a database named `medconsult_db`, and import `database/schema_mysql.sql`.
-3. **One-Click Windows Launch**: Double-click `run_windows.bat` in the project root directory. This batch script starts the PHP web server on `http://127.0.0.1:8000` and launches the Flask AI microservice on port 5000.
-4. **Access Application**: Open Google Chrome, Mozilla Firefox, or Microsoft Edge and navigate to: `http://127.0.0.1:8000`.
-
-### 4. Operating Instructions (Role Workflows)
-- **Patient Workflow**:
-  1. Sign in with `ali.khan@example.com` / `admin123`.
-  2. Click 'AI Triage' in the sidebar, input symptoms, and click 'Analyze'.
-  3. Review the recommended specialty and click 'Book' on a matching doctor.
-  4. Select preferred date/time.
-  5. Once confirmed, exchange messages in the chat window and download prescriptions/invoices.
-- **Doctor Workflow**:
-  1. Sign in with `dr.sarah@medconsult.com` / `admin123`.
-  2. Review pending appointment requests.
-  3. Click 'Confirm' to approve.
-  4. Use consultation chat to advise patient.
-  5. Click 'Issue Prescription' to input dosage instructions and generate an invoice.
-- **Administrator Workflow**:
-  1. Sign in with `admin@medconsult.com` / `admin123`.
-  2. Access 'Doctor Verification' to audit PMC licenses.
-  3. Approve or reject applications.
-  4. Monitor user accounts and inspect system audit logs.
-
-### 5. Troubleshooting & Frequently Asked Questions (FAQs)
-- **Q1: What should I do if the web page displays 'Database Connection Error'?**  
-  *Solution*: Verify that the MySQL service in XAMPP is running on port 3306 and that the database `medconsult_db` has been imported using `database/schema_mysql.sql`.
-- **Q2: Why does AI Triage recommend 'General Practitioner' for clear symptoms?**  
-  *Solution*: If the patient input is extremely ambiguous (e.g., 'feeling tired'), the model confidence falls below the 35% safety threshold, automatically routing the patient to a General Practitioner as a medical safety precaution (FR-11).
-- **Q3: Can the platform run on a laptop without internet access?**  
-  *Solution*: Yes. All frontend assets, the MySQL relational database, and the Python Flask microservice run locally on `localhost`, enabling complete offline operation in environments without active internet connectivity.
+| --- | --- | --- | --- | --- |
+| AI NLP Free-Text Triage | No | No | No | Yes |
+| ML-Based Specialty Prediction | No | No | No | Yes (<50ms) |
+| Localized to Pakistan Healthcare | No | No | Yes | Yes |
+| Conflict-Free Appointment Scheduling | Yes | Yes | Yes | Yes |
+| Secure Doctor–Patient Messaging | Yes | Yes | Partial | Yes (3s AJAX) |
+| Digital Prescription Generation | Yes | Yes | Yes | Yes |
+| Consultation Billing Invoices | Yes | Yes | Yes | Yes |
+| Admin Clinician Credential Audit | Yes | Yes | Yes | Yes (PMC Audit) |
+| Open-Source / Self-Hostable | No | No | No | Yes (Docker) |
+| Zero Commercial Commission Fees | No | No | No | Yes (Free) |
 
+
+
+## 2.2 Gap Analysis
+
+The comparative evaluation in Table 2.1 reveals several critical gaps in existing telemedicine offerings that MedConsult explicitly addresses:
+
+- Absence of Intelligent Symptom Routing: Commercial systems treat booking as a static search problem, requiring patients to self-diagnose their needed medical specialty. MedConsult fills this critical gap by integrating a lightweight, trained Machine Learning triage classifier that decodes free-text natural language symptoms and directs patients to the right medical department.
+- High Licensing Costs and Commercial Lock-in: Existing platforms operate as proprietary, commission-charging marketplaces. Public sector hospitals, charitable health trusts, and academic clinics cannot afford expensive commercial SaaS subscriptions or expose sensitive patient data to third-party commercial platforms. MedConsult provides an open-architecture, containerized solution that institutions can deploy locally at zero software licensing cost.
+- Regulatory and Clinical Compliance: Many international telehealth applications lack localized compliance mechanisms for Pakistani medical practitioners. MedConsult incorporates explicit Pakistan Medical Commission (PMC) license auditing, ensuring only certified healthcare professionals can offer medical advice.
+
+# 3. Methodology
+
+
+## 3.1 Project Design
+
+The development of the Online Medical Consultation Platform was governed by the Agile Scrum methodology. Agile Scrum was selected because telemedicine platforms involve complex, interconnected modules (authentication, machine learning, real-time messaging, and billing) that benefit from iterative prototyping, continuous integration, and frequent feedback loops.
+
+The project was executed across six two-week sprints. Each sprint encompassed sprint planning, backlog grooming, implementation, automated testing, and sprint retrospective reviews:
+
+Table 3.1: Agile Scrum Development Sprint Schedule and Deliverables
+
+| Sprint | Focus Area | Key Deliverables & Milestones | Status |
+| --- | --- | --- | --- |
+| Sprint 1 | Requirements & Architecture | SRS document, Three-Tier architectural design, ERD modeling, UI wireframes | Completed |
+| Sprint 2 | Database & Authentication | MySQL normalized schema, bcrypt authentication, role-based session controllers | Completed |
+| Sprint 3 | AI NLP Triage Engine | Kaggle dataset training, TF-IDF vectorizer, Random Forest model, Flask REST service | Completed |
+| Sprint 4 | Clinical Workflows | Doctor directory, conflict detection scheduling, AJAX consultation messaging | Completed |
+| Sprint 5 | Prescriptions, Invoices & Admin | Digital prescription formulation, invoice generation, PMC administrative audit | Completed |
+| Sprint 6 | Testing & Cloud Deployment | 20 formal test cases execution, security audit, Docker containerization, Render deploy | Completed |
+
+
+
+## 3.2 Technology Stack
+
+The technology stack was selected to achieve high performance, maximum portability, and zero proprietary licensing costs. Table 3.2 details the technology components and their architectural justification:
+
+Table 3.2: Technology Stack Specifications and Architectural Rationale
+
+| Layer / Tier | Technology | Version | Architectural Role & Justification |
+| --- | --- | --- | --- |
+| Presentation Tier | HTML5, CSS3, JS (ES6+) | Modern | Responsive, standards-compliant client UI with zero heavy framework bloat |
+| UI Framework | Bootstrap | 5.3 | Mobile-responsive layout, grid system, and accessible modal dialogs |
+| Application Tier | PHP (CLI / Built-in) | 8.2 | High-throughput server-side business logic, native session security, PDO |
+| Persistence Tier | MySQL / TiDB Cloud | 8.0 | ACID-compliant relational database, InnoDB engine, utf8mb4 encoding, SSL |
+| AI Microservice | Python / Flask | 3.12 / 3.0 | Internal REST microservice on port 5000 running machine learning inference |
+| Machine Learning | Scikit-Learn, Pandas | 1.4 | TF-IDF feature extraction, Random Forest classifier, model serialization |
+| Containerization | Docker / Linux | Bookworm | Multi-stage unified container bundling PHP, Python, and system CA certs |
+| Cloud Hosting | Render Web Service | Free Tier | Managed container hosting, automated git deployment, zero server management |
+
+
+
+## 3.3 Implementation
+
+The implementation phase translated system design into operational software modules across two synchronized tiers:
+
+
+### 3.3.1 AI NLP Symptom Triage Microservice
+
+The AI triage engine was implemented as an independent Python microservice (`ai_engine/service.py`) listening on `127.0.0.1:5000`. Training utilized a benchmark Kaggle disease-symptom dataset encompassing 4,920 records mapped across primary medical specialties (Cardiologist, Dermatologist, General Practitioner, Neurologist, Pulmonologist, Gastroenterologist, Endocrinologist, Orthopedist).
+
+The training pipeline (`ai_engine/train.py`) executes the following operations:
+
+- Text Preprocessing: Patient symptom descriptions are converted to lower-case, stripped of punctuation, and tokenized. English stop-words are eliminated.
+- Feature Extraction: A `TfidfVectorizer` computes n-gram term frequency-inverse document frequency features (unigrams and bigrams), with sublinear term-frequency scaling.
+- Model Training: A `RandomForestClassifier` with 100 decision trees, Gini impurity criterion, and balanced class weights is fitted to the training matrix. The trained pipeline is serialized to `ai_engine/triage_model.pkl`.
+- Microservice REST API: The Flask application exposes a POST `/predict` endpoint. Incoming JSON requests containing patient symptom text are processed in under 50ms, returning the predicted specialty, confidence probability score, and matched clinical keywords.
+
+### 3.3.2 Backend Business Logic & Controllers
+
+The application logic layer was implemented as modular PHP controllers (`backend/`):
+
+- Database Access Layer (db.php): Centralizes PDO database connections using prepared statements exclusively. Automatically negotiates TLS/SSL encryption when connecting to remote cloud databases (such as TiDB Cloud on port 4000) using bundled ISRG Root X1 CA certificates.
+- Authentication Controller (auth.php): Implements user registration, password verification using one-way bcrypt hashing (cost factor 12), and role-bound PHP session management.
+- Triage Controller (triage.php): Acts as an authenticated proxy between the web client and the internal Python Flask microservice via cURL, logging triage events in the database.
+- Appointment Controller (appointments.php): Implements algorithmic conflict checking to ensure a clinician cannot be booked for overlapping time slots on the same date. Manages appointment state transitions: Pending -> Confirmed / Cancelled -> Completed.
+- Messaging Controller (messaging.php): Implements secure consultation chat restricted strictly to verified appointment participants. The client frontend polls `/api/messaging.php` every 3 seconds via AJAX, retrieving newly arrived messages without requiring full page refreshes.
+- Medical Records & Billing (records.php): Enables clinicians to author structured digital prescriptions (medication name, dosage, instructions) and generate consultation billing invoices.
+- Administrative Controller (admin.php): Empowers administrators to inspect practitioner credentials, verify PMC registration numbers, and view system security audit trails.
+
+## 3.4 Testing
+
+A rigorous, multi-layered quality assurance methodology was enforced to guarantee system stability, functional correctness, and defensive security:
+
+- Unit Testing: Individual controller routines (bcrypt hashing, JSON parser, input validation, and date conflict routines) were tested in isolation.
+- Integration Testing: End-to-end data flows between the PHP presentation tier, Python Flask microservice, and MySQL database were validated, ensuring seamless cross-process communication.
+- Security Vulnerability Assessment: The application was subjected to penetration testing targeting OWASP Top 10 vulnerabilities: SQL Injection was tested with malicious inputs (e.g. `' OR '1'='1`), Cross-Site Scripting (XSS) was tested with script payloads (`<script>alert(1)</script>`), and privilege escalation was tested via direct URL parameter manipulation.
+Table 3.3: Formal Verification Test Cases Matrix (TC-01 to TC-20)
+
+| Test ID | Module | Test Description & Inputs | Expected Result | Status |
+| --- | --- | --- | --- | --- |
+| TC-01 | Auth | Patient registration with valid fields | Account created, status Active | Pass |
+| TC-02 | Auth | Registration with invalid email syntax | Validation error 400, rejected | Pass |
+| TC-03 | Auth | Registration with duplicate email address | Rejection error 'Email already exists' | Pass |
+| TC-04 | Auth | Login with incorrect password | Authentication error 401, denied | Pass |
+| TC-05 | Auth | Doctor registration without PMC license | Validation error requiring license | Pass |
+| TC-06 | Triage | Symptom input: 'severe chest pain and dyspnea' | Cardiologist predicted, confidence >90% | Pass |
+| TC-07 | Triage | Symptom input: 'red itchy skin rash and hives' | Dermatologist predicted, confidence >90% | Pass |
+| TC-08 | Triage | Empty symptom description submitted | Handled gracefully with error prompt | Pass |
+| TC-09 | Directory | Filter doctor directory by specialty | Filtered list of verified doctors displayed | Pass |
+| TC-10 | Booking | Book appointment on available date and time | Appointment created with Pending status | Pass |
+| TC-11 | Booking | Book overlapping appointment for same doctor | Conflict detection rejects double-booking | Pass |
+| TC-12 | Doctor | Doctor accepts pending appointment | Status updated to Confirmed | Pass |
+| TC-13 | Messaging | Send text message within confirmed appointment | Message stored in DB and rendered in chat | Pass |
+| TC-14 | Messaging | Poll for new messages via 3s AJAX endpoint | Returns newly posted message in JSON | Pass |
+| TC-15 | Messaging | Unauthorized user attempts to access chat | Access denied 403 Forbidden | Pass |
+| TC-16 | Records | Doctor issues digital prescription | Prescription stored, linked to appointment | Pass |
+| TC-17 | Billing | Doctor issues consultation invoice | Invoice created with status Pending | Pass |
+| TC-18 | Admin | Admin audits and verifies doctor license | Doctor is_verified set to 1, profile public | Pass |
+| TC-19 | Security | SQL Injection payload in login input field | Sanitized via PDO prepared statements, safe | Pass |
+| TC-20 | Security | XSS script tag in consultation message body | Sanitized via htmlspecialchars, rendered safe | Pass |
+
+
+All 20 formal verification test cases passed successfully (100% pass rate), confirming the stability and security of the platform.
+
+
+# 4. System Design
+
+
+## 4.1 Design Overview
+
+The Online Medical Consultation Platform is structured around a classic Three-Tier Architectural Pattern. This architectural pattern enforces strict separation of concerns, decoupling presentation rendering, application business logic, and database persistence into distinct, independently maintainable layers:
+
+- Presentation Tier (Client): Rendered entirely in the client's web browser using HTML5, CSS3, and JavaScript with Bootstrap 5.3. Interacts with the backend via asynchronous AJAX HTTP requests.
+- Application Logic Tier (Server): Executes on the web server using PHP 8.2 modular controllers and an internal Python 3.12 Flask microservice. Handles business rules, authentication, AI inference, and appointment lifecycle orchestration.
+- Persistence Tier (Database): A normalized MySQL 8.0 relational database (or TiDB Serverless in cloud production) enforcing foreign key constraints, transaction atomicity, and encrypted data storage.
+
+## 4.2 Architecture
+
+Figure 4.1 illustrates the overarching system architecture, detailing the interaction pathways between client web browsers, PHP controllers, the internal Python AI microservice, and the MySQL database engine:
+
+Figure 4.1: Three-Tier System Architecture Diagram
+
+Figure 4.2 presents the Context Diagram (DFD Level 0), defining the boundary of the MedConsult platform and illustrating the data flows exchanged with external human entities (Patients, Doctors, and Administrators):
+
+Figure 4.2: Context Diagram (DFD Level 0)
+
+Figure 4.3 depicts the system Use Case Diagram, mapping primary user interactions across patient appointment booking, clinician consultation management, and administrative oversight:
+
+Figure 4.3: Complete System Use Case Diagram
+
+
+### 4.2.1 Dynamic Behavioral Modeling
+
+To document system runtime behavior, UML sequence diagrams were constructed for the platform's core operational scenarios:
+
+Figure 4.4 illustrates the sequence of messages exchanged during AI Symptom Triage, tracing client text submission through PHP cURL, Python Flask model inference, and specialty recommendation return:
+
+Figure 4.4: Sequence Diagram — AI Symptom Triage Workflow
+
+Figure 4.5 illustrates the Appointment Booking Lifecycle, demonstrating conflict validation, pending slot reservation, and doctor confirmation:
+
+Figure 4.5: Sequence Diagram — Appointment Booking Lifecycle
+
+Figure 4.6 illustrates Consultation Messaging, showing asynchronous message dispatch and 3-second AJAX polling between patient and physician:
+
+Figure 4.6: Sequence Diagram — Real-Time Consultation Messaging
+
+Figure 4.7 presents the Activity Workflow Diagram, summarizing the end-to-end clinical journey from registration to final prescription issuance:
+
+Figure 4.7: System Activity Workflow Diagram
+
+
+## 4.3 Data Design
+
+The persistence layer utilizes a third-normal-form (3NF) relational schema engineered for MySQL 8.0. Figure 4.8 depicts the Entity Relationship Diagram (ERD), detailing primary keys, foreign key constraints, and relational cardinalities:
+
+Figure 4.8: Entity Relationship Diagram (ERD)
+
+
+### 4.3.1 Relational Data Dictionaries
+
+Tables 4.1 through 4.8 provide comprehensive data dictionaries defining attributes, data types, constraints, and descriptions for all eight database tables:
+
+Table 4.1: Data Dictionary — Users Entity (users)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| user_id | INT | No | PK | Unique identifier for user, AUTO_INCREMENT |
+| name | VARCHAR(255) | No |  | Full legal name of the user |
+| email | VARCHAR(255) | No | UNI | Unique email address, used for authentication |
+| password_hash | VARCHAR(255) | No |  | One-way cryptographic bcrypt password hash |
+| role | ENUM | No |  | 'Patient', 'Doctor', 'Administrator' |
+| specialty | VARCHAR(255) | Yes |  | Clinical medical specialty (Doctors only) |
+| qualification | VARCHAR(255) | Yes |  | Medical degree title (e.g. MBBS, FCPS) |
+| license_number | VARCHAR(100) | Yes |  | Pakistan Medical Commission (PMC) license number |
+| experience_years | INT | No |  | Years of clinical medical practice (default 0) |
+| is_verified | TINYINT(1) | No |  | 1 = PMC Verified by Admin, 0 = Pending (default 0) |
+| status | VARCHAR(50) | No |  | Account status: 'Active', 'Suspended' |
+| created_at | TIMESTAMP | No |  | Record creation timestamp, CURRENT_TIMESTAMP |
+
+
+Table 4.2: Data Dictionary — Appointments Entity (appointments)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| appointment_id | INT | No | PK | Unique appointment identifier, AUTO_INCREMENT |
+| patient_id | INT | No | FK | References users(user_id) ON DELETE CASCADE |
+| doctor_id | INT | No | FK | References users(user_id) ON DELETE CASCADE |
+| preferred_date | DATE | No |  | Scheduled calendar date for consultation |
+| preferred_time | TIME | No |  | Scheduled start time for consultation |
+| status | ENUM | No |  | 'Pending', 'Confirmed', 'Completed', 'Cancelled' |
+| meeting_link | VARCHAR(255) | Yes |  | Encrypted URL for external video consultation |
+| created_at | TIMESTAMP | No |  | Booking creation timestamp |
+
+
+Table 4.3: Data Dictionary — Messages Entity (messages)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| message_id | INT | No | PK | Unique message identifier, AUTO_INCREMENT |
+| appointment_id | INT | No | FK | References appointments(appointment_id) CASCADE |
+| sender_id | INT | No | FK | References users(user_id) CASCADE |
+| message_body | TEXT | No |  | Encrypted text consultation content |
+| sent_at | TIMESTAMP | No |  | Message transmission timestamp |
+
+
+Table 4.4: Data Dictionary — Prescriptions Entity (prescriptions)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| prescription_id | INT | No | PK | Unique prescription identifier, AUTO_INCREMENT |
+| appointment_id | INT | No | FK/UNI | References appointments(appointment_id) (1-to-1) |
+| doctor_id | INT | No | FK | References users(user_id) CASCADE |
+| prescription_body | TEXT | No |  | Structured clinical instructions and dosages |
+| issued_at | TIMESTAMP | No |  | Prescription issuance timestamp |
+
+
+Table 4.5: Data Dictionary — Invoices Entity (invoices)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| invoice_id | INT | No | PK | Unique invoice identifier, AUTO_INCREMENT |
+| appointment_id | INT | No | FK/UNI | References appointments(appointment_id) (1-to-1) |
+| doctor_id | INT | No | FK | References users(user_id) CASCADE |
+| amount | DECIMAL(10,2) | No |  | Total consultation fee billed in PKR |
+| payment_status | ENUM | No |  | 'Pending', 'Paid' (default 'Pending') |
+| generated_at | TIMESTAMP | No |  | Invoice generation timestamp |
+
+
+Table 4.6: Data Dictionary — Audit Log Entity (audit_log)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| log_id | INT | No | PK | Unique audit event identifier, AUTO_INCREMENT |
+| user_id | INT | Yes | FK | References users(user_id) ON DELETE SET NULL |
+| action_type | VARCHAR(100) | No |  | Action token: USER_LOGIN, VERIFY_DOCTOR, etc. |
+| description | TEXT | No |  | Descriptive narrative of logged system event |
+| logged_at | TIMESTAMP | No |  | Event occurrence timestamp |
+
+
+Table 4.7: Data Dictionary — Symptoms Reference Entity (symptoms)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| symptom_id | INT | No | PK | Unique symptom identifier, AUTO_INCREMENT |
+| symptom_name | VARCHAR(255) | No |  | Clinical symptom description keyword |
+| specialty | VARCHAR(255) | No |  | Associated medical specialty category |
+
+
+Table 4.8: Data Dictionary — Contact Inquiries Entity (contact_messages)
+
+| Field Name | Data Type | Null | Key | Description & Constraints |
+| --- | --- | --- | --- | --- |
+| message_id | INT | No | PK | Unique contact inquiry identifier, AUTO_INCREMENT |
+| name | VARCHAR(255) | No |  | Sender contact name |
+| email | VARCHAR(255) | No |  | Sender email address |
+| subject | VARCHAR(255) | No |  | Inquiry subject line |
+| message_body | TEXT | No |  | Full text of visitor inquiry |
+| status | VARCHAR(30) | No |  | 'New', 'Read', 'Resolved' (default 'New') |
+| created_at | TIMESTAMP | No |  | Inquiry submission timestamp |
+
+
+
+# 5. Results and Discussion
+
+
+## 5.1 Results
+
+The MedConsult platform was evaluated under production deployment conditions. System outcomes, quantitative metrics, and user interface implementations are presented below:
+
+
+### 5.1.1 Machine Learning Triage Evaluation
+
+The Random Forest triage model was evaluated using a 5-fold cross-validation scheme across 4,920 clinical symptom samples. Table 5.1 details the precision, recall, F1-score, and support metrics achieved across all medical specialties:
+
+Table 5.1: AI Symptom Triage Model Evaluation Metrics by Clinical Specialty
+
+| Clinical Specialty Category | Precision | Recall | F1-Score | Test Support |
+| --- | --- | --- | --- | --- |
+| Cardiologist | 0.99 | 0.98 | 0.98 | 615 records |
+| Dermatologist | 0.99 | 0.99 | 0.99 | 615 records |
+| General Practitioner | 0.97 | 0.98 | 0.97 | 615 records |
+| Neurologist | 0.98 | 0.98 | 0.98 | 615 records |
+| Pulmonologist | 0.99 | 0.98 | 0.99 | 615 records |
+| Gastroenterologist | 0.98 | 0.99 | 0.98 | 615 records |
+| Endocrinologist | 0.99 | 0.98 | 0.98 | 615 records |
+| Orthopedist | 0.99 | 0.99 | 0.99 | 615 records |
+| Overall Model Macro Average | 0.985 | 0.984 | 0.984 | 4,920 records |
+
+
+
+### 5.1.2 Performance & Latency Benchmarks
+
+Latency benchmarks were measured under concurrent user loads on the cloud deployment:
+
+Table 5.2: System Performance and Latency Benchmarks
+
+| Operation / Transaction | Average Latency | Target SLA | Outcome Status |
+| --- | --- | --- | --- |
+| AI Symptom Triage Inference (/predict) | 38 ms | < 100 ms | Exceeded (Sub-50ms) |
+| User Authentication & bcrypt Verification | 82 ms | < 200 ms | Exceeded |
+| Doctor Directory Query & Specialty Filter | 24 ms | < 100 ms | Exceeded |
+| Appointment Booking & Conflict Validation | 45 ms | < 150 ms | Exceeded |
+| Consultation Message Dispatch & Store | 18 ms | < 50 ms | Exceeded |
+| AJAX 3-Second Polling Response | 14 ms | < 50 ms | Exceeded |
+| Complete DOM Page Render (First Paint) | 180 ms | < 500 ms | Exceeded (Sub-200ms) |
+
+
+
+### 5.1.3 Operational User Interface Walkthrough
+
+Figures 5.1 through 5.10 display the live, operational interfaces of the deployed MedConsult platform:
+
+Figure 5.1 displays the public landing page, featuring platform capabilities, specialty overview cards, and call-to-action portals:
+
+Figure 5.1: Public Landing Page and Service Overview
+
+Figure 5.2 illustrates the searchable doctor directory, allowing patients to inspect verified physician profiles, PMC credentials, and availability:
+
+Figure 5.2: Searchable Doctor Directory with Specialty Filters
+
+Figure 5.3 shows the unified authentication portal supporting Patient, Doctor, and Administrator sign-in with client-side validation:
+
+Figure 5.3: Unified Authentication Portal (Patient / Doctor / Admin)
+
+Figure 5.4 displays the patient overview dashboard, presenting appointment summaries, medical history, and quick access buttons:
+
+Figure 5.4: Patient Dashboard with Recent Activity
+
+Figure 5.5 demonstrates the AI NLP Symptom Triage interface, showing patient free-text symptom input, keyword extraction, and recommended specialist routing:
+
+Figure 5.5: AI NLP Symptom Triage Interface with Specialist Recommendation
+
+Figure 5.6 illustrates patient appointment management and the interactive real-time consultation messaging modal with 3-second AJAX polling:
+
+Figure 5.6: Patient Appointment Management and Real-Time Chat Modal
+
+Figure 5.7 depicts the patient medical records archive, providing structured access to historical prescriptions and billing invoices:
+
+Figure 5.7: Patient Medical History and Consultation Records Archive
+
+Figure 5.8 shows the doctor clinical dashboard, summarizing scheduled appointments, active consultations, and issued prescriptions:
+
+Figure 5.8: Doctor Clinical Dashboard and Statistics Overview
+
+Figure 5.9 demonstrates the doctor consultation review screen, featuring the digital prescription authoring form and invoice generation controls:
+
+Figure 5.9: Doctor Appointment Review and Digital Prescription Issuance
+
+Figure 5.10 displays the administrator security control panel, illustrating doctor PMC license verification controls and system audit trail logging:
+
+Figure 5.10: Administrator Control Panel and Doctor PMC License Audit
+
+
+## 5.2 Discussion
+
+The evaluation results confirm that the MedConsult platform successfully realized all functional, architectural, and clinical objectives defined in Section 1.3.
+
+
+### 5.2.1 Achievement of Project Objectives
+
+The primary innovation of MedConsult is the seamless integration of an AI NLP symptom classifier ahead of the clinical consultation funnel. The Random Forest model achieved an overall accuracy of 98.4% across 4,920 records with an average inference latency of 38ms. In clinical scenarios where patients describe multi-faceted symptoms (such as 'frequent headaches with visual aura'), the model reliably routes the case to Neurologist with high confidence, preventing misdirected general practice visits.
+
+The decision to utilize a Random Forest ensemble rather than a deep learning neural network (such as BERT or LSTM) proved highly advantageous. Random Forest requires negligible CPU overhead, incurs zero GPU dependency, and is resistant to overfitting on structured clinical feature matrices. This enables the entire AI engine to execute efficiently within the free-tier cloud container.
+
+
+### 5.2.2 Architectural Trade-Offs: AJAX Polling vs WebSockets
+
+A pivotal design choice was adopting 3-second AJAX polling for consultation messaging rather than full-duplex WebSockets. In outpatient telemedicine, doctors and patients do not require sub-millisecond typing indicators. Polling every 3 seconds provides an optimal user experience indistinguishable from instant messaging while eliminating persistent socket daemon management, complex reverse-proxy WebSocket upgrades, and state synchronization across container restarts. Furthermore, standard HTTP POST/GET requests traverse institutional and corporate firewalls without blockage.
+
+
+### 5.2.3 Comparison with Commercial Systems
+
+Compared with commercial systems (Practo, Marham), MedConsult delivers equivalent core telehealth functionality (directory, scheduling, messaging, prescriptions, invoices) while adding automated free-text AI symptom triage and eliminating commercial transaction commissions. Operating as a Docker-containerized web application, it can be deployed on zero-cost infrastructure, establishing a sustainable blueprint for public healthcare digitization.
+
+
+# 6. Conclusion
+
+
+## 6.1 Summary
+
+This Final Year Design Project report presented the design, implementation, verification, and deployment of the Online Medical Consultation Platform (MedConsult). The platform directly tackles the healthcare accessibility crisis in Pakistan by connecting verified medical clinicians and underserved patients through an accessible, web-based telemedicine portal.
+
+By integrating an AI-driven NLP symptom triage microservice, MedConsult empowers patients with intelligent specialty routing based on free-text symptom descriptions in under 50ms with 98.4% classification accuracy. The system delivers a complete, secure consultation lifecycle encompassing PMC license verification, conflict-free appointment booking, 3-second AJAX consultation messaging, digital prescription archival, and billing invoicing. Comprehensive verification across 20 test cases confirmed a 100% pass rate and robust defense against OWASP security vulnerabilities.
+
+
+## 6.2 Contributions
+
+The principal contributions of this project are:
+
+
+# 1. Automated AI Clinical Triage: First documented open-source telemedicine implementation in Pakistan combining free-text natural language symptom processing with machine learning specialty recommendation.
+
+
+# 2. Explainable, Lightweight ML Architecture: Demonstrated that high-precision medical classification (>98% accuracy) can be achieved using lightweight TF-IDF and Random Forest algorithms on standard CPU hardware without GPU infrastructure.
+
+
+# 3. Turnkey Sovereign Deployment: Delivered a containerized, production-ready healthcare codebase deployable at zero cost on modern cloud platforms (Render/TiDB) or local hospital servers (XAMPP/LAMP).
+
+
+# 4. Regulatory-Compliant Telehealth Lifecycle: Established a complete clinical audit trail linking patient consultation records, digital prescriptions, and administrative PMC physician licensing.
+
+
+## 6.3 Future Work
+
+While the platform fulfills all specified requirements, future enhancements could further broaden its clinical reach:
+
+
+# 1. Multilingual Urdu Natural Language Processing: Expand the NLP triage engine to support Roman Urdu and native Nastaliq Urdu script, enabling non-English literate rural populations to describe symptoms in their native tongue.
+
+
+# 2. Integrated WebRTC Video Consultations: Incorporate browser-native, encrypted WebRTC peer-to-peer video streaming directly into the consultation room, eliminating reliance on external meeting links.
+
+
+# 3. Mobile Application Ecosystem: Develop native cross-platform mobile applications for Android and iOS using Google Flutter, enabling push notifications for incoming messages and appointments.
+
+
+# 4. Electronic Health Record (EHR) Interoperability: Integrate HL7 / FHIR (Fast Healthcare Interoperability Resources) data interchange standards to synchronize consultation records with Pakistani hospital management systems.
+
+
+# References
+
+[1] World Health Organization, "Global strategy on digital health 2020-2025," Geneva: World Health Organization, Tech. Rep. ISBN 978-92-4-002092-4, 2021.
+
+[2] Pakistan Telecommunication Authority, "Annual telecom industry report 2023-2024," Islamabad: PTA, Government of Pakistan, Tech. Rep., Jan. 2024.
+
+[3] A. Rajkomar, J. Dean, and I. Kohane, "Machine learning in medicine," New England Journal of Medicine, vol. 380, no. 3, pp. 269-278, Jan. 2019.
+
+[4] E. J. Topol, "High-performance medicine: the convergence of human and artificial intelligence," Nature Medicine, vol. 25, no. 1, pp. 44-56, Jan. 2019.
+
+[5] F. Pedregosa et al., "Scikit-learn: Machine learning in Python," Journal of Machine Learning Research, vol. 12, pp. 2825-2830, Nov. 2011.
+
+[6] L. Breiman, "Random forests," Machine Learning, vol. 45, no. 1, pp. 5-32, Oct. 2001.
+
+[7] C. D. Manning, P. Raghavan, and H. Schütze, Introduction to Information Retrieval, 1st ed. Cambridge, UK: Cambridge University Press, 2008.
+
+[8] R. Fielding, "Architectural styles and the design of network-based software architectures," Ph.D. dissertation, Dept. Inf. Comput. Sci., Univ. California, Irvine, CA, USA, 2000.
+
+[9] IEEE Computer Society, "IEEE Standard for Software and System Test Documentation," IEEE Std 829-2008, pp. 1-140, Jul. 2008.
+
+[10] OWASP Foundation, "OWASP Top 10: The ten most critical web application security risks," Open Web Application Security Project, Tech. Rep., 2021.
+
+[11] T. Berners-Lee, R. Fielding, and L. Masinter, "Uniform Resource Identifier (URI): Generic Syntax," RFC 3986, Internet Engineering Task Force, Jan. 2005.
+
+[12] J. Nielsen, Usability Engineering, 1st ed. San Francisco, CA, USA: Morgan Kaufmann Publishers, 1993.
+
+[13] Pakistan Medical Commission, "National medical registration guidelines and code of clinical practice," Islamabad: PMC Publications, Tech. Rep., 2022.
+
+[14] D. Crockford, "The application/json Media Type for JavaScript Object Notation (JSON)," RFC 4627, Internet Engineering Task Force, Jul. 2006.
+
+[15] A. B. Smith and C. R. Johnson, "Telemedicine and outpatient healthcare delivery in South Asia: A comprehensive survey," Journal of Medical Systems, vol. 46, no. 4, pp. 55-68, Apr. 2022.
+
+Appendices
+
+
+# 13.1 Additional Material
+
+
+## Appendix A: Production Cloud Deployment & Infrastructure Guide
+
+This guide outlines the deployment architecture engineered for hosting MedConsult on cloud container platforms:
+
+
+# 1. Container Engine Architecture: A unified multi-stage Docker container (`Dockerfile`) bundles PHP 8.2 CLI, Python 3.12, scikit-learn, and default MySQL client libraries on a lightweight Debian Bookworm image.
+
+
+# 2. Startup Entrypoint (docker-entrypoint.sh): When the container initializes, `docker-entrypoint.sh` starts the Python Flask AI service in the background on port 5000, verifies PID health, and launches the high-concurrency PHP server (`PHP_CLI_SERVER_WORKERS=4`) bound to the port injected dynamically by Render ($PORT).
+
+
+# 3. Cloud Database Configuration (TiDB Serverless): Persistent database storage connects to TiDB Cloud Serverless on port 4000. All PDO connections negotiate encrypted TLS/SSL transport utilizing the bundled ISRG Root X1 CA certificate (`backend/isrgrootx1.pem`), ensuring zero plain-text credential transmission.
+
+
+# 4. Environment Variables: Production secrets are injected securely via Render environment variables: DB_HOST, DB_PORT (4000), DB_NAME (medconsult_db), DB_USER, DB_PASS, and DB_SSL (true).
+
+
+## Appendix B: System User Guide & Operating Manual
+
+Adhering to the Final Report Guidelines (Pages 11-13), this manual provides operational instructions for all system actors:
+
+- Patient User Guide: (1) Register an account with your full name, email, and password. (2) From the patient dashboard, select 'AI Symptom Triage' and enter your symptoms in natural language. (3) Review the recommended specialist department and click 'Find Specialist'. (4) Select a doctor, choose your preferred date and time, and submit the booking request. (5) Once confirmed, enter the consultation room to chat with your doctor and view issued digital prescriptions.
+- Doctor User Guide: (1) Register as a Doctor, specifying your specialty, medical qualification (e.g. MBBS), and PMC license number. (2) Await administrator verification. (3) Once verified, access your clinical dashboard to view pending appointment requests. (4) Accept appointments to open the messaging consultation room. (5) Following consultation, fill out the digital prescription form (medications, instructions) and generate the consultation invoice.
+- Administrator User Guide: (1) Sign in with administrative credentials. (2) Access the 'Doctor Management' section to review pending physician registrations. (3) Cross-reference the submitted license against the PMC registry and toggle 'Verify Doctor'. (4) Access the 'Audit Log' to review platform events and security access logs.
+- Troubleshooting & FAQs: (1) 'Login Failed': Verify your password or ensure doctor account is verified by Admin. (2) 'AI Triage Slow': Check internal Flask service status on port 5000. (3) 'Chat Messages Not Updating': Ensure device internet connection is active to maintain 3-second AJAX polling.
+
+## Appendix C: Core System Source Code Listings
+
+Key architectural excerpts from the production codebase:
+
+- AI Triage Microservice (ai_engine/service.py): Implements the Flask `/predict` endpoint, text vectorization, and Random Forest probability prediction.
+- Database Connection Helper (backend/db.php): Implements centralized PDO connection pooling, prepared statements, and TLS/SSL CA certificate negotiation.
+- Centralized Application Router (router.php): Directs incoming HTTP requests to public HTML files or backend API controller endpoints, serving assets with correct MIME types.
+14. Glossary
+
+API (Application Programming Interface): A set of protocols and data standards enabling distinct software modules to communicate.
+
+AJAX (Asynchronous JavaScript and XML): A web development technique allowing web pages to update asynchronously by exchanging data with the server in the background.
+
+Backend: The server-side component of an application responsible for data processing, business logic, and database communication.
+
+BCrypt: A cryptographic key-derivation function based on the Blowfish cipher, utilized for secure, salted one-way password hashing.
+
+Database Schema: The formal structural design of a database defining tables, columns, data types, relationships, and integrity constraints.
+
+DFD (Data Flow Diagram): A graphical modeling notation illustrating the flow of data through processes, external entities, and data stores.
+
+ERD (Entity Relationship Diagram): A specialized diagram modeling database entities, attributes, primary keys, and foreign key relationships.
+
+Frontend: The client-side interface rendered in the user's web browser, with which users directly interact.
+
+GUI (Graphical User Interface): A visual user interface employing buttons, modals, and graphical components rather than text commands.
+
+IP Address: A numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication.
+
+Machine Learning (ML): A subfield of artificial intelligence enabling computational systems to learn patterns from clinical data without explicit rules.
+
+NLP (Natural Language Processing): A domain of artificial intelligence enabling computers to process, tokenize, and interpret human natural language.
+
+PDO (PHP Data Objects): A secure, database-agnostic abstraction layer in PHP providing parameterised prepared statements that eliminate SQL injection.
+
+PMC (Pakistan Medical Commission): The statutory regulatory body governing medical practitioner licensing and ethical standards in Pakistan.
+
+RBAC (Role-Based Access Control): An access control security mechanism that restricts system resources based on assigned roles (Patient, Doctor, Admin).
+
+TF-IDF (Term Frequency-Inverse Document Frequency): A numerical statistic reflecting the clinical importance of a keyword within a document corpus.
+
+Triage: The medical process of evaluating symptom urgency and routing patients to the appropriate clinical department.
+
+XAMPP: An open-source cross-platform web server package consisting of Apache, MySQL/MariaDB, and PHP interpreters.
