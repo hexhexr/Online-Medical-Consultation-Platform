@@ -133,9 +133,18 @@ def set_table_no_borders(table):
     tblPr.append(borders)
 
 def build_master_report():
-    subprocess.run(['git', 'checkout', 'HEAD', '--', 'FINAL_FYDP_PROJECT_REPORT.docx'], check=True)
     doc = docx.Document('FINAL_FYDP_PROJECT_REPORT.docx')
     body = doc.element.body
+
+    # Ensure Title Page has Muhammad Mudassar Javed
+    p8 = doc.paragraphs[8]
+    if "Mudassar Javed" in p8.text and "Muhammad Mudassar" not in p8.text:
+        p8.text = p8.text.replace("Mudassar Javed", "Muhammad Mudassar Javed")
+        p8.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        for r in p8.runs:
+            r.font.name = FONT_BODY_NAME
+            r.font.size = Pt(13)
+            r.font.color.rgb = COLOR_BLACK
 
     style_normal = doc.styles['Normal']
     style_normal.font.name = FONT_BODY_NAME
@@ -269,7 +278,7 @@ def build_master_report():
     intro_elem.addprevious(p_d2._p)
 
     decl_data = [
-        ("Student Name", "Muhammad Danial , Muhammad Bilal , Mudassar Javed"),
+        ("Student Name", "Muhammad Danial , Muhammad Bilal , Muhammad Mudassar Javed"),
         ("Registration No.", ["BSCSW-2.5Y-021R24-4 , BSCSW-2.5Y-021R24-1 ,", "BSCSW-2.5Y-021R24-5"]),
         ("Contact No.", "03097705525, 03036556495, 03014521025"),
         ("Email Address", "digdaguu@gmail.com, bilalsadiq612@gmail.com, mudassar21025@gmail.com"),
@@ -363,7 +372,7 @@ def build_master_report():
     rs_line.font.name = FONT_BODY_NAME
     rs_line.font.size = Pt(11)
     rs_line.font.color.rgb = COLOR_BLACK
-    for s_name in ["Muhammad Danial", "Muhammad Bilal", "Mudassar Javed"]:
+    for s_name in ["Muhammad Danial", "Muhammad Bilal", "Muhammad Mudassar Javed"]:
         ps_n = cell_s.add_paragraph()
         ps_n.paragraph_format.space_before = Pt(2)
         ps_n.paragraph_format.space_after = Pt(0)

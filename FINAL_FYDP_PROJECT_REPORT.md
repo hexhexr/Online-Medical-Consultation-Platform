@@ -8,7 +8,7 @@
 ### Submitted by:
 - **Muhammad Danial** (BSCSW-2.5Y-021R24-4)
 - **Muhammad Bilal** (BSCSW-2.5Y-021R24-1)
-- **Mudassar Javed** (BSCSW-2.5Y-021R24-5)
+- **Muhammad Mudassar Javed** (BSCSW-2.5Y-021R24-5)
 
 ---
 
@@ -20,7 +20,7 @@ I understand that my thesis may be made electronically available to the public.
 
 | Field | Details |
 | :--- | :--- |
-| **Student Name** | Muhammad Danial , Muhammad Bilal , Mudassar Javed |
+| **Student Name** | Muhammad Danial , Muhammad Bilal , Muhammad Mudassar Javed |
 | **Registration No.** | BSCSW-2.5Y-021R24-4 , BSCSW-2.5Y-021R24-1 , BSCSW-2.5Y-021R24-5 |
 | **Contact No.** | 03097705525, 03036556495, 03014521025 |
 | **Email Address** | digdaguu@gmail.com, bilalsadiq612@gmail.com, mudassar21025@gmail.com |
@@ -33,7 +33,7 @@ I understand that my thesis may be made electronically available to the public.
 
 | Student Signature: __________________ | Supervisor Signature: __________________ |
 | :--- | :--- |
-| Muhammad Danial<br>Muhammad Bilal<br>Mudassar Javed | **Majid Khawar** |
+| Muhammad Danial<br>Muhammad Bilal<br>Muhammad Mudassar Javed | **Majid Khawar** |
 
 ---
 

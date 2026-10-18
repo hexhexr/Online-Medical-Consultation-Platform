@@ -11,7 +11,7 @@ Final Year Project (FYP-II) — Department of Computer Science & IT, University 
 * **Submitted by**:
   * Muhammad Danial (Reg No: BSCSW-2.5Y-021R24-4)
   * Muhammad Bilal (Reg No: BSCSW-2.5Y-021R24-1)
-  * Mudassar Javed (Reg No: BSCSW-2.5Y-021R24-5)
+  * Muhammad Mudassar Javed (Reg No: BSCSW-2.5Y-021R24-5)
 
 ### Description
 The **Online Medical Consultation Platform** is an intelligent web-based telemedicine system designed to address healthcare accessibility barriers in Pakistan, where the doctor-to-patient ratio is approximately 1:1,000 and rural populations face significant specialist shortages. 
