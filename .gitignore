@@ -4,5 +4,3 @@ __pycache__/
 .env
 *.log
 .DS_Store
-declarations/
-generate_all_declarations.py

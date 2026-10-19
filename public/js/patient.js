@@ -237,12 +237,88 @@ async function sendChatMessage(event) {
   await fetchChatMessages(false);
 }
 
+function showPrescriptionModal(prescriptionId) {
+  const p = (patientRecordsCache.prescriptions || []).find(x => Number(x.prescription_id) === Number(prescriptionId));
+  if (!p) return;
+  document.getElementById('rxPrescriptionId').textContent = `Rx #${p.prescription_id}`;
+  document.getElementById('rxDoctorName').textContent = formatDoctorName(p.doctor_name);
+  document.getElementById('rxDoctorSpecialty').textContent = p.doctor_specialty || 'General Practitioner';
+  document.getElementById('rxDoctorCredentials').textContent = [p.doctor_qualification, p.doctor_license ? `PMC: ${p.doctor_license}` : ''].filter(Boolean).join(' · ') || 'PMC Licensed Clinician';
+  document.getElementById('rxPatientName').textContent = window.currentUser?.name || 'Patient';
+  document.getElementById('rxConsultationDate').textContent = `Consultation: ${formatDate(p.preferred_date)}`;
+  document.getElementById('rxIssuedDate').textContent = `Issued: ${formatDateTime(p.issued_at)}`;
+  document.getElementById('rxPrescriptionBody').textContent = p.prescription_body;
+  document.getElementById('rxDoctorSignature').textContent = formatDoctorName(p.doctor_name);
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('prescriptionModal')).show();
+}
+
+async function payPatientInvoice(invoiceId, amount) {
+  const confirmed = await confirmAction({
+    title: 'Pay Consultation Fee',
+    message: `Settle invoice #${invoiceId} of ${formatMoney(amount)} via MedConsult simulated payment portal?`,
+    confirmText: 'Pay Now'
+  });
+  if (!confirmed) return;
+  const result = await apiCall('records?action=pay_invoice', 'POST', { invoice_id: Number(invoiceId) });
+  if (!result.success) return toast(result.error || 'Payment failed.', 'danger');
+  toast(result.message || 'Payment completed successfully.', 'success');
+  patientRecordsCache = { prescriptions: [], invoices: [] };
+  await loadPatientRecords();
+  await loadPatientOverview();
+}
+
 async function loadPatientRecords() {
   const records = await fetchPatientRecords(true);
   const prescriptions = document.getElementById('prescriptionList');
   const invoices = document.getElementById('invoiceList');
-  prescriptions.innerHTML = records.prescriptions.length ? records.prescriptions.map(p => `<div class="col-12"><article class="record-card"><div class="d-flex justify-content-between gap-2 mb-2"><div><strong>Prescription #${escapeHtml(p.prescription_id)}</strong><div class="small text-muted">${escapeHtml(formatDoctorName(p.doctor_name))} · ${formatDate(p.preferred_date)}</div></div><i class="bi bi-file-medical text-primary fs-4"></i></div><div class="record-body">${escapeHtml(p.prescription_body)}</div><small class="text-muted d-block mt-2">Issued ${formatDateTime(p.issued_at)}</small></article></div>`).join('') : `<div class="col-12">${emptyState('bi-file-medical', 'No prescriptions', 'Prescriptions from completed consultations will appear here.')}</div>`;
-  invoices.innerHTML = records.invoices.length ? records.invoices.map(i => `<div class="col-12"><article class="record-card"><div class="d-flex justify-content-between gap-3"><div><strong>Invoice #${escapeHtml(i.invoice_id)}</strong><div class="small text-muted">${escapeHtml(formatDoctorName(i.doctor_name))} · ${formatDate(i.preferred_date)}</div></div>${statusBadge(i.payment_status)}</div><div class="amount mt-3">${formatMoney(i.amount)}</div><small class="text-muted">Generated ${formatDateTime(i.generated_at)}</small></article></div>`).join('') : `<div class="col-12">${emptyState('bi-receipt', 'No invoices', 'Invoices from completed consultations will appear here.')}</div>`;
+  prescriptions.innerHTML = records.prescriptions.length ? records.prescriptions.map(p => `
+    <div class="col-12">
+      <article class="record-card">
+        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+          <div>
+            <strong>Prescription #${escapeHtml(p.prescription_id)}</strong>
+            <div class="small text-muted">${escapeHtml(formatDoctorName(p.doctor_name))} · ${formatDate(p.preferred_date)}</div>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" type="button" data-print-prescription="${p.prescription_id}">
+            <i class="bi bi-printer me-1"></i> View &amp; Print Rx
+          </button>
+        </div>
+        <div class="record-body">${escapeHtml(p.prescription_body)}</div>
+        <small class="text-muted d-block mt-2">Issued ${formatDateTime(p.issued_at)}</small>
+      </article>
+    </div>
+  `).join('') : `<div class="col-12">${emptyState('bi-file-medical', 'No prescriptions', 'Prescriptions from completed consultations will appear here.')}</div>`;
+
+  invoices.innerHTML = records.invoices.length ? records.invoices.map(i => {
+    const isPending = i.payment_status === 'Pending';
+    return `
+      <div class="col-12">
+        <article class="record-card">
+          <div class="d-flex justify-content-between gap-3">
+            <div>
+              <strong>Invoice #${escapeHtml(i.invoice_id)}</strong>
+              <div class="small text-muted">${escapeHtml(formatDoctorName(i.doctor_name))} · ${formatDate(i.preferred_date)}</div>
+            </div>
+            ${statusBadge(i.payment_status)}
+          </div>
+          <div class="d-flex justify-content-between align-items-end mt-3">
+            <div>
+              <div class="amount">${formatMoney(i.amount)}</div>
+              <small class="text-muted">Generated ${formatDateTime(i.generated_at)}</small>
+            </div>
+            ${isPending ? `<button class="btn btn-sm btn-primary" type="button" data-pay-invoice="${i.invoice_id}" data-invoice-amount="${i.amount}"><i class="bi bi-credit-card me-1"></i> Pay Now</button>` : `<span class="badge bg-success-subtle text-success border border-success-subtle py-2 px-3"><i class="bi bi-check-circle me-1"></i> Paid in Full</span>`}
+          </div>
+        </article>
+      </div>
+    `;
+  }).join('') : `<div class="col-12">${emptyState('bi-receipt', 'No invoices', 'Invoices from completed consultations will appear here.')}</div>`;
+
+  prescriptions.querySelectorAll('[data-print-prescription]').forEach(btn => {
+    btn.addEventListener('click', () => showPrescriptionModal(btn.dataset.printPrescription));
+  });
+  invoices.querySelectorAll('[data-pay-invoice]').forEach(btn => {
+    btn.addEventListener('click', () => payPatientInvoice(btn.dataset.payInvoice, btn.dataset.invoiceAmount));
+  });
 }
 
 async function loadPatientProfile() {

@@ -9,7 +9,7 @@ function doctorAppointmentCard(apt, compact = false) {
   const confirmed = apt.status === 'Confirmed';
   const pending = apt.status === 'Pending';
   const completed = apt.status === 'Completed';
-  return `<article class="appointment-card"><div class="d-flex flex-column flex-lg-row justify-content-between gap-3"><div><div class="d-flex align-items-center flex-wrap gap-2"><h3 class="h6 mb-0">${escapeHtml(apt.patient_name)}</h3>${statusBadge(apt.status)}</div><div class="appointment-meta mt-2"><span><i class="bi bi-calendar3 me-1"></i>${formatDate(apt.preferred_date)}</span><span><i class="bi bi-clock me-1"></i>${formatTime(apt.preferred_time)}</span><span>#${escapeHtml(apt.appointment_id)}</span></div></div>${compact ? '' : `<div class="appointment-actions align-self-lg-center">${pending ? `<button class="btn btn-sm btn-primary" data-appointment-status="Confirmed" data-appointment-id="${apt.appointment_id}"><i class="bi bi-check-lg"></i> Confirm</button><button class="btn btn-sm btn-soft-danger" data-appointment-status="Cancelled" data-appointment-id="${apt.appointment_id}"><i class="bi bi-x-lg"></i> Decline</button>` : ''}${confirmed ? `<button class="btn btn-sm btn-outline-primary" data-doctor-chat="${apt.appointment_id}" data-chat-label="${escapeHtml(apt.patient_name)}"><i class="bi bi-chat-dots"></i> Message</button><button class="btn btn-sm btn-outline-primary" data-meeting-id="${apt.appointment_id}" data-meeting-patient="${escapeHtml(apt.patient_name)}"><i class="bi bi-link-45deg"></i> Meeting link</button><button class="btn btn-sm btn-primary" data-appointment-status="Completed" data-appointment-id="${apt.appointment_id}"><i class="bi bi-check2-all"></i> Complete</button>` : ''}${completed ? `<button class="btn btn-sm btn-outline-primary" data-open-section="records"><i class="bi bi-file-medical"></i> Create record</button>` : ''}</div>`}</div></article>`;
+  return `<article class="appointment-card"><div class="d-flex flex-column flex-lg-row justify-content-between gap-3"><div><div class="d-flex align-items-center flex-wrap gap-2"><h3 class="h6 mb-0">${escapeHtml(apt.patient_name)}</h3>${statusBadge(apt.status)}</div><div class="appointment-meta mt-2"><span><i class="bi bi-calendar3 me-1"></i>${formatDate(apt.preferred_date)}</span><span><i class="bi bi-clock me-1"></i>${formatTime(apt.preferred_time)}</span><span>#${escapeHtml(apt.appointment_id)}</span></div></div>${compact ? '' : `<div class="appointment-actions align-self-lg-center">${pending ? `<button class="btn btn-sm btn-primary" data-appointment-status="Confirmed" data-appointment-id="${apt.appointment_id}"><i class="bi bi-check-lg"></i> Confirm</button><button class="btn btn-sm btn-soft-danger" data-appointment-status="Cancelled" data-appointment-id="${apt.appointment_id}"><i class="bi bi-x-lg"></i> Decline</button>` : ''}${confirmed ? `<button class="btn btn-sm btn-outline-primary" data-doctor-chat="${apt.appointment_id}" data-chat-label="${escapeHtml(apt.patient_name)}"><i class="bi bi-chat-dots"></i> Message</button><button class="btn btn-sm btn-outline-primary" data-meeting-id="${apt.appointment_id}" data-meeting-patient="${escapeHtml(apt.patient_name)}"><i class="bi bi-link-45deg"></i> Meeting link</button>${apt.meeting_link ? `<a class="btn btn-sm btn-primary" href="${escapeHtml(safeExternalUrl(apt.meeting_link))}" target="_blank" rel="noopener noreferrer"><i class="bi bi-camera-video"></i> Join call</a>` : ''}<button class="btn btn-sm btn-primary" data-appointment-status="Completed" data-appointment-id="${apt.appointment_id}"><i class="bi bi-check2-all"></i> Complete</button>` : ''}${completed ? `<button class="btn btn-sm btn-outline-primary" data-open-section="records"><i class="bi bi-file-medical"></i> Create record</button>` : ''}</div>`}</div></article>`;
 }
 
 async function fetchDoctorAppointments(force = false) {
@@ -111,11 +111,61 @@ async function sendDoctorChat(event) {
 
 async function populateCompletedAppointments() {
   try {
-    const list = await fetchDoctorAppointments();
+    const [list, summaryResult] = await Promise.all([
+      fetchDoctorAppointments(),
+      apiCall('records?action=summary')
+    ]);
     const completed = list.filter(a => a.status === 'Completed').sort((a,b) => doctorAppointmentTime(b)-doctorAppointmentTime(a));
-    const options = `<option value="">Select appointment</option>${completed.map(a => `<option value="${a.appointment_id}">#${a.appointment_id} · ${escapeHtml(a.patient_name)} · ${formatDate(a.preferred_date)}</option>`).join('')}`;
-    document.getElementById('prescriptionAppointment').innerHTML = options;
-    document.getElementById('invoiceAppointment').innerHTML = options;
+    const existingRx = summaryResult.success ? (summaryResult.existing_prescriptions || []) : [];
+    const existingInv = summaryResult.success ? (summaryResult.existing_invoices || []) : [];
+
+    const rxOptions = `<option value="">Select appointment</option>${completed.map(a => {
+      const already = existingRx.includes(Number(a.appointment_id));
+      return `<option value="${a.appointment_id}" ${already ? 'disabled' : ''}>#${a.appointment_id} · ${escapeHtml(a.patient_name)} · ${formatDate(a.preferred_date)}${already ? ' (Rx already issued)' : ''}</option>`;
+    }).join('')}`;
+
+    const invOptions = `<option value="">Select appointment</option>${completed.map(a => {
+      const already = existingInv.includes(Number(a.appointment_id));
+      return `<option value="${a.appointment_id}" ${already ? 'disabled' : ''}>#${a.appointment_id} · ${escapeHtml(a.patient_name)} · ${formatDate(a.preferred_date)}${already ? ' (Invoice already generated)' : ''}</option>`;
+    }).join('')}`;
+
+    document.getElementById('prescriptionAppointment').innerHTML = rxOptions;
+    document.getElementById('invoiceAppointment').innerHTML = invOptions;
+
+    // Render doctor history
+    const rxList = document.getElementById('doctorPrescriptionList');
+    const invList = document.getElementById('doctorInvoiceList');
+    if (rxList && summaryResult.success) {
+      const prescriptions = summaryResult.prescriptions || [];
+      rxList.innerHTML = prescriptions.length ? prescriptions.map(p => `
+        <div class="mb-3 p-3 border rounded-3 bg-white shadow-sm">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <strong>Prescription #${escapeHtml(p.prescription_id)}</strong>
+            <small class="text-muted">${formatDate(p.preferred_date)}</small>
+          </div>
+          <div class="small text-muted mb-2"><i class="bi bi-person me-1"></i>Patient: <strong>${escapeHtml(p.patient_name)}</strong></div>
+          <div class="p-2 bg-light rounded small font-monospace" style="white-space: pre-wrap;">${escapeHtml(p.prescription_body)}</div>
+          <small class="text-muted d-block mt-2">Issued ${formatDateTime(p.issued_at)}</small>
+        </div>
+      `).join('') : emptyState('bi-file-medical', 'No prescriptions issued', 'Completed prescriptions will appear here.');
+    }
+
+    if (invList && summaryResult.success) {
+      const invoices = summaryResult.invoices || [];
+      invList.innerHTML = invoices.length ? invoices.map(i => `
+        <div class="mb-3 p-3 border rounded-3 bg-white shadow-sm">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <strong>Invoice #${escapeHtml(i.invoice_id)}</strong>
+            ${statusBadge(i.payment_status)}
+          </div>
+          <div class="small text-muted mb-1"><i class="bi bi-person me-1"></i>Patient: <strong>${escapeHtml(i.patient_name)}</strong></div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="fw-bold text-primary">${formatMoney(i.amount)}</span>
+            <small class="text-muted">Generated ${formatDateTime(i.generated_at)}</small>
+          </div>
+        </div>
+      `).join('') : emptyState('bi-receipt', 'No invoices generated', 'Generated consultation invoices will appear here.');
+    }
   } catch (error) { toast(error.message, 'danger'); }
 }
 
@@ -124,6 +174,7 @@ async function submitPrescription(event) {
   const result = await apiCall('records?action=issue_prescription', 'POST', { appointment_id: Number(document.getElementById('prescriptionAppointment').value), prescription_body: document.getElementById('prescriptionBody').value.trim() });
   setButtonLoading(button, false); if (!result.success) return toast(result.error || 'Prescription could not be saved.', 'danger');
   document.getElementById('prescriptionForm').reset(); toast(result.message || 'Prescription saved.', 'success');
+  populateCompletedAppointments();
 }
 
 async function submitInvoice(event) {
@@ -131,6 +182,7 @@ async function submitInvoice(event) {
   const result = await apiCall('records?action=generate_invoice', 'POST', { appointment_id: Number(document.getElementById('invoiceAppointment').value), amount: Number(document.getElementById('invoiceAmount').value) });
   setButtonLoading(button, false); if (!result.success) return toast(result.error || 'Invoice could not be generated.', 'danger');
   document.getElementById('invoiceForm').reset(); toast(result.message || 'Invoice generated.', 'success');
+  populateCompletedAppointments();
 }
 
 async function loadDoctorProfile() {

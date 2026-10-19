@@ -12,7 +12,50 @@
 
 <section class="content-section d-none" data-section="appointments" data-title="Appointments" data-subtitle="Review requests and manage consultation status."><div class="panel"><div class="panel-header"><div><h2 class="panel-title">Consultation schedule</h2><small class="text-muted">Use status actions carefully. Completed consultations enable prescription and invoice creation.</small></div><select class="form-select form-select-sm" id="doctorAppointmentFilter" aria-label="Filter appointments by status" style="max-width:190px"><option value="">All statuses</option><option>Pending</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select></div><div class="panel-body" id="doctorAppointments"><div class="loading-block"><span class="spinner-border spinner-border-sm me-2"></span>Loading appointments...</div></div></div></section>
 
-<section class="content-section d-none" data-section="records" data-title="Prescriptions & Billing" data-subtitle="Create records for completed consultations only."><div class="medical-note mb-4"><i class="bi bi-info-circle-fill"></i><div>Only completed appointments appear below. Each appointment can have one prescription and one invoice.</div></div><div class="row g-4"><div class="col-lg-6"><div class="panel h-100"><div class="panel-header"><div><h2 class="panel-title">Issue prescription</h2><small class="text-muted">Document the medication or care instructions clearly.</small></div></div><div class="panel-body"><form id="prescriptionForm"><div class="mb-3"><label class="form-label required" for="prescriptionAppointment">Completed appointment</label><select class="form-select" id="prescriptionAppointment" required><option value="">Select appointment</option></select></div><div class="mb-3"><label class="form-label required" for="prescriptionBody">Prescription details</label><textarea class="form-control" id="prescriptionBody" rows="7" maxlength="3000" placeholder="Medication, dosage, frequency, duration, and any relevant instructions..." required></textarea></div><button class="btn btn-primary" id="prescriptionButton" type="submit"><i class="bi bi-file-medical"></i> Save prescription</button></form></div></div></div><div class="col-lg-6"><div class="panel h-100"><div class="panel-header"><div><h2 class="panel-title">Generate invoice</h2><small class="text-muted">Amounts are displayed in Pakistani Rupees (PKR).</small></div></div><div class="panel-body"><form id="invoiceForm"><div class="mb-3"><label class="form-label required" for="invoiceAppointment">Completed appointment</label><select class="form-select" id="invoiceAppointment" required><option value="">Select appointment</option></select></div><div class="mb-3"><label class="form-label required" for="invoiceAmount">Consultation amount (PKR)</label><input class="form-control" type="number" min="1" step="1" id="invoiceAmount" placeholder="2500" required></div><button class="btn btn-primary" id="invoiceButton" type="submit"><i class="bi bi-receipt"></i> Generate invoice</button></form></div></div></div></div></section>
+<section class="content-section d-none" data-section="records" data-title="Prescriptions & Billing" data-subtitle="Create and review records for completed consultations.">
+  <div class="medical-note mb-4"><i class="bi bi-info-circle-fill"></i><div>Only completed appointments appear in the selection menus. Each appointment can have one prescription and one invoice.</div></div>
+  <div class="row g-4 mb-4">
+    <div class="col-lg-6">
+      <div class="panel h-100">
+        <div class="panel-header"><div><h2 class="panel-title">Issue prescription</h2><small class="text-muted">Document the medication or care instructions clearly.</small></div></div>
+        <div class="panel-body">
+          <form id="prescriptionForm">
+            <div class="mb-3"><label class="form-label required" for="prescriptionAppointment">Completed appointment</label><select class="form-select" id="prescriptionAppointment" required><option value="">Select appointment</option></select></div>
+            <div class="mb-3"><label class="form-label required" for="prescriptionBody">Prescription details</label><textarea class="form-control" id="prescriptionBody" rows="7" maxlength="3000" placeholder="Medication, dosage, frequency, duration, and any relevant instructions..." required></textarea></div>
+            <button class="btn btn-primary" id="prescriptionButton" type="submit"><i class="bi bi-file-medical"></i> Save prescription</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="panel h-100">
+        <div class="panel-header"><div><h2 class="panel-title">Generate invoice</h2><small class="text-muted">Amounts are displayed in Pakistani Rupees (PKR).</small></div></div>
+        <div class="panel-body">
+          <form id="invoiceForm">
+            <div class="mb-3"><label class="form-label required" for="invoiceAppointment">Completed appointment</label><select class="form-select" id="invoiceAppointment" required><option value="">Select appointment</option></select></div>
+            <div class="mb-3"><label class="form-label required" for="invoiceAmount">Consultation amount (PKR)</label><input class="form-control" type="number" min="1" step="1" id="invoiceAmount" placeholder="2500" required></div>
+            <button class="btn btn-primary" id="invoiceButton" type="submit"><i class="bi bi-receipt"></i> Generate invoice</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="panel h-100">
+        <div class="panel-header"><div><h3 class="panel-title">Issued Prescriptions</h3><small class="text-muted">Prescriptions you have written</small></div></div>
+        <div class="panel-body" id="doctorPrescriptionList"><div class="loading-block">Loading...</div></div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="panel h-100">
+        <div class="panel-header"><div><h3 class="panel-title">Generated Invoices</h3><small class="text-muted">Consultation fees and payment status</small></div></div>
+        <div class="panel-body" id="doctorInvoiceList"><div class="loading-block">Loading...</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="content-section d-none" data-section="profile" data-title="Profile" data-subtitle="Maintain your professional profile and account details."><div class="panel" style="max-width:820px"><div class="panel-header"><div><h2 class="panel-title">Doctor profile</h2><small class="text-muted">Your specialty is managed by an administrator. Your biography appears in the public doctor directory.</small></div></div><div class="panel-body"><form id="doctorProfileForm"><div class="row g-3"><div class="col-md-6"><label class="form-label required" for="doctorProfileName">Full name</label><input class="form-control" id="doctorProfileName" required></div><div class="col-md-6"><label class="form-label required" for="doctorProfileEmail">Email address</label><input class="form-control" type="email" id="doctorProfileEmail" required></div><div class="col-md-6"><label class="form-label" for="doctorProfileSpecialty">Specialty</label><input class="form-control" id="doctorProfileSpecialty" disabled></div><div class="col-md-6"><label class="form-label" for="doctorProfileQualification">Qualification</label><input class="form-control" id="doctorProfileQualification" disabled></div><div class="col-md-6"><label class="form-label" for="doctorProfileLicense">Registration / license number</label><input class="form-control" id="doctorProfileLicense" disabled></div><div class="col-md-6"><label class="form-label" for="doctorProfileExperience">Years of experience</label><input class="form-control" id="doctorProfileExperience" disabled></div><div class="col-12"><div class="form-hint">Professional verification details are reviewed by the administrator. Contact the administrator if they need correction.</div></div><div class="col-12"><label class="form-label" for="doctorProfileBiography">Professional biography</label><textarea class="form-control" id="doctorProfileBiography" rows="5" maxlength="1200" placeholder="Brief professional background, experience, and areas of interest..."></textarea></div><div class="col-12"><label class="form-label" for="doctorCurrentPassword">Current password</label><div class="password-field"><input class="form-control" type="password" id="doctorCurrentPassword" autocomplete="current-password" placeholder="Required only when changing password"><button class="password-toggle" type="button" data-password-toggle="doctorCurrentPassword" aria-label="Show password"><i class="bi bi-eye"></i></button></div></div><div class="col-12"><label class="form-label" for="doctorProfilePassword">New password</label><div class="password-field"><input class="form-control" type="password" id="doctorProfilePassword" minlength="8" placeholder="Leave blank to keep current password"><button class="password-toggle" type="button" data-password-toggle="doctorProfilePassword" aria-label="Show password"><i class="bi bi-eye"></i></button></div></div></div><button class="btn btn-primary mt-4" id="doctorProfileButton" type="submit">Save profile</button></form></div></div></section>
 </main></div>

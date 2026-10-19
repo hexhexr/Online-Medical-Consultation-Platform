@@ -21,6 +21,51 @@ function handle_public($method, $action) {
         }
     }
 
+    if ($method === 'POST') {
+        if ($action === 'triage_preview') {
+            $data = get_json_input();
+            $symptoms = trim($data['symptoms'] ?? '');
+            if (empty($symptoms)) {
+                json_response(['error' => 'Please enter symptoms to analyze.'], 400);
+            }
+            if (strlen($symptoms) > 1000) {
+                json_response(['error' => 'Please keep symptom description under 1000 characters.'], 400);
+            }
+
+            require_once __DIR__ . '/triage.php';
+            try {
+                $ai = call_ai_triage($symptoms);
+                $specialty = $ai['specialty'] ?? 'General Practitioner';
+                $confidence = round(($ai['confidence'] ?? 0.8) * 100);
+
+                // Find matching verified specialists
+                $doctors = db_query_all(
+                    "SELECT user_id, name, specialty, qualification, experience_years FROM users " .
+                    "WHERE role = 'Doctor' AND is_verified = 1 AND status = 'Active' AND specialty = ? " .
+                    "ORDER BY experience_years DESC LIMIT 3",
+                    [$specialty]
+                );
+
+                if (empty($doctors)) {
+                    $doctors = db_query_all(
+                        "SELECT user_id, name, specialty, qualification, experience_years FROM users " .
+                        "WHERE role = 'Doctor' AND is_verified = 1 AND status = 'Active' " .
+                        "ORDER BY experience_years DESC LIMIT 2"
+                    );
+                }
+
+                json_response([
+                    'success' => true,
+                    'specialty' => $specialty,
+                    'confidence' => $confidence,
+                    'doctors' => $doctors
+                ]);
+            } catch (Exception $e) {
+                json_response(['error' => 'AI triage service temporarily unavailable. Please try again.'], 500);
+            }
+        }
+    }
+
     json_response(['error' => 'Invalid public request.'], 400);
 }
 

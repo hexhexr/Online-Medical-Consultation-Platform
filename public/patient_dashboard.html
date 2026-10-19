@@ -69,5 +69,70 @@
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><div><h2 class="modal-title h5 mb-0" id="bookingModalTitle">Request appointment</h2><small class="text-muted" id="bookingDoctorName">Selected doctor</small></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><form id="bookingForm"><div class="modal-body"><input type="hidden" id="bookingDoctorId"><div class="mb-3"><label class="form-label required" for="bookingDate">Preferred date</label><input class="form-control" type="date" id="bookingDate" required></div><div><label class="form-label required" for="bookingTime">Preferred time</label><input class="form-control" type="time" id="bookingTime" required><div class="form-hint">The doctor will confirm or cancel the request.</div></div></div><div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="bookingButton" type="submit">Send request</button></div></form></div></div></div>
 <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header"><div><h2 class="modal-title h5 mb-0" id="chatModalTitle">Consultation messages</h2><small class="text-muted" id="chatAppointmentLabel">Appointment</small></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="chat-window" id="chatWindow" aria-live="polite"></div><form class="d-flex gap-2 mt-3" id="chatForm"><label class="visually-hidden" for="chatInput">Message</label><input class="form-control" id="chatInput" maxlength="1000" autocomplete="off" placeholder="Write a message..." required><button class="btn btn-primary" type="submit"><i class="bi bi-send"></i> Send</button></form></div></div></div></div>
 
+<div class="modal fade" id="prescriptionModal" tabindex="-1" aria-labelledby="rxModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-0 pb-0 no-print">
+        <h2 class="modal-title h5" id="rxModalTitle">Medical Prescription</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4" id="printableRxArea">
+        <div class="p-4 border rounded-3 bg-white">
+          <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="brand-mark"><i class="bi bi-activity"></i></span>
+                <span class="h5 mb-0 fw-bold">MedConsult Outpatient Telehealth</span>
+              </div>
+              <small class="text-muted d-block mt-1">Licensed Clinical Telemedicine Service · Pakistan</small>
+            </div>
+            <div class="text-end">
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Authorized e-Rx</span>
+              <div class="small text-muted mt-1" id="rxPrescriptionId">Rx #—</div>
+            </div>
+          </div>
+
+          <div class="row g-3 border-bottom pb-3 mb-3">
+            <div class="col-sm-6">
+              <div class="small text-muted text-uppercase fw-semibold" style="font-size: .75rem;">Prescribing Clinician</div>
+              <div class="fw-bold fs-6 text-dark" id="rxDoctorName">—</div>
+              <div class="small text-primary fw-medium" id="rxDoctorSpecialty">—</div>
+              <div class="small text-muted" id="rxDoctorCredentials">—</div>
+            </div>
+            <div class="col-sm-6 text-sm-end">
+              <div class="small text-muted text-uppercase fw-semibold" style="font-size: .75rem;">Patient &amp; Consultation</div>
+              <div class="fw-bold fs-6 text-dark" id="rxPatientName">—</div>
+              <div class="small text-muted" id="rxConsultationDate">Consultation Date: —</div>
+              <div class="small text-muted" id="rxIssuedDate">Issued: —</div>
+            </div>
+          </div>
+
+          <div class="my-4">
+            <div class="d-flex align-items-center gap-2 mb-2 text-primary">
+              <span style="font-family: serif; font-size: 1.8rem; font-weight: bold; line-height: 1;">℞</span>
+              <span class="fw-bold text-uppercase small">Medication &amp; Clinical Instructions</span>
+            </div>
+            <div class="p-3 bg-light rounded-3 font-monospace" style="white-space: pre-wrap; font-size: .95rem; line-height: 1.7; min-height: 120px;" id="rxPrescriptionBody">—</div>
+          </div>
+
+          <div class="pt-3 border-top mt-4 d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-3 text-muted small">
+            <div>
+              <i class="bi bi-shield-check text-success me-1"></i> Authorized under clinician's PMC license.
+              <div style="font-size: .72rem;">Valid for outpatient pharmacy fulfillment.</div>
+            </div>
+            <div class="text-sm-end">
+              <div class="border-top border-dark pt-1 px-3 d-inline-block text-dark fw-semibold" style="min-width: 160px; text-align: center;" id="rxDoctorSignature">Doctor Signature</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0 no-print">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer me-1"></i> Print Prescription</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="vendor/bootstrap.bundle.min.js"></script><script src="js/app.js"></script><script src="js/patient.js"></script>
 </body></html>

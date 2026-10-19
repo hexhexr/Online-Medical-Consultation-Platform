@@ -10,42 +10,47 @@ An intelligent, web-based outpatient telemedicine platform featuring a self-host
 
 ---
 
-## 1. Project Title & Brief Description
+## 1. Project Information
 
 * **Project Title**: Online Medical Consultation Platform (MedConsult)
-* **Academic Program**: Bachelor of Science in Computer Science (BSCS) | Session 2024–2026
+* **Degree Program**: Bachelor of Science in Computer Science (BSCS) | Session 2024–2026
 * **Institution**: Department of Computer Science & Information Technology, University of Southern Punjab (USP), Multan
 * **Supervisor**: Majid Khawar
-* **Developed by**:
+* **Project Team**:
   * **Muhammad Danial** (Reg No: `BSCSW-2.5Y-021R24-4`)
   * **Muhammad Bilal** (Reg No: `BSCSW-2.5Y-021R24-1`)
   * **Muhammad Mudassar Javed** (Reg No: `BSCSW-2.5Y-021R24-5`)
 
-### Brief Description
-The **Online Medical Consultation Platform (MedConsult)** is an end-to-end telemedicine web application designed to overcome healthcare distribution disparities and patient misdirection. In conventional outpatient workflows, non-clinical patients experiencing complex symptoms often book appointments with inappropriate departments, leading to wasted consultation fees and treatment delays.
+---
 
-MedConsult solves this through an integrated machine learning microservice that analyzes free-text patient symptom descriptions and predicts the appropriate medical specialty in under 50ms. The platform orchestrates the complete outpatient consultation lifecycle:
-* **AI NLP Symptom Triage**: Converts unstructured patient text into clinical term frequencies (TF-IDF) and classifies the target medical specialty using a Random Forest model.
-* **Doctor Discovery & Scheduling**: Public searchable directory of certified doctors with an atomic booking engine preventing double-booking.
-* **Asynchronous Consultation Chat**: Real-time messaging updated via 3-second AJAX polling.
-* **Digital Clinical Records**: Clinician authoring of digital prescriptions and consultation invoices.
-* **Regulatory Governance**: Administrator verification portal auditing Pakistan Medical Commission (PMC) license numbers and tracking security access logs.
+## 2. System Overview
+
+The **Online Medical Consultation Platform (MedConsult)** addresses structural outpatient care disparities and clinical misdirection by providing a verifiable, end-to-end telemedicine workflow. Non-clinical patients often struggle to navigate medical departments, booking consultations with unsuitable specialists and experiencing diagnostic delays. 
+
+MedConsult resolves this by integrating a dedicated machine learning microservice that analyzes free-text symptom descriptions and routes patients to the appropriate medical specialty in under 50ms.
+
+### Key Subsystems
+* **AI NLP Symptom Triage**: Preprocesses free-text clinical complaints using TF-IDF vectorization and classifies the target specialty via an optimized Random Forest classifier.
+* **Specialist Directory & Scheduling**: Searchable catalog of licensed physicians with real-time specialty filtering and transactional conflict-free appointment booking.
+* **Consultation Messaging**: Appointment-scoped asynchronous chat with 3-second AJAX polling.
+* **Digital Clinical Records**: Standardized authoring and archival of digital prescriptions and billing invoices with real-time settlement tracking.
+* **Administrative Governance**: Credential verification auditing Pakistan Medical Commission (PMC) license numbers and centralized system audit logging.
 
 ---
 
-## 2. Tools, Technologies, and Software Used
+## 3. Technology Stack
 
-| Layer | Technologies & Tools | Key Role in Codebase |
+| Tier | Technologies | System Responsibilities |
 | :--- | :--- | :--- |
-| **Frontend (Presentation)** | HTML5, CSS3, JavaScript (ES6+), Bootstrap 5.3, Bootstrap Icons | Responsive UI dashboards for Patients, Doctors, and Administrators |
-| **Backend (Application)** | PHP 8.x, PHP PDO, Prepared Statements, Native Sessions, cURL | REST controllers, session state, authentication, and microservice proxy |
-| **AI / NLP Microservice** | Python 3.9+, Flask, scikit-learn, TF-IDF Vectorizer, Random Forest, pandas | Natural language preprocessing, model inference (`POST /predict`) |
-| **Database (Persistence)** | MySQL 8.0 (InnoDB), 3NF Relational Schema, TLS/SSL (TiDB Cloud) | Relational persistence, foreign key cascading, composite indexes |
-| **Web Server / Runtime** | Apache 2.4 (XAMPP) / PHP Built-in Server / Docker Engine | Local development, multi-platform hosting, container runtime |
+| **Presentation Tier** | HTML5, CSS3, JavaScript (ES6+), Bootstrap 5.3, Bootstrap Icons | Role-based responsive dashboards for Patients, Doctors, and Administrators |
+| **Application Tier** | PHP 8.x, PDO, Prepared Statements, Session Management, cURL | REST API controllers, business logic, RBAC, and microservice proxying |
+| **AI Triage Tier** | Python 3.9+, Flask, scikit-learn, TF-IDF, Random Forest, pandas | Natural language preprocessing, clinical keyword extraction, specialty inference |
+| **Persistence Tier** | MySQL 8.0 / MariaDB, 3NF Relational Schema, TLS/SSL | Relational storage, referential integrity, foreign key cascading, indexing |
+| **Runtime & Hosting** | Apache 2.4 / PHP Built-in Server / Docker Engine | Local development, multi-platform hosting, containerized cloud deployment |
 
 ---
 
-## 3. Codebase Directory Structure
+## 4. Directory Structure
 
 ```text
 Online Medical Consultation Platform/
@@ -56,7 +61,7 @@ Online Medical Consultation Platform/
 │   ├── train.py                       # Model training pipeline (TF-IDF + Random Forest)
 │   ├── triage.py                      # Standalone CLI inference helper
 │   └── triage_model.pkl               # Serialized production machine learning model
-├── api/                               # Client-Facing API Routing Endpoints
+├── api/                               # Client-Facing API Routing Layer
 │   ├── admin.php                      # Admin verification & audit log endpoints
 │   ├── appointments.php               # Slot reservation & status management
 │   ├── auth.php                       # Sign-up, login, logout, and session check
@@ -81,12 +86,6 @@ Online Medical Consultation Platform/
 │   └── user.php                       # User management routines
 ├── database/                          # Relational Database Persistence
 │   └── schema_mysql.sql               # MySQL 8.0 schema DDL and pre-seeded test data
-├── poster/                            # Exhibition Standee Poster
-│   ├── erd_diagram.jpg                # High-resolution database ERD diagram
-│   ├── standee_poster.html            # Standee poster source code (1200x1930px)
-│   ├── standee_poster.pdf             # Standee poster vector print document
-│   ├── standee_poster.png             # Standee poster high-resolution preview
-│   └── university_logo.png            # University of Southern Punjab crest
 ├── public/                            # Frontend Web Pages & Assets
 │   ├── css/style.css                  # Custom application stylesheet
 │   ├── images/                        # Platform icons and UI hero graphics
@@ -116,189 +115,165 @@ Online Medical Consultation Platform/
 ├── docker-entrypoint.sh               # Dual-service container startup entrypoint
 ├── Dockerfile                         # Production multi-stage Docker container specification
 ├── FINAL_FYDP_PROJECT_REPORT.docx     # Complete FYDP Final Report (Microsoft Word)
-├── FINAL_FYDP_PROJECT_REPORT.md       # Complete FYDP Final Report (Markdown)
 ├── FINAL_FYDP_PROJECT_REPORT.pdf      # Complete FYDP Final Report (Compiled PDF)
 ├── README.md                          # Project documentation and codebase guide
 ├── render.yaml                        # Render Cloud Infrastructure as Code blueprint
 ├── RENDER_DEPLOYMENT_GUIDE.md         # Production cloud deployment guide
 ├── requirements.txt                   # Python package dependencies
 ├── router.php                         # PHP built-in web server router
-└── run_windows.bat                    # One-click Windows development launcher
+├── run_linux.sh                       # One-click Linux development launcher
+├── run_windows.bat                    # One-click Windows development launcher
+└── standee_poster.pdf                 # Exhibition Standee Poster (Print Vector PDF)
 ```
 
 ---
 
-## 4. System Requirements and Prerequisites
+## 5. System Requirements & Prerequisites
 
 ### Hardware Requirements
-* **Processor**: Intel Core i3 / i5 (or AMD equivalent) 2.0 GHz or higher
-* **Memory (RAM)**: 4 GB minimum (8 GB recommended for simultaneous development)
-* **Storage**: 500 MB free disk space
-* **Display**: Minimum screen resolution `1024 × 768` pixels
+* **Processor**: Dual-Core 2.0 GHz or higher (x86_64 or ARM64)
+* **Memory (RAM)**: 4 GB minimum (8 GB recommended)
+* **Storage**: 500 MB available disk space
 
 ### Software Prerequisites
-* **Operating System**: Windows 10/11, Linux (Ubuntu 20.04+), or macOS
-* **Web Browser**: Google Chrome, Mozilla Firefox, or Microsoft Edge (recent versions)
-* **PHP Runtime**: PHP 8.0 or higher with `pdo_mysql`, `curl`, and `json` extensions (standard in XAMPP)
-* **Python Runtime**: Python 3.9, 3.10, 3.11, or 3.12 with `pip`
-* **Database Server**: MySQL 8.0 / MariaDB (via XAMPP) or remote cloud database (TiDB Serverless)
+* **Operating System**: Linux (Ubuntu 20.04+), Windows 10/11, or macOS
+* **PHP Runtime**: PHP 8.0+ with `pdo_mysql`, `curl`, `json`, and `session` extensions
+* **Python Runtime**: Python 3.9+ with `pip`
+* **Database Engine**: MySQL 8.0+ or MariaDB 10.4+ (local or managed cloud instance)
+* **Browser**: Chrome, Firefox, Edge, or Safari (modern versions supporting ES6)
 
 ---
 
-## 5. Required Dependencies and Instructions for Installing Them
+## 6. Dependencies & Installation
 
-### 5.1 Python Dependencies (AI Triage Microservice)
-Install the required Python packages into your environment using `pip`:
-
+### Python Dependencies (AI Triage Microservice)
+Dependencies are specified in `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
 
-*Contents of `requirements.txt`:*
-```text
-flask>=3.0.0
-scikit-learn>=1.3.0
-pandas>=2.0.0
-numpy>=1.24.0
-```
+Package specifications:
+* `flask >= 3.0.0` (REST microservice framework)
+* `scikit-learn >= 1.3.0` (TF-IDF vectorizer and Random Forest classifier)
+* `pandas >= 2.0.0` (Data loading and matrix operations)
+* `numpy >= 1.24.0` (Numerical computation)
 
-> **Note**: A pre-trained production model (`ai_engine/triage_model.pkl`) is already bundled in the repository. If you wish to retrain the model on the raw benchmark dataset, simply execute:
+> **Note**: A serialized production model (`ai_engine/triage_model.pkl`) trained on 4,920 clinical symptom records is pre-packaged. To retrain the model on the raw benchmark dataset:
 > ```bash
 > python ai_engine/train.py
 > ```
 
-### 5.2 PHP Dependencies
-No third-party packages (e.g. Composer) are required. The codebase uses native PHP 8.x standard library extensions (`pdo`, `session`, `curl`, `json`, `filter`), ensuring zero package bloat and turnkey execution.
+### PHP Dependencies
+The PHP application layer uses native standard library extensions (`pdo`, `session`, `curl`, `json`, `filter`). No third-party package managers (e.g., Composer) or external runtime libraries are required.
 
 ---
 
-## 6. Database Setup and Configuration Instructions
+## 7. Database Configuration
 
-### Setting up MySQL via phpMyAdmin (Standard XAMPP)
-1. Start **Apache** and **MySQL** modules from the **XAMPP Control Panel**.
-2. Open your web browser and navigate to phpMyAdmin:
-   ```text
-   http://localhost/phpmyadmin/
-   ```
-3. Click **New** in the left sidebar and create a database named:
-   * **Database name**: `medconsult_db`
-   * **Collation**: `utf8mb4_unicode_ci`
-4. Select the newly created `medconsult_db` database, click the **Import** tab at the top.
-5. Click **Choose File**, select `database/schema_mysql.sql` from the project repository, and click **Import** (or **Go**).
-6. The import will create all 8 relational tables and pre-populate verified clinician accounts, sample appointments, and symptoms.
+* **Database Name**: `medconsult_db`
+* **Character Set / Collation**: `utf8mb4 / utf8mb4_unicode_ci`
+* **Schema DDL**: `database/schema_mysql.sql` (defines 8 relational tables in 3NF with foreign key cascading and pre-seeded seed data)
 
-### Database Connection Configuration
-Default credentials in `backend/db.php` connect to local MySQL on standard ports:
-```php
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'medconsult_db');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
+### Default Connection Parameters
+Connection parameters are defined in `backend/db.php` and can be overridden via environment variables:
+
+| Variable | Default Value | Description |
+| :--- | :--- | :--- |
+| `DB_HOST` | `127.0.0.1` | MySQL server host address |
+| `DB_PORT` | `3306` | MySQL server port |
+| `DB_NAME` | `medconsult_db` | Target database name |
+| `DB_USER` | `root` | Database user account |
+| `DB_PASS` | `""` (empty) | Database user password |
+
+### Schema Initialization
+Import the schema via CLI:
+```bash
+mysql -u root -p medconsult_db < database/schema_mysql.sql
 ```
-If using custom MySQL credentials, update `backend/db.php` or set the corresponding environment variables (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME`).
 
 ---
 
-## 7. Step-by-Step Instructions for Running the Project
+## 8. Service Execution & Networking
 
-### Method A: One-Click Launcher
-* **Linux**: Run the launcher script in terminal:
+The system operates across two concurrent services:
+
+```text
+[ Client Browser ]
+        │
+        ├─── HTTP :8000 ────► [ PHP Application Server ] ────► [ MySQL Persistence :3306 ]
+        │                            │
+        │                       Internal cURL
+        │                            ▼
+        └────────────────────► [ Flask AI Microservice :5000 ]
+```
+
+### Launch Options
+
+#### Option A: Quick Launch Scripts
+* **Linux**:
   ```bash
   ./run_linux.sh
   ```
-* **Windows**: Double-click **`run_windows.bat`**.
+* **Windows**:
+  ```cmd
+  run_windows.bat
+  ```
 
-The launcher starts both the Python AI microservice (port 5000) and the PHP web server (port 8000), accessible at:
-```text
-http://127.0.0.1:8000
-```
-
-### Method B: Manual CLI Execution (Linux / macOS / Windows)
-To run both the PHP web server and the Python AI triage microservice concurrently:
-
-1. **Terminal 1 — Start the Python AI Microservice**:
+#### Option B: Standalone Process Execution
+1. **Python AI Triage Microservice**:
    ```bash
    python ai_engine/service.py
+   # Listening on http://127.0.0.1:5000
    ```
-   *(Listens on `http://127.0.0.1:5000`)*
-
-2. **Terminal 2 — Start the PHP Application Server**:
+2. **PHP Application Server**:
    ```bash
    php -S 127.0.0.1:8000 router.php
+   # Listening on http://127.0.0.1:8000
    ```
 
-3. Open your browser and navigate to:
-   ```text
-   http://127.0.0.1:8000
-   ```
-
-### Method C: Running via Apache (XAMPP `htdocs`)
-1. Move or clone the project folder into:
-   ```text
-   C:\xampp\htdocs\medconsult
-   ```
-2. Start the Python microservice in a terminal: `python ai_engine/service.py`.
-3. Access the web interface in your browser:
-   ```text
-   http://localhost/medconsult/public/
-   ```
-
----
-
-## 8. Pre-Configured Test Accounts
-
-The database comes pre-seeded with verified test accounts across all roles:
-
-| Role | Name | Email | Password | Access Details |
-| :--- | :--- | :--- | :--- | :--- |
-| **Administrator** | System Admin | `admin@medconsult.com` | `admin123` | Doctor PMC licensing verification, system audit logs, metrics |
-| **Doctor** | Dr. Sarah Ahmed | `dr.sarah@medconsult.com` | `admin123` | Cardiologist (`PMC-77123-C`), clinical dashboard, prescriptions |
-| **Doctor** | Dr. Usman Tariq | `dr.usman@medconsult.com` | `admin123` | Dermatologist (`PMC-88451-D`), appointment reviews |
-| **Doctor** | Dr. Ayesha Malik | `dr.ayesha@medconsult.com` | `admin123` | General Practitioner (`PMC-99234-G`), consultation room |
-| **Patient** | Ali Khan | `ali.khan@example.com` | `password123` | AI NLP symptom triage, appointment bookings, consultation chat |
-
----
-
-## 9. Primary API Routes & Controllers
-
-| Endpoint Route | Method | Backend Controller | Description |
-| :--- | :---: | :--- | :--- |
-| `/api/auth.php?action=login` | `POST` | `backend/auth.php` | Authenticates credentials with bcrypt verification |
-| `/api/auth.php?action=register` | `POST` | `backend/auth.php` | Registers new Patient or Doctor account |
-| `/api/triage.php` | `POST` | `backend/triage.php` | Proxies symptom text to Python Flask `/predict` microservice |
-| `/api/public.php?action=doctors` | `GET` | `backend/public.php` | Retrieves verified doctor catalog with specialty filtering |
-| `/api/appointments.php?action=book` | `POST` | `backend/appointments.php` | Atomic appointment booking with conflict checking |
-| `/api/messaging.php?action=fetch` | `GET` | `backend/messaging.php` | 3-second AJAX polling for new consultation messages |
-| `/api/messaging.php?action=send` | `POST` | `backend/messaging.php` | Dispatches new chat message to verified consultation |
-| `/api/records.php?action=issue_rx` | `POST` | `backend/records.php` | Clinician digital prescription creation |
-| `/api/admin.php?action=verify_doctor`| `POST` | `backend/admin.php` | Verifies doctor PMC license and updates public visibility |
-
----
-
-## 10. Container & Cloud Deployment (Docker / Render)
-
-The project includes a production-ready, multi-stage `Dockerfile` bundling PHP 8.2 CLI, Python 3.12, scikit-learn, and required dependencies into a unified container.
-
-To build and run locally with Docker:
+#### Option C: Docker Containerization
 ```bash
-# Build Docker image
 docker build -t medconsult:latest .
-
-# Run container bound to host port 8000
 docker run -p 8000:80 -e PORT=80 medconsult:latest
 ```
 
-For automated deployment to **Render.com** backed by **TiDB Cloud Serverless MySQL**, refer to the included [RENDER_DEPLOYMENT_GUIDE.md](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/RENDER_DEPLOYMENT_GUIDE.md).
+---
+
+## 9. Pre-Configured Test Accounts
+
+The schema includes pre-seeded accounts for evaluation:
+
+| Role | Name | Email | Password | Scope & Permissions |
+| :--- | :--- | :--- | :--- | :--- |
+| **Administrator** | System Admin | `admin@medconsult.com` | `admin123` | PMC license verification, user lifecycle management, audit logs |
+| **Doctor** | Dr. Sarah Ahmed | `dr.sarah@medconsult.com` | `admin123` | Cardiologist (`PMC-48291-C`), consultation schedule, prescriptions, invoices |
+| **Doctor** | Dr. Usman Ali | `dr.usman@medconsult.com` | `admin123` | Dermatologist (`PMC-39182-D`), appointment reviews |
+| **Doctor** | Dr. Ayesha Malik | `dr.ayesha@medconsult.com` | `admin123` | General Practitioner (`PMC-77123-G`), consultation management |
+| **Patient** | Ali Khan | `ali.khan@example.com` | `password123` | Symptom triage, appointment booking, real-time messaging, records |
 
 ---
 
-## 11. Final Submission Deliverables
+## 10. API Route Reference
 
-As mandated by the Department of Computer Science & IT guidelines, the final submission package contains:
-1. **Printed & Bound Final Report**: Complete, ring-bound physical report copy.
-2. **Digital FYDP Report**: [FINAL_FYDP_PROJECT_REPORT.pdf](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/FINAL_FYDP_PROJECT_REPORT.pdf) and [FINAL_FYDP_PROJECT_REPORT.docx](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/FINAL_FYDP_PROJECT_REPORT.docx).
-3. **Standee Exhibition Poster**: Vector print file [poster/standee_poster.pdf](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/poster/standee_poster.pdf) and high-resolution graphic [poster/standee_poster.png](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/poster/standee_poster.png).
-4. **Complete Source Code**: Modular PHP presentation & application tiers, Python AI triage microservice, and Docker assets.
-5. **Database & Dataset**: Complete relational schema [database/schema_mysql.sql](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/database/schema_mysql.sql) and benchmark dataset [ai_engine/dataset/training_data.csv](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/ai_engine/dataset/training_data.csv).
-6. **Codebase README**: This [README.md](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/README.md) file.
+| Method | Endpoint Route | Controller | Functionality |
+| :---: | :--- | :--- | :--- |
+| `POST` | `/api/auth.php?action=login` | `backend/auth.php` | Authenticates user credentials via bcrypt verification |
+| `POST` | `/api/auth.php?action=register` | `backend/auth.php` | Registers new Patient or Doctor account |
+| `POST` | `/api/triage.php` | `backend/triage.php` | Proxies symptom payload to AI microservice `/predict` |
+| `GET` | `/api/public.php?action=list_doctors` | `backend/public.php` | Retrieves verified doctor directory with specialty filters |
+| `POST` | `/api/appointments.php?action=book` | `backend/appointments.php` | Atomic appointment booking with schedule conflict checking |
+| `GET` | `/api/messaging.php?action=fetch` | `backend/messaging.php` | Polling endpoint for consultation chat messages |
+| `POST` | `/api/messaging.php?action=send` | `backend/messaging.php` | Sends chat message within an active consultation |
+| `POST` | `/api/records.php?action=issue_rx` | `backend/records.php` | Creates digital prescription for completed consultation |
+| `POST` | `/api/records.php?action=pay_invoice` | `backend/records.php` | Settles consultation invoice and records audit trail |
+| `POST` | `/api/admin.php?action=verify_doctor`| `backend/admin.php` | Audits PMC license and updates doctor verification status |
+
+---
+
+## 11. Project Deliverables
+
+1. **Academic Project Report**: Complete final report in [FINAL_FYDP_PROJECT_REPORT.pdf](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/FINAL_FYDP_PROJECT_REPORT.pdf) and editable source [FINAL_FYDP_PROJECT_REPORT.docx](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/FINAL_FYDP_PROJECT_REPORT.docx).
+2. **Exhibition Standee Poster**: Vector print graphic [standee_poster.pdf](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/standee_poster.pdf).
+3. **Application Source Code**: Modular Three-Tier PHP backend, JavaScript presentation layer, and Python AI NLP microservice.
+4. **Persistence & Data Assets**: Relational schema DDL [database/schema_mysql.sql](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/database/schema_mysql.sql) and benchmark dataset [ai_engine/dataset/training_data.csv](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/ai_engine/dataset/training_data.csv).
+5. **Deployment Specifications**: Multi-stage [Dockerfile](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/Dockerfile) and [render.yaml](file:///home/bolt/projects/Online%20Medical%20Consultation%20Platform/render.yaml) Cloud IaC configuration.
