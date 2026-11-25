@@ -12,7 +12,7 @@ require_once __DIR__ . '/db.php';
 
 function call_ai_triage($symptoms) {
     // Internal Flask REST API microservice (SRS FR-07)
-    $flaskUrl = getenv('AI_SERVICE_URL') ?: 'http://127.0.0.1:5000/predict';
+    $flaskUrl = getenv('AI_SERVICE_URL') ?: 'http://127.0.0.1:5001/predict';
     $postData = json_encode(['symptoms' => $symptoms]);
 
     $context = stream_context_create([

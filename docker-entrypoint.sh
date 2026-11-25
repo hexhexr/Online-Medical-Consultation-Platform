@@ -10,7 +10,8 @@ echo "=========================================================="
 
 # 1. Start Python Flask AI NLP Triage Microservice in background on 127.0.0.1:5000
 echo "[1/2] Launching Python Flask AI Triage Microservice (port 5000)..."
-python3 ai_engine/service.py &
+export AI_SERVICE_URL="http://127.0.0.1:5000/predict"
+MEDCONSULT_AI_PORT=5000 python3 ai_engine/service.py &
 AI_PID=$!
 
 # Wait briefly for AI service to initialize

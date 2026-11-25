@@ -35,5 +35,7 @@ def health():
     return jsonify({"status": "healthy", "service": "MedConsult AI Triage"})
 
 if __name__ == "__main__":
-    # Runs microservice on localhost:5000
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    # Portable manual start: python3 ai_engine/service.py (Windows: py ai_engine/service.py)
+    # Default 5001 avoids clashing with other local services; configurable per machine.
+    port = int(os.getenv("MEDCONSULT_AI_PORT", "5001"))
+    app.run(host="127.0.0.1", port=port, debug=False)

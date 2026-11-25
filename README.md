@@ -57,7 +57,7 @@ Online Medical Consultation Platform/
 ├── ai_engine/                         # Python AI NLP Triage Microservice
 │   ├── dataset/
 │   │   └── training_data.csv          # Clinical training benchmark dataset (4,920 records)
-│   ├── service.py                     # Flask REST microservice listening on 127.0.0.1:5000
+│   ├── service.py                     # Flask REST microservice listening on 127.0.0.1:5001
 │   ├── train.py                       # Model training pipeline (TF-IDF + Random Forest)
 │   ├── triage.py                      # Standalone CLI inference helper
 │   └── triage_model.pkl               # Serialized production machine learning model
@@ -220,10 +220,24 @@ The system operates across two concurrent services:
   ```
 
 #### Option B: Standalone Process Execution
+No automatic startup or laptop-specific service is required. From the directory containing this project:
+
+**Linux / macOS (one-time dependency installation):**
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+**Windows (one-time dependency installation):**
+```powershell
+py -m pip install -r requirements.txt
+```
+
+Start the AI service **manually in a terminal**: `python3 ai_engine/service.py` on Linux/macOS or `py ai_engine/service.py` on Windows. The service listens on `127.0.0.1:5001` by default; press Ctrl+C to stop it. A local PHP/XAMPP installation must point its AI endpoint at `http://127.0.0.1:5001/predict` (this is the PHP fallback default). If that port is occupied, set `MEDCONSULT_AI_PORT` for Python and `AI_SERVICE_URL` for PHP to the same alternate endpoint. The trained `ai_engine/triage_model.pkl` must be present. The Python package versions must be compatible with the saved model.
+
 1. **Python AI Triage Microservice**:
    ```bash
    python ai_engine/service.py
-   # Listening on http://127.0.0.1:5000
+   # Listening on http://127.0.0.1:5001
    ```
 2. **PHP Application Server**:
    ```bash
